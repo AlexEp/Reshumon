@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<GeneralSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Settings>
+		<add key="SqlDatabaseConnection" value="Data Source=.\SQLEXPRESS2014;Initial Catalog=GBI_DEMO_NEW;Integrated Security=True" />
+  </Settings>
+</GeneralSettings>
