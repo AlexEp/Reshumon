@@ -1,0 +1,75 @@
+
+<p-table [value]="categories" [responsive]="true">
+  <ng-template pTemplate="caption">
+    <div class="header row">
+      <div class="col-sm-10"><h3>Categories Managment</h3></div>
+      <div class="col-sm-2">
+        <div class="edit-tools">
+          <a h class="btn btn-success  btn-sm"  (click)="edit()">
+             <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            <span>New</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="ui-p-2">Action</th>
+      <th class="ui-p-5">Name</th>
+      <th class="ui-p-5">IsActive</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-category>
+    <tr>
+      <td class="ui-p-2">
+          <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover"  aria-hidden="true" (click)="confirmDelete(category)"></i>
+          <i id="btn-row-edit" class="btn btn-outline-info fa fa-pencil btn-hover" aria-hidden="true" (click)="edit(category)"></i>
+      </td>
+      <td class="ui-p-5">{{category.Name}}</td>
+      <td class="ui-p-5">{{category.IsActive}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- -------------[Dialog - Edit]-------------- -->
+
+<p-dialog header="Category Details" [(visible)]="displayEditDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
+  <div class="ui-g ui-fluid" *ngIf="categoryToEdit">
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="vin">Vin</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="name" [(ngModel)]="categoryToEdit.Name" />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="year">Year</label>
+      </div>
+      <div class="ui-g-8">
+        <input type="checkbox" pInputText id="isActive" [(ngModel)]="categoryToEdit.IsActive" />
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-close" (click)="cancelEdit()" label="Cancel"></button>
+      <button *ngIf="!isNewCategory()" type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
+      <button *ngIf="isNewCategory()" type="button" pButton icon="fa fa-check" (click)="create()" label="Create"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<!-- -------------[Dialog - Confirm Delete]-------------- -->
+
+<p-dialog header="Confirm Delete" [(visible)]="displayConfirmDeleteDialog" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="300">
+  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <button type="button" pButton icon="fa fa-close" (click)="cancelDelete()" label="Cancel"></button>
+    <button type="button" pButton icon="fa fa-check" (click)="delete(categoryToEdit)" label="Delete"></button>
+  </div>
+
+</p-dialog>
