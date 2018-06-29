@@ -9,6 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
+        "i18n",
         "favicon.ico"
       ],
       "index": "index.html",
@@ -29,7 +30,9 @@
       ],
       "scripts": [
          "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-         "../node_modules/moment/min/moment.min.js"
+         "../node_modules/moment/min/moment.min.js",
+         "./global.ts",
+         "./test001.ts"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

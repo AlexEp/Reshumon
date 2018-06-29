@@ -11,6 +11,8 @@ import { RouterModule, Routes } from '@angular/router';
 import {FormsModule} from '@angular/forms'
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {TranslateModule, TranslateLoader, TranslateStaticLoader} from 'ng2-translate';
+
 import {CalendarModule} from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
 import {ToolbarModule} from 'primeng/toolbar';
@@ -28,15 +30,9 @@ import { TimeRegistrationComponent } from './time-registration/time-registration
 import { MngProjectsComponent } from './management/panels/mng-projects/mng-projects.component';
 import { MngUsersComponent } from './management/panels/mng-users/mng-users.component';
 import { MngCategoriesComponent } from './management/panels/mng-categories/mng-categories.component';
-
-/* Services */
-import { AppConfigService } from './services/app-config.service';
-import { ProjectsService } from './services/projects.service';
-import { AppErrorHandleService, HTTPErrorHandleService } from './services/error-handle.service';
-import { AuthService } from './services/auth.service';
+import { AppServicesModule } from './modules/app-services.module';
 import { AuthGuardService } from './services/auth-guard.service';
-import { CategoryService } from './services/category.service';
-
+import { Http } from '@angular/http';
 
 
 
@@ -76,7 +72,14 @@ const routesConfigs : Routes = [
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routesConfigs),
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+      deps: [Http]
+  }),
 
+    AppServicesModule,
+    
     //primeng
     CalendarModule,
     TableModule,
@@ -89,16 +92,9 @@ const routesConfigs : Routes = [
   providers: [
 
     //App Services
-    AuthService,
-    AppConfigService,
-    ProjectsService,
-    CategoryService,
     MessagesService,
 
-    AuthGuardService,
 
-    AppErrorHandleService,
-    HTTPErrorHandleService
 
   ],
   bootstrap: [AppComponent]

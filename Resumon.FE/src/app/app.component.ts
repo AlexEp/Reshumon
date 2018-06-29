@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { ProjectsService } from './services/projects.service';
+  
 import { MessagesService } from './services/messages.service';
+import * as Globals from '../global';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +12,17 @@ import { MessagesService } from './services/messages.service';
 export class AppComponent {
   posts = [];
 
-  constructor(private messagesService : MessagesService) { 
-     
+  constructor(private messagesService : MessagesService,private translate: TranslateService) { 
+    translate.addLangs(["en", "he"]);
+    translate.setDefaultLang('he');
+     translate.use( 'he');
+    // let browserLang = translate.getBrowserLang();
+    // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
   }
 
   getMsg(){
     return this.messagesService.getMsg();
   }
+
+
 }

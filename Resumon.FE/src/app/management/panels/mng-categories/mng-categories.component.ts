@@ -10,6 +10,7 @@ import * as _ from "lodash";
 import { Category } from './category.model';
 import { CategoryService } from '../../../services/category.service';
 import { MessagesService } from '../../../services/messages.service';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-mng-categories',
@@ -23,7 +24,10 @@ export class MngCategoriesComponent implements OnInit {
   displayConfirmDeleteDialog= false;
 
 
-  constructor(private categoryService : CategoryService,private messagesService : MessagesService) {
+  constructor(
+    private categoryService : CategoryService,
+    private messagesService : MessagesService,
+    private translate: TranslateService) {
 
    }
 
@@ -101,5 +105,11 @@ export class MngCategoriesComponent implements OnInit {
 
   showSuccess() {
     this.messagesService.setMsg("");
+  }
+
+  
+  translateWorld(world,path){
+
+    return path ? path + world : 'dictionery.pages.mng-categories.' + world
   }
 }

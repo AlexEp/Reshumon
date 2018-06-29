@@ -1,0 +1,18 @@
+{
+    "options":{
+        "direction" : "rtl"
+    },
+    "dictionery":{
+        "pages" :{
+            "mng-categories":
+            {
+                "new" : "חדש",
+                "category": "קטגוריה",
+                "name": "שם",
+                "categories managment" : "ניהול קטגריות"
+            }
+            
+        }
+    }
+
+}

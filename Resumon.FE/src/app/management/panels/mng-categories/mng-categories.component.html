@@ -2,12 +2,12 @@
 <p-table [value]="categories" [responsive]="true">
   <ng-template pTemplate="caption">
     <div class="header row">
-      <div class="col-sm-10"><h3>Categories Managment</h3></div>
+      <div class="col-sm-10"><h3>{{translateWorld('Categories Managment') | translate}}  </h3></div>
       <div class="col-sm-2">
         <div class="edit-tools">
           <a h class="btn btn-success  btn-sm"  (click)="edit()">
              <i class="fa fa-plus-circle" aria-hidden="true"></i>
-            <span>New</span>
+            <span>{{ translateWorld('new') | translate}}</span>
           </a>
         </div>
       </div>
@@ -16,9 +16,9 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th class="ui-p-2">Action</th>
-      <th class="ui-p-5">Name</th>
-      <th class="ui-p-5">IsActive</th>
+      <th class="ui-p-2">{{translateWorld('category') | translate}} </th>
+      <th class="ui-p-5">{{translateWorld('Name') | translate}}</th>
+      <th class="ui-p-5">{{translateWorld('is active') | translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-category>
