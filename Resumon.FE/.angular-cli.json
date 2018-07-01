@@ -30,9 +30,7 @@
       ],
       "scripts": [
          "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-         "../node_modules/moment/min/moment.min.js",
-         "./global.ts",
-         "./test001.ts"
+         "../node_modules/moment/min/moment.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

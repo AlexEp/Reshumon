@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
   
 import { MessagesService } from './services/messages.service';
-import * as Globals from '../global';
 import { TranslateService } from 'ng2-translate';
 
 @Component({

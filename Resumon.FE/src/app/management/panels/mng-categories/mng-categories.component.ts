@@ -1,16 +1,17 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Response } from '@angular/http';
 
+import { FormGroup, FormControl, FormArray, NgForm, Validators, PatternValidator } from '@angular/forms';
+import { TranslateService } from 'ng2-translate';
 import * as _ from "lodash";
 
-//import {Message} from 'primeng/components/common/api';
-//import {MessageService} from 'primeng/components/common/messageservice';
+
 
 import { Category } from './category.model';
 import { CategoryService } from '../../../services/category.service';
 import { MessagesService } from '../../../services/messages.service';
-import { TranslateService } from 'ng2-translate';
+
+
 
 @Component({
   selector: 'app-mng-categories',
@@ -23,6 +24,7 @@ export class MngCategoriesComponent implements OnInit {
   displayEditDialog = false;
   displayConfirmDeleteDialog= false;
 
+  newCategoryForm : FormGroup;
 
   constructor(
     private categoryService : CategoryService,
@@ -32,10 +34,28 @@ export class MngCategoriesComponent implements OnInit {
    }
 
   ngOnInit() {
+
+    //Load  data
     this.categoryService.getAll().subscribe(
       response => this.categories = response
     )
+
+    this.newCategoryForm = new FormGroup({
+      'name': new FormControl("",[Validators.required]),
+      'isActive': new FormControl(true),
+    });
+
+    this.newCategoryForm.valueChanges.subscribe(x => console.log(x));
   }
+
+  get getFormName(){
+    return this.newCategoryForm.get('name');
+  }
+
+  get getForm(){
+    return this.newCategoryForm;
+  }
+
 
   elementChanged(category : Category){
     //this.categoryService.updae(category);
@@ -49,6 +69,7 @@ export class MngCategoriesComponent implements OnInit {
       this.categoryToEdit = _.cloneDeep(category);
     }
   
+    this.newCategoryForm.reset();
     this.displayEditDialog = true;
   }
 
