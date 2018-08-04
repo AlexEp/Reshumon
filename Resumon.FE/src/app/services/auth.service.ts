@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppConfigService } from './app-config.service';
 import { AppErrorHandleService } from './error-handle.service';
-import { JwtHelper } from 'angular2-jwt';
+import { JwtHelper, AuthModule } from 'angular2-jwt';
 import "rxjs/add/operator/map"
+
+declare var Auth0Lock: any;
+
 
 @Injectable()
 export class AuthService {
@@ -11,11 +14,41 @@ export class AuthService {
   private url = ""
   private jwtHelperService = null;
   private isUserLogedin : boolean = false;
+  //private lock = new AuthLock();
+
+    // Initializing our Auth0Lock
+   lock = new Auth0Lock(
+      'bFMJ0_20YLm8R6kZ-QEyNluu3LNk380R',
+      'alexepp.auth0.com'
+    );
 
   constructor(private http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService)
   { 
     this.jwtHelperService = new JwtHelper();
     this.url = appConfig.getSiteURL() + "/authentication";
+
+
+    // Listening for the authenticated event
+    this.lock.on("authenticated", function(authResult) {
+      // Use the token in authResult to getUserInfo() and save it to localStorage
+      this.lock.getUserInfo(authResult.accessToken, function(error, profile) {
+        if (error) {
+          // Handle error
+          return;
+        }
+
+        //document.getElementById('nick').textContent = profile.nickname;
+
+        localStorage.setItem('accessToken', authResult.accessToken);
+        localStorage.setItem('profile', JSON.stringify(profile));
+      });
+    });
+
+
+
+
+
+
 
     let token =  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';//this.getToken();
     //debugger
@@ -48,6 +81,10 @@ export class AuthService {
   public isLogedin()  : boolean{
 
     return this.getToken() != null;
+  }
+
+  public showDialog() {
+    this.lock.show();
   }
 
   

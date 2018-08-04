@@ -24,7 +24,7 @@ export class MngCategoriesComponent implements OnInit {
   displayEditDialog = false;
   displayConfirmDeleteDialog= false;
 
-  newCategoryForm : FormGroup;
+  
 
   constructor(
     private categoryService : CategoryService,
@@ -38,22 +38,7 @@ export class MngCategoriesComponent implements OnInit {
     //Load  data
     this.categoryService.getAll().subscribe(
       response => this.categories = response
-    )
-
-    this.newCategoryForm = new FormGroup({
-      'name': new FormControl("",[Validators.required]),
-      'isActive': new FormControl(true),
-    });
-
-    this.newCategoryForm.valueChanges.subscribe(x => console.log(x));
-  }
-
-  get getFormName(){
-    return this.newCategoryForm.get('name');
-  }
-
-  get getForm(){
-    return this.newCategoryForm;
+    );
   }
 
 
@@ -69,7 +54,7 @@ export class MngCategoriesComponent implements OnInit {
       this.categoryToEdit = _.cloneDeep(category);
     }
   
-    this.newCategoryForm.reset();
+
     this.displayEditDialog = true;
   }
 

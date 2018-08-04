@@ -33,6 +33,7 @@ import { MngCategoriesComponent } from './management/panels/mng-categories/mng-c
 import { AppServicesModule } from './modules/app-services.module';
 import { AuthGuardService } from './services/auth-guard.service';
 import { Http } from '@angular/http';
+import { DialogEditCategoryComponent } from './management/panels/mng-categories/dialog-edit-category/dialog-edit-category.component';
 
 
 
@@ -64,6 +65,7 @@ const routesConfigs : Routes = [
     MngProjectsComponent,
     MngUsersComponent,
     MngCategoriesComponent,
+    DialogEditCategoryComponent,
     
   ],
   imports: [

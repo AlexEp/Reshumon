@@ -1,0 +1,40 @@
+
+<p-dialog header="Category Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
+    <form  [formGroup]="categoryForm" novalidate  >
+      
+  
+        <div class="form-row">
+        <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">Name {{category.Name}}</label>
+            <div class="col-sm-9">
+                <input class="form-control is-invalid" 
+                [ngClass]="{'is-invalid': getFormName.invalid && getFormName.touched, 
+                'is-valid': getFormName.valid && getFormName.touched}" id="name" name="name" 
+                 formControlName="name" />
+                <small id="passwordHelpBlock" 
+                *ngIf="getFormName.invalid && getFormName.touched" class="invalid-feedback">
+                  This filed is requred 
+               </small>
+                       <!-- <span *ngIf="getFormName.invalid && getFormName.touched">invalid!!</span> -->
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-row">
+            <div class="form-group row">
+                <label for="name" class="col-sm-3 col-form-label">isActive</label>
+                - <div class="col-sm-8">
+                    <input type="checkbox"   class="form-control" id="isActive" id="isActive" formControlName="isActive" />
+                </div> 
+            </div>
+          </div>
+  
+    </form>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa fa-close" (click)="cancelEdit()" label="Cancel"></button>
+        <button *ngIf="!isNewCategory()" type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
+        <button *ngIf="isNewCategory()" type="button" pButton icon="fa fa-check" (click)="create()" label="Create" ></button>
+      </div>
+    </p-footer>
+  </p-dialog>
