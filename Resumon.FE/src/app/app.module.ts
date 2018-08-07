@@ -34,6 +34,7 @@ import { AppServicesModule } from './modules/app-services.module';
 import { AuthGuardService } from './services/auth-guard.service';
 import { Http } from '@angular/http';
 import { DialogEditCategoryComponent } from './management/panels/mng-categories/dialog-edit-category/dialog-edit-category.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 
@@ -41,13 +42,13 @@ const routesConfigs : Routes = [
   { path: '', component: LoginComponent},
   { path: 'login', component: LoginComponent},
   { path: 'registration', component: TimeRegistrationComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent ,  canActivate:[AuthGuardService]},
   { path: 'reports', component: ReportComponent ,  canActivate:[AuthGuardService]},
   { path: 'reports/:reporttype', component: ReportComponent  },
   { path: 'mng', component: ManagementComponent, canActivate:[AuthGuardService]  },
-  { path: 'mng/users', component: MngUsersComponent  },
-  { path: 'mng/categories', component: MngCategoriesComponent  },
-  { path: 'mng/projects', component: MngProjectsComponent  },
+  { path: 'mng/users', component: MngUsersComponent  ,  canActivate:[AuthGuardService] },
+  { path: 'mng/categories', component: MngCategoriesComponent ,  canActivate:[AuthGuardService] },
+  { path: 'mng/projects', component: MngProjectsComponent  ,  canActivate:[AuthGuardService]},
  
 ];
 
@@ -66,6 +67,7 @@ const routesConfigs : Routes = [
     MngUsersComponent,
     MngCategoriesComponent,
     DialogEditCategoryComponent,
+    UserProfileComponent,
     
   ],
   imports: [

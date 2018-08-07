@@ -4,15 +4,13 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <a class="navbar-brand" routerLinkActive="active current" [routerLink]="['home']">Reshumon</a>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">Login</a>
-       </li>
-      <li class="nav-item">
+    <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">Login</a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0" *ngIf="isLogedIn()">
+      <li class="nav-item" >
         <a class="nav-link" routerLinkActive="active current" [routerLink]="['registration']">Time registration</a>
       </li>
       
-      <li ngbDropdown class="d-inline-block">
+      <li ngbDropdown class="d-inline-block" >
           <button class="btn btn-outline-primary" id="dropdown-reports" ngbDropdownToggle>Reports</button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button class="dropdown-item" [routerLink]="['reports']">Action - 1</button>

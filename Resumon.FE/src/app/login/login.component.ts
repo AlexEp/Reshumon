@@ -15,22 +15,31 @@ export class LoginComponent implements OnInit {
   constructor(private  auth : AuthService,private router : Router, private activatedRoute : ActivatedRoute) { }
 
   ngOnInit() {
-    let islogin = this.auth.isLogedin();
+    let islogin = this.auth.isAuthenticated();
+  }
+
+  showDialog(){
+    this.auth.showDialog();
   }
 
   submit(credentials : {username : string ,password: string}){
-    this.auth.logIn(credentials.username,credentials.password).subscribe(
-      result =>{
-        if(result){
-            let returnUrl = this.activatedRoute.snapshot.queryParamMap.get("returnUrl");
+  
+    // this.auth.logIn(credentials.username,credentials.password).subscribe(
+    //   result =>{
+    //     if(result){
+    //         let returnUrl = this.activatedRoute.snapshot.queryParamMap.get("returnUrl");
 
-            this.router.navigate([returnUrl || "/"]); //redirect to the attempted url or the home page
-        }
-        else{
-            this.isInvalidLogIn = true; //show isInvalidLogIn msg
-        }
-      } 
-    )
+    //         this.router.navigate([returnUrl || "/"]); //redirect to the attempted url or the home page
+    //     }
+    //     else{
+    //         this.isInvalidLogIn = true; //show isInvalidLogIn msg
+    //     }
+    //   } 
+    // )
   }
+  logOut(){
+    this.auth.logOut();
+  }
+  
 
 }
