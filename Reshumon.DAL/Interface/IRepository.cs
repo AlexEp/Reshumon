@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reshumon.DAL.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,18 @@ namespace Reshumon.DAL
     
     }
 
+
+    public interface IProjectRepository : IGenericRepository<Project>
+    {
+    }
+
+    public interface IUserRepository : IGenericRepository<User>
+    {
+    }
+
+    public interface ICategoryRepository : IGenericRepository<Category>
+    {
+    }
 
 
 } 

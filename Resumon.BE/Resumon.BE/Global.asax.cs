@@ -1,6 +1,7 @@
 ﻿using Reshumon.Common;
 using Reshumon.DAL.DTO;
 using Reshumon.DAL.Repositories;
+using Resumon.BE.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;
@@ -28,7 +29,9 @@ namespace Reshumon.BE
             //Init DAL
              EntityContext ec = new EntityContext(dalConfig.GetParam("SqlDatabaseConnection"));
 
-            ec.Users.Add(new DAL.DTO.User() {Name = "DAvid",LastName="Lastin" });
+
+            //Init Services
+            ServiceProvider.Init(ec);
 
 
             AreaRegistration.RegisterAllAreas();

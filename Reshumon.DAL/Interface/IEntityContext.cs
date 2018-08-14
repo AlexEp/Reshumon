@@ -10,6 +10,6 @@ namespace Reshumon.DAL
     {
         IUserRepository Users { get; }
         IProjectRepository Projects { get; }
-
+        ICategoryRepository Categories { get; }
     }
 }

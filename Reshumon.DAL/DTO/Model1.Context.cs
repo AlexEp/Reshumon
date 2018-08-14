@@ -15,19 +15,18 @@ namespace Reshumon.DAL.DTO
     
     public partial class ReshumonEntities : DbContext
     {
+        public ReshumonEntities(string connectionString)
+          : base(connectionString)
+        {
+        }
         public ReshumonEntities()
             : base("name=ReshumonEntities")
         {
         }
-
-        public ReshumonEntities(string nameOrConnectionString)
-        : base( nameOrConnectionString)
-        {
-        }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-           // throw new UnintentionalCodeFirstException();
+            throw new UnintentionalCodeFirstException();
         }
     
         public virtual DbSet<Category> Category { get; set; }

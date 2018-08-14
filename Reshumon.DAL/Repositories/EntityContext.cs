@@ -25,14 +25,17 @@ namespace Reshumon.DAL.Repositories
             };
 
 
-            this.EntitiesContext = new ReshumonEntities(entityString.ToString());
-        
+            this.EntitiesContext = new ReshumonEntities();//new ReshumonEntities(entityString.ToString());
+
+
             this.Users = new UserRepository(this.EntitiesContext);
+            this.Categories = new CategoryRepository(this.EntitiesContext);
             this.Projects = new ProjectRepository(this.EntitiesContext);
 
         }
 
         public IUserRepository Users { get; set; }
+        public ICategoryRepository Categories { get; set; }
         public IProjectRepository Projects { get; set; }
      
     }
