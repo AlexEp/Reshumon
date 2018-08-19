@@ -17,7 +17,6 @@ namespace Resumon.BE.Controllers
 
     public class CategoriesController : ApiController
     {
-        private ReshumonEntities db = new ReshumonEntities();
 
         // GET: api/Categories
         public IEnumerable<Category> GetCategory()
@@ -63,11 +62,10 @@ namespace Resumon.BE.Controllers
                 return BadRequest();
             }
 
-            db.Entry(category).State = EntityState.Modified;
-
+           
             try
             {
-                db.SaveChanges();
+                ServiceProvider.EntityContext.Categories.Add(category);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -93,11 +91,9 @@ namespace Resumon.BE.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Category.Add(category);
-
             try
             {
-                db.SaveChanges();
+                ServiceProvider.EntityContext.Categories.Add(category);
             }
             catch (DbUpdateException)
             {
@@ -118,30 +114,31 @@ namespace Resumon.BE.Controllers
         [ResponseType(typeof(Category))]
         public IHttpActionResult DeleteCategory(int id)
         {
-            Category category = db.Category.Find(id);
+            
+            Category category = ServiceProvider.EntityContext.Categories.Get(id);
             if (category == null)
             {
                 return NotFound();
             }
-     
-            db.Category.Remove(category);
-            db.SaveChanges();
+
+            ServiceProvider.EntityContext.Categories.Remove(category);
 
             return Ok(category);
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            //if (disposing)
+            //{
+            //    db.Dispose();
+            //}
+            //base.Dispose(disposing);
         }
 
         private bool CategoryExists(int id)
         {
-            return db.Category.Count(e => e.CategoryID == id) > 0;
+            var category = ServiceProvider.EntityContext.Categories.Get(id);
+            return category != null;
         }
 
     

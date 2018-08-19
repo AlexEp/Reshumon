@@ -9,16 +9,16 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    public class UserRepository : IUserRepository
+    internal class UserRepository : IUserRepository
     {
-        ReshumonEntities Context = null;
-        public UserRepository(ReshumonEntities context)
+        DataBaseContext Context = null;
+        public UserRepository(DataBaseContext context)
         {
             this.Context = context;
         }
         public void Add(User entity)
         {
-            Context.User.Add(entity);
+            Context.Users.Add(entity);
             Context.SaveChanges();
         }
 
@@ -29,21 +29,21 @@ namespace Reshumon.DAL.Repositories
 
         public User Get(int Id)
         {
-            return Context.User.Find(Id);
+            return Context.Users.Find(Id);
         }
 
         public IEnumerable<User> GetAll()
         {
-            return Context.User.ToList();
+            return Context.Users.ToList();
         }
 
         public void Remove(int Id)
         {
-            var user = Context.User.FirstOrDefault(u => u.UserID == Id);
+            var user = Context.Users.FirstOrDefault(u => u.UserID == Id);
 
             if (user != null)
             {
-                Context.User.Remove(user);
+                Context.Users.Remove(user);
                 Context.SaveChanges();
             }
          

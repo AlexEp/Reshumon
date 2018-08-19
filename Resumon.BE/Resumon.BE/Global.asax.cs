@@ -27,11 +27,10 @@ namespace Reshumon.BE
             GeneralConfig dalConfig = new GeneralConfig(Path.Combine(baseDirectory,"Dal.Config.xml"));
           
             //Init DAL
-             EntityContext ec = new EntityContext(dalConfig.GetParam("SqlDatabaseConnection"));
-
+             EntityContext entityContext = new EntityContext(dalConfig.GetParam("SqlDatabaseConnection"));
 
             //Init Services
-            ServiceProvider.Init(ec);
+            ServiceProvider.Init(entityContext);
 
 
             AreaRegistration.RegisterAllAreas();

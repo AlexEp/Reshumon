@@ -1,35 +1,39 @@
 ﻿using Reshumon.DAL.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 
 namespace Reshumon.DAL.Repositories
 {
 
     class ProjectRepository : IProjectRepository
     {
-        ReshumonEntities Context = null;
-        public ProjectRepository(ReshumonEntities context)
+        DataBaseContext Context = null;
+        public ProjectRepository(DataBaseContext context)
         {
             this.Context = context;
         }
-        public void Add(Project entit)
+        public void Add(Project entity)
         {
-            throw new NotImplementedException();
+            Context.Projects.Add(entity);
+            Context.SaveChanges();
         }
 
-        public void Edit(Project entit)
+        public void Edit(Project entity)
         {
-            throw new NotImplementedException();
+            Context.Entry(entity).State = EntityState.Modified;
+            Context.SaveChanges();
         }
 
         public Project Get(int Id)
         {
-            throw new NotImplementedException();
+            return Context.Projects.Find(Id);
         }
 
         public IEnumerable<Project> GetAll()
         {
-            throw new NotImplementedException();
+            return Context.Projects.ToList();
         }
 
         public void Remove(int Id)

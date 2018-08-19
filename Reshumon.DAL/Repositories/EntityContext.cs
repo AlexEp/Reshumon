@@ -11,7 +11,7 @@ namespace Reshumon.DAL.Repositories
 {
     public class EntityContext : IEntityContext
     {
-        private ReshumonEntities EntitiesContext = null;
+        private DataBaseContext EntitiesContext = null;
         public EntityContext(string connectionString)
         {
 
@@ -20,16 +20,16 @@ namespace Reshumon.DAL.Repositories
             EntityConnectionStringBuilder entityString = new EntityConnectionStringBuilder()
             {
                 Provider = "System.Data.SqlClient",
-                Metadata = "res://*/DTO.Model1.csdl|res://*/DTO.Model1.ssdl|res://*/DTO.Model1.msl",
                 ProviderConnectionString = connectionString //sqlString.ToString()
             };
 
 
-            this.EntitiesContext = new ReshumonEntities();//new ReshumonEntities(entityString.ToString());
-
+            //this.EntitiesContext = new DataBaseContext(entityString.ToString());//new ReshumonEntities(entityString.ToString());
+            this.EntitiesContext = new DataBaseContext(connectionString);
 
             this.Users = new UserRepository(this.EntitiesContext);
             this.Categories = new CategoryRepository(this.EntitiesContext);
+            var c = this.Categories.GetAll();
             this.Projects = new ProjectRepository(this.EntitiesContext);
 
         }

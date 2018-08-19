@@ -1,6 +1,7 @@
 ﻿using Reshumon.DAL.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,41 +10,42 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    public class CategoryRepository : ICategoryRepository
+    internal class CategoryRepository : ICategoryRepository
     {
-        ReshumonEntities Context = null;
-        public CategoryRepository(ReshumonEntities context)
+        DataBaseContext Context = null;
+        public CategoryRepository(DataBaseContext context)
         {
             this.Context = context;
         }
         public void Add(Category entity)
         {
-            Context.Category.Add(entity);
+            Context.Categories.Add(entity);
             Context.SaveChanges();
         }
 
         public void Edit(Category entity)
         {
-            throw new NotImplementedException();
+            Context.Entry(entity).State = EntityState.Modified;
+            Context.SaveChanges();
         }
 
         public Category Get(int Id)
         {
-            return Context.Category.Find(Id);
+            return Context.Categories.Find(Id);
         }
 
         public IEnumerable<Category> GetAll()
         {
-            return Context.Category.ToList();
+            return Context.Categories.ToList();
         }
 
         public void Remove(int Id)
         {
-            var user = Context.User.FirstOrDefault(u => u.UserID == Id);
+            var user = Context.Users.FirstOrDefault(u => u.UserID == Id);
 
             if (user != null)
             {
-                Context.User.Remove(user);
+                Context.Users.Remove(user);
                 Context.SaveChanges();
             }
          
