@@ -13,5 +13,18 @@ namespace Reshumon.DAL.DTO
     {
         [Key, Column("ProjectID")]
         public int ProjectID { get; set; }
+
+        [Column("Name")]
+        public string Name { get; set; }
+
+        [Column("ParentProject")]
+        public int? ParentProject { get; set; }
+
+        [Column("CategoryID")]
+        public int CategoryID { get; set; }
+
+        [Column("IsActive")]
+        public bool IsActive { get; set; }
+
     }
 }

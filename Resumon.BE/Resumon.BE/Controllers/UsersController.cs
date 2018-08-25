@@ -15,15 +15,15 @@ using Resumon.BE.Models;
 namespace Resumon.BE.Controllers
 {
 
-    public class CategoriesController : ApiController
+    public class UsersController : ApiController
     {
 
-        // GET: api/Categories
-        public IEnumerable<Category> GetCategory()
+        // GET: api/Users
+        public IEnumerable<User> GetUser()
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.Categories.GetAll(); 
+                var ans = ServiceProvider.EntityContext.Users.GetAll(); 
                 return ans.ToList();
             }
             catch (Exception)
@@ -34,30 +34,30 @@ namespace Resumon.BE.Controllers
            
         }
 
-        // GET: api/Categories/5
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult GetCategory(int id)
+        // GET: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult GetUser(int id)
         {
-            Category category  = ServiceProvider.EntityContext.Categories.Get(id);
-            if (category == null)
+            User User  = ServiceProvider.EntityContext.Users.Get(id);
+            if (User == null)
             {
                 return NotFound();
             }
 
-            return Ok(category);
+            return Ok(User);
         }
 
-        // PUT: api/Categories/5
+        // PUT: api/Users/5
         [ResponseType(typeof(void))]
         [HttpPut]
-        public IHttpActionResult PutCategory(int id,[FromBody] Category category)
+        public IHttpActionResult PutUser(int id,[FromBody] User User)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != category.CategoryID)
+            if (id != User.UserID)
             {
                 return BadRequest();
             }
@@ -65,11 +65,11 @@ namespace Resumon.BE.Controllers
            
             try
             {
-                ServiceProvider.EntityContext.Categories.Edit(category);
+                ServiceProvider.EntityContext.Users.Edit(User);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -79,26 +79,26 @@ namespace Resumon.BE.Controllers
                 }
             }
 
-            return Ok(category);
+            return Ok(User);
         }
 
-        // POST: api/Categories
+        // POST: api/Users
 
         [HttpPut]
-        public IHttpActionResult PostCategory([FromBody]Category category)
+        public IHttpActionResult PostUser([FromBody]User User)
         {
-            if (!ModelState.IsValid || category.Name == null)
+            if (!ModelState.IsValid || User.Name == null)
             {
                 return BadRequest(ModelState);
             }
 
             try
             {
-                ServiceProvider.EntityContext.Categories.Add(category);
+                ServiceProvider.EntityContext.Users.Add(User);
             }
             catch (DbUpdateException)
             {
-                if (CategoryExists(category.CategoryID))
+                if (UserExists(User.UserID))
                 {
                     return Conflict();
                 }
@@ -107,24 +107,24 @@ namespace Resumon.BE.Controllers
                     throw;
                 }
             }
-            return Ok(category);
-            //return Content(HttpStatusCode.Created, category);
+            return Ok(User);
+            //return Content(HttpStatusCode.Created, User);
         }
 
-        // DELETE: api/Categories/5
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult DeleteCategory(int id)
+        // DELETE: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult DeleteUser(int id)
         {
             
-            Category category = ServiceProvider.EntityContext.Categories.Get(id);
-            if (category == null)
+            User User = ServiceProvider.EntityContext.Users.Get(id);
+            if (User == null)
             {
                 return NotFound();
             }
 
-            ServiceProvider.EntityContext.Categories.Remove(category);
+            ServiceProvider.EntityContext.Users.Remove(User);
 
-            return Ok(category);
+            return Ok(User);
         }
 
         protected override void Dispose(bool disposing)
@@ -136,10 +136,10 @@ namespace Resumon.BE.Controllers
             //base.Dispose(disposing);
         }
 
-        private bool CategoryExists(int id)
+        private bool UserExists(int id)
         {
-            var category = ServiceProvider.EntityContext.Categories.Get(id);
-            return category != null;
+            var User = ServiceProvider.EntityContext.Users.Get(id);
+            return User != null;
         }
 
     

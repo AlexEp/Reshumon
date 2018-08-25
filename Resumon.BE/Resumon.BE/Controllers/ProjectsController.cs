@@ -1,135 +1,145 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.Entity;
-//using System.Data.Entity.Infrastructure;
-//using System.Linq;
-//using System.Net;
-//using System.Net.Http;
-//using System.Web.Http;
-//using System.Web.Http.Description;
-//using Reshumon.DAL;
-//using Reshumon.DAL.DTO;
-//using Resumon.BE.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
+using Reshumon.DAL;
+using Reshumon.DAL.DTO;
+using Resumon.BE.Models;
 
-//namespace Resumon.BE.Controllers
-//{
-//    public class ProjectsController : ApiController
-//    {
-//        private IEntityContext db = ServiceProvider.EntityContext;
+namespace Resumon.BE.Controllers
+{
+    public class ProjectsController : ApiController
+    {
+        // GET: api/Categories
+        public IEnumerable<Project> GetProjects()
+        {
+            try
+            {
+                var ans = ServiceProvider.EntityContext.Projects.GetAll();
+                return ans.ToList();
+            }
+            catch (Exception)
+            {
 
-//        // GET: api/Projects
-//        public IQueryable<Project> GetProject()
-//        {
-//            return db.Project;
-//        }
+                throw;
+            }
 
-//        // GET: api/Projects/5
-//        [ResponseType(typeof(Project))]
-//        public IHttpActionResult GetProject(int id)
-//        {
-//            Project project = db.Projects.Get(id);
-//            if (project == null)
-//            {
-//                return NotFound();
-//            }
+        }
 
-//            return Ok(project);
-//        }
+        // GET: api/Categories/5
+        [ResponseType(typeof(Project))]
+        public IHttpActionResult GetProjects(int id)
+        {
+            Project Projects = ServiceProvider.EntityContext.Projects.Get(id);
+            if (Projects == null)
+            {
+                return NotFound();
+            }
 
-//        // PUT: api/Projects/5
-//        [ResponseType(typeof(void))]
-//        public IHttpActionResult PutProject(int id, Project project)
-//        {
-//            if (!ModelState.IsValid)
-//            {
-//                return BadRequest(ModelState);
-//            }
+            return Ok(Projects);
+        }
 
-//            if (id != project.ProjectID)
-//            {
-//                return BadRequest();
-//            }
+        // PUT: api/Categories/5
+        [ResponseType(typeof(void))]
+        [HttpPut]
+        public IHttpActionResult PutProjects(int id, [FromBody] Project Projects)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-//            db.Entry(project).State = EntityState.Modified;
+            if (id != Projects.ProjectID)
+            {
+                return BadRequest();
+            }
 
-//            try
-//            {
-//                db.SaveChanges();
-//            }
-//            catch (DbUpdateConcurrencyException)
-//            {
-//                if (!ProjectExists(id))
-//                {
-//                    return NotFound();
-//                }
-//                else
-//                {
-//                    throw;
-//                }
-//            }
 
-//            return StatusCode(HttpStatusCode.NoContent);
-//        }
+            try
+            {
+                ServiceProvider.EntityContext.Projects.Edit(Projects);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProjectsExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-//        // POST: api/Projects
-//        [ResponseType(typeof(Project))]
-//        public IHttpActionResult PostProject(Project project)
-//        {
-//            if (!ModelState.IsValid)
-//            {
-//                return BadRequest(ModelState);
-//            }
+            return Ok(Projects);
+        }
 
-//            db.Project.Add(project);
+        // POST: api/Categories
 
-//            try
-//            {
-//                db.SaveChanges();
-//            }
-//            catch (DbUpdateException)
-//            {
-//                if (ProjectExists(project.ProjectID))
-//                {
-//                    return Conflict();
-//                }
-//                else
-//                {
-//                    throw;
-//                }
-//            }
+        [HttpPut]
+        public IHttpActionResult PostProjects([FromBody]Project Projects)
+        {
+            if (!ModelState.IsValid || 
+                Projects.Name == null ||
+                Projects.CategoryID < 1)
+            {
+                return BadRequest(ModelState);
+            }
 
-//            return CreatedAtRoute("DefaultApi", new { id = project.ProjectID }, project);
-//        }
+            try
+            {
+                ServiceProvider.EntityContext.Projects.Add(Projects);
+            }
+            catch (DbUpdateException)
+            {
+                if (ProjectsExists(Projects.ProjectID))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Ok(Projects);
+            //return Content(HttpStatusCode.Created, Projects);
+        }
 
-//        // DELETE: api/Projects/5
-//        [ResponseType(typeof(Project))]
-//        public IHttpActionResult DeleteProject(int id)
-//        {
-//            Project project = db.Project.Find(id);
-//            if (project == null)
-//            {
-//                return NotFound();
-//            }
+        // DELETE: api/Categories/5
+        [ResponseType(typeof(Project))]
+        public IHttpActionResult DeleteProjects(int id)
+        {
 
-//            db.Project.Remove(project);
-//            db.SaveChanges();
+            Project Projects = ServiceProvider.EntityContext.Projects.Get(id);
+            if (Projects == null)
+            {
+                return NotFound();
+            }
 
-//            return Ok(project);
-//        }
+            ServiceProvider.EntityContext.Projects.Remove(Projects);
 
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                db.Dispose();
-//            }
-//            base.Dispose(disposing);
-//        }
+            return Ok(Projects);
+        }
 
-//        private bool ProjectExists(int id)
-//        {
-//            return db.Project.Count(e => e.ProjectID == id) > 0;
-//        }
-//    }
-//}
+        protected override void Dispose(bool disposing)
+        {
+            //if (disposing)
+            //{
+            //    db.Dispose();
+            //}
+            //base.Dispose(disposing);
+        }
+
+        private bool ProjectsExists(int id)
+        {
+            var Projects = ServiceProvider.EntityContext.Categories.Get(id);
+            return Projects != null;
+        }
+    }
+}

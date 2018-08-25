@@ -11,7 +11,22 @@ namespace Reshumon.DAL.DTO
     [Table("User")]
     public class User
     {
-            [Key, Column("UserID")]
-            public int UserID { get; set; }
-        }
+        [Key, Column("UserID")]
+        public int UserID { get; set; }
+
+        [Column("Name")]
+        public string Name { get; set; }
+
+        [Column("LastName")]
+        public string LastName { get; set; }
+
+
+        [Column("Email")]
+        public string Email { get; set; }
+
+
+        [Column("IsActive")]
+        public bool IsActive { get; set; }
+    }
+
 }

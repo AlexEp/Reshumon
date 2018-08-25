@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -16,6 +18,15 @@ namespace Reshumon.BE
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            // Force to ignore Request Content Type Header and reply only JSON
+            config.Formatters.Clear();
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+            //GlobalConfiguration.Configuration.Formatters.JsonFormatter.MediaTypeMappings.Add(
+            // new QueryStringMapping("type", "json", new MediaTypeHeaderValue("application/json")));
+
+            //GlobalConfiguration.Configuration.Formatters.XmlFormatter.MediaTypeMappings.Add(
+            //    new QueryStringMapping("type", "xml", new MediaTypeHeaderValue("application/xml")));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

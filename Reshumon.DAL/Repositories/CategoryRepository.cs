@@ -17,6 +17,7 @@ namespace Reshumon.DAL.Repositories
         {
             this.Context = context;
         }
+
         public void Add(Category entity)
         {
             Context.Categories.Add(entity);
@@ -25,8 +26,17 @@ namespace Reshumon.DAL.Repositories
 
         public void Edit(Category entity)
         {
-            Context.Entry(entity).State = EntityState.Modified;
-            Context.SaveChanges();
+            var trackedEntity = Context.Categories.FirstOrDefault(e => e.CategoryID == entity.CategoryID);
+            if (trackedEntity != null)
+            {
+                trackedEntity.Name = entity.Name;
+                trackedEntity.IsActive = entity.IsActive;
+
+                Context.SaveChanges();
+            }
+
+
+         
         }
 
         public Category Get(int Id)
@@ -51,9 +61,10 @@ namespace Reshumon.DAL.Repositories
          
         }
 
-        public void Remove(Category entit)
+        public void Remove(Category entity)
         {
-            throw new NotImplementedException();
+             Context.Categories.Remove(entity);
+            Context.SaveChanges();
         }
 
         public void RemoveRange(IEnumerable<Category> entitList)
