@@ -12,59 +12,83 @@ namespace Reshumon.DAL.Repositories
 
     internal class CategoryRepository : ICategoryRepository
     {
-        DataBaseContext Context = null;
-        public CategoryRepository(DataBaseContext context)
+
+        string ConnectionString = "";
+        public CategoryRepository(string connectionString)
         {
-            this.Context = context;
+            this.ConnectionString = connectionString;
+        }
+
+        private DataBaseContext GetContext()
+        {
+            return new DataBaseContext(this.ConnectionString);
         }
 
         public void Add(Category entity)
         {
-            Context.Categories.Add(entity);
-            Context.SaveChanges();
+            using (var Context = GetContext())
+            {
+                Context.Categories.Add(entity);
+                Context.SaveChanges();
+            }
         }
 
         public void Edit(Category entity)
         {
-            var trackedEntity = Context.Categories.FirstOrDefault(e => e.CategoryID == entity.CategoryID);
-            if (trackedEntity != null)
+            using (var Context = GetContext())
             {
-                trackedEntity.Name = entity.Name;
-                trackedEntity.IsActive = entity.IsActive;
 
-                Context.SaveChanges();
+                var trackedEntity = Context.Categories.FirstOrDefault(e => e.CategoryID == entity.CategoryID);
+                if (trackedEntity != null)
+                {
+                    trackedEntity.Name = entity.Name;
+                    trackedEntity.IsActive = entity.IsActive;
+
+                    Context.SaveChanges();
+                }
             }
-
-
-         
         }
 
         public Category Get(int Id)
         {
-            return Context.Categories.Find(Id);
+            Category results;
+            using (var Context = GetContext())
+            {
+                results = Context.Categories.Find(Id);
+            }
+
+            return results;
         }
 
         public IEnumerable<Category> GetAll()
         {
-            return Context.Categories.ToList();
+            IEnumerable<Category> results;
+            using (var Context = GetContext())
+            {
+                results = Context.Categories.ToList();
+            }
+
+            return results;
         }
 
         public void Remove(int Id)
         {
-            var user = Context.Users.FirstOrDefault(u => u.UserID == Id);
-
-            if (user != null)
+            using (var Context = GetContext())
             {
-                Context.Users.Remove(user);
-                Context.SaveChanges();
+
+                var categoty = Context.Categories.FirstOrDefault(c=> c.CategoryID == Id);
+
+                if (categoty != null)
+                {
+                    Context.Categories.Remove(categoty);
+                    Context.SaveChanges();
+                }
             }
-         
         }
 
         public void Remove(Category entity)
         {
-             Context.Categories.Remove(entity);
-            Context.SaveChanges();
+            Remove(entity.CategoryID);
         }
 
         public void RemoveRange(IEnumerable<Category> entitList)

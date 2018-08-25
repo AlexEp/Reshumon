@@ -25,12 +25,10 @@ namespace Reshumon.DAL.Repositories
 
 
             //this.EntitiesContext = new DataBaseContext(entityString.ToString());//new ReshumonEntities(entityString.ToString());
-            this.EntitiesContext = new DataBaseContext(connectionString);
 
-            this.Users = new UserRepository(this.EntitiesContext);
-            this.Categories = new CategoryRepository(this.EntitiesContext);
-            var c = this.Categories.GetAll();
-            this.Projects = new ProjectRepository(this.EntitiesContext);
+            this.Users = new UserRepository(connectionString);
+            this.Categories = new CategoryRepository(connectionString);
+            this.Projects = new ProjectRepository(connectionString);
 
         }
 

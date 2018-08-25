@@ -49,7 +49,7 @@ namespace Resumon.BE.Controllers
 
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
-        [HttpPut]
+        [HttpPost]
         public IHttpActionResult PutCategory(int id,[FromBody] Category category)
         {
             if (!ModelState.IsValid)
@@ -84,7 +84,7 @@ namespace Resumon.BE.Controllers
 
         // POST: api/Categories
 
-        [HttpPut]
+        [HttpPost]
         public IHttpActionResult PostCategory([FromBody]Category category)
         {
             if (!ModelState.IsValid || category.Name == null)

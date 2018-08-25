@@ -9,31 +9,55 @@ namespace Reshumon.DAL.Repositories
 
     class ProjectRepository : IProjectRepository
     {
-        DataBaseContext Context = null;
-        public ProjectRepository(DataBaseContext context)
+        string ConnectionString = "";
+
+        public ProjectRepository(string connectionString)
         {
-            this.Context = context;
+            this.ConnectionString = connectionString;
         }
+
+        private DataBaseContext GetContext() {
+            return new DataBaseContext(this.ConnectionString);
+        }
+
         public void Add(Project entity)
         {
-            Context.Projects.Add(entity);
-            Context.SaveChanges();
+            using (var Context = GetContext())
+            {
+                Context.Projects.Add(entity);
+                Context.SaveChanges();
+            }
         }
 
         public void Edit(Project entity)
         {
-            Context.Entry(entity).State = EntityState.Modified;
-            Context.SaveChanges();
+            using (var Context = GetContext())
+            {
+                Context.Entry(entity).State = EntityState.Modified;
+                Context.SaveChanges();
+            }
         }
 
         public Project Get(int Id)
         {
-            return Context.Projects.Find(Id);
+            Project results;
+            using (var Context = GetContext())
+            {
+                results = Context.Projects.Find(Id);
+            }
+
+            return results;
         }
 
         public IEnumerable<Project> GetAll()
         {
-            return Context.Projects.ToList();
+            IEnumerable<Project> results;
+            using (var Context = GetContext())
+            {
+                results = Context.Projects.ToList();
+            }
+
+            return results;
         }
 
         public void Remove(int Id)

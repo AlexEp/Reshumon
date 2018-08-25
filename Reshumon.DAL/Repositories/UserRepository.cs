@@ -11,15 +11,25 @@ namespace Reshumon.DAL.Repositories
 
     internal class UserRepository : IUserRepository
     {
-        DataBaseContext Context = null;
-        public UserRepository(DataBaseContext context)
+        string ConnectionString = "";
+        public UserRepository(string connectionString)
         {
-            this.Context = context;
+            this.ConnectionString = connectionString;
         }
+
+        private DataBaseContext GetContext()
+        {
+            return new DataBaseContext(this.ConnectionString);
+        }
+
         public void Add(User entity)
         {
-            Context.Users.Add(entity);
-            Context.SaveChanges();
+            using (var Context = GetContext())
+            {
+                Context.Users.Add(entity);
+                Context.SaveChanges();
+            }
+
         }
 
         public void Edit(User entity)
@@ -29,22 +39,37 @@ namespace Reshumon.DAL.Repositories
 
         public User Get(int Id)
         {
-            return Context.Users.Find(Id);
+            User results;
+            using (var Context = GetContext())
+            {
+                results = Context.Users.Find(Id);
+            }
+
+            return results;
         }
 
         public IEnumerable<User> GetAll()
         {
-            return Context.Users.ToList();
+            IEnumerable<User> results;
+            using (var Context = GetContext())
+            {
+                results = Context.Users.ToList();
+            }
+
+            return results;
         }
 
         public void Remove(int Id)
         {
-            var user = Context.Users.FirstOrDefault(u => u.UserID == Id);
-
-            if (user != null)
+            using (var Context = GetContext())
             {
-                Context.Users.Remove(user);
-                Context.SaveChanges();
+                var user = Context.Users.FirstOrDefault(u => u.UserID == Id);
+
+                if (user != null)
+                {
+                    Context.Users.Remove(user);
+                    Context.SaveChanges();
+                }
             }
          
         }
