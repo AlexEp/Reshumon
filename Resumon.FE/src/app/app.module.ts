@@ -24,17 +24,20 @@ import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { HomeComponent } from './home/home.component';
 import { ReportComponent } from './report/report.component';
-import { ManagementComponent } from './management/management.component';
 import { LoginComponent } from './login/login.component';
 import { TimeRegistrationComponent } from './time-registration/time-registration.component';
-import { MngProjectsComponent } from './management/panels/mng-projects/mng-projects.component';
-import { MngUsersComponent } from './management/panels/mng-users/mng-users.component';
-import { MngCategoriesComponent } from './management/panels/mng-categories/mng-categories.component';
+import { MngProjectsComponent } from './management/mng-projects/mng-projects.component';
+import { MngUsersComponent } from './management/mng-users/mng-users.component';
+import { MngCategoriesComponent } from './management/mng-categories/mng-categories.component';
 import { AppServicesModule } from './modules/app-services.module';
 import { AuthGuardService } from './services/auth-guard.service';
 import { Http } from '@angular/http';
-import { DialogEditCategoryComponent } from './management/panels/mng-categories/dialog-edit-category/dialog-edit-category.component';
+import { DialogEditCategoryComponent } from './management/mng-categories/dialog-edit-category/dialog-edit-category.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AdminGuardService } from './services/admin-guard.service';
+import { AuthModule, AUTH_PROVIDERS } from 'angular2-jwt';
+import { DialogEditProjectComponent } from './management/mng-projects/dialog-edit-project/dialog-edit-project.component';
+
 
 
 
@@ -45,10 +48,9 @@ const routesConfigs : Routes = [
   { path: 'home', component: HomeComponent ,  canActivate:[AuthGuardService]},
   { path: 'reports', component: ReportComponent ,  canActivate:[AuthGuardService]},
   { path: 'reports/:reporttype', component: ReportComponent  },
-  { path: 'mng', component: ManagementComponent, canActivate:[AuthGuardService]  },
-  { path: 'mng/users', component: MngUsersComponent  ,  canActivate:[AuthGuardService] },
-  { path: 'mng/categories', component: MngCategoriesComponent ,  canActivate:[AuthGuardService] },
-  { path: 'mng/projects', component: MngProjectsComponent  ,  canActivate:[AuthGuardService]},
+  { path: 'mng/users', component: MngUsersComponent  ,  canActivate:[AuthGuardService,AdminGuardService] },
+  { path: 'mng/categories', component: MngCategoriesComponent ,  canActivate:[AuthGuardService,AdminGuardService] },
+  { path: 'mng/projects', component: MngProjectsComponent  ,  canActivate:[AuthGuardService,AdminGuardService]},
  
 ];
 
@@ -58,7 +60,6 @@ const routesConfigs : Routes = [
     NavigationBarComponent,
     HomeComponent,
     ReportComponent,
-    ManagementComponent,
     LoginComponent,
     TimeRegistrationComponent,
 
@@ -68,6 +69,7 @@ const routesConfigs : Routes = [
     MngCategoriesComponent,
     DialogEditCategoryComponent,
     UserProfileComponent,
+    DialogEditProjectComponent,
     
   ],
   imports: [
@@ -77,7 +79,9 @@ const routesConfigs : Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+  
     RouterModule.forRoot(routesConfigs),
+    
     TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
@@ -99,7 +103,7 @@ const routesConfigs : Routes = [
 
     //App Services
     MessagesService,
-
+    AUTH_PROVIDERS
 
 
   ],

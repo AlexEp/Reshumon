@@ -8,7 +8,7 @@ import  'rxjs/add/operator/catch';
 import  'rxjs/add/observable/throw';
 
 /* App Classes */
-import { AppError } from './../errors/app-error';
+import { AppError } from '../errors/app-error';
 import { AppConfigService } from './app-config.service';
 import { RequestOptions } from '@angular/http';
 
@@ -18,15 +18,15 @@ export class ResourceService<T> {
 
   constructor(protected http : HttpClient ,protected url : string) { }
 
-    getAll() {};
-    get(resourceId: number) : Observable<T> {
+  protected  getAll() {};
+ protected  get(resourceId: number) : Observable<T> {
       return this.http.get(this.url)
           .catch((error : Response) => {
             return  Observable.throw(new AppError(error));
           })
     }
 
-    updae(resource : T) : Observable<T> {
+    protected update(resource : T) : Observable<T> {
       return this.http.put<T>(this.url,resource)
           .map(
             response => {
@@ -38,7 +38,7 @@ export class ResourceService<T> {
           })
     }
 
-    delete(resource : T) : Observable<T> {
+    protected  delete(resource : T) : Observable<T> {
       return this.http.delete<T>(this.url,resource)
           .map(
             response => {

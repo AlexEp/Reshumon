@@ -17,4 +17,8 @@ export class NavigationBarComponent implements OnInit {
     return this.auth.isAuthenticated();
   }
 
+  translateWorld(world,path){
+    return path ? path + world : 'dictionery.pages.navigation.' + world
+  }
+
 }

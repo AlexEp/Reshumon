@@ -1,3 +1,4 @@
+import { DialogResult } from '../dialog.model';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -7,9 +8,9 @@ import * as _ from "lodash";
 
 
 
-import { Category } from './category.model';
-import { CategoryService } from '../../../services/category.service';
-import { MessagesService } from '../../../services/messages.service';
+import { Category } from '../category.model';
+import { CategoryService } from '../../services/category.service';
+import { MessagesService } from '../../services/messages.service';
 
 
 
@@ -21,6 +22,7 @@ import { MessagesService } from '../../../services/messages.service';
 export class MngCategoriesComponent implements OnInit {
   categoryToEdit : Category;
   categories : Category[];
+
   displayEditDialog = false;
   displayConfirmDeleteDialog= false;
 
@@ -34,7 +36,6 @@ export class MngCategoriesComponent implements OnInit {
    }
 
   ngOnInit() {
-
     //Load  data
     this.categoryService.getAll().subscribe(
       response => this.categories = response
@@ -42,32 +43,23 @@ export class MngCategoriesComponent implements OnInit {
   }
 
 
-  elementChanged(category : Category){
-    //this.categoryService.updae(category);
+
+  onDeleteClicked(category : Category){
+    this.categoryToEdit = _.cloneDeep(category);
+    this.displayConfirmDeleteDialog = true;
   }
 
-  edit(category : Category){
+  onEditClicked(category : Category){
     if(category == null)  {
-      this.categoryToEdit = new Category();
+      this.categoryToEdit = new Category() ;
     }
     else{
       this.categoryToEdit = _.cloneDeep(category);
     }
   
-
     this.displayEditDialog = true;
   }
 
-  
-  cancelEdit(){
-    this.showSuccess();
-    this.displayEditDialog = false;
-  }
-
-  confirmDelete(category : Category){
-    this.categoryToEdit = _.cloneDeep(category);
-    this.displayConfirmDeleteDialog = true;
-  }
 
   cancelDelete(){
     this.displayConfirmDeleteDialog = false;
@@ -75,11 +67,12 @@ export class MngCategoriesComponent implements OnInit {
 
   save(){
     this.displayEditDialog = false;
-    this.categoryService.updae(this.categoryToEdit).subscribe(
+    this.categoryService.update(this.categoryToEdit).subscribe(
       replay => {
         var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
 
         this.categories[index] = replay;
+        this.showSuccess("");
       }
     );
   }
@@ -91,6 +84,7 @@ export class MngCategoriesComponent implements OnInit {
       replay => {
         var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
         this.categories.splice(index, 1); 
+        this.showSuccess("");
       }
     );
   }
@@ -101,6 +95,7 @@ export class MngCategoriesComponent implements OnInit {
       replay => {
         //var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
         this.categories.push(replay);
+        this.showSuccess("");
       }
     );
   }
@@ -109,13 +104,33 @@ export class MngCategoriesComponent implements OnInit {
     return !this.categoryToEdit|| this.categoryToEdit.CategoryID < 1
   }
 
-  showSuccess() {
-    this.messagesService.setMsg("");
+  showSuccess(msg : string) {
+    this.messagesService.setMsg(msg);
   }
 
+  displayDialogResults(result : DialogResult ){
+    this.displayEditDialog = false;
+
+    if(this.categoryToEdit.CategoryID > 0)  {
+      if((<DialogResult>result) == DialogResult.Ok){
+        this.save();
+      }
+      else if((<DialogResult>result) == DialogResult.Cancel){
+       
+      }
+    }
+    else{
+        if((<DialogResult>result) == DialogResult.Ok){
+            this.create(this.categoryToEdit);
+        }
+        else if((<DialogResult>result) == DialogResult.Cancel){
+           this.showSuccess("");
+        }
+    }
+  }
   
   translateWorld(world,path){
-
     return path ? path + world : 'dictionery.pages.mng-categories.' + world
   }
+  
 }

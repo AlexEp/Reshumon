@@ -10,38 +10,62 @@ import  'rxjs/add/operator/map';
 import  'rxjs/add/observable/throw';
 
 /* App Classes */
-import { AppError } from './../errors/app-error';
+import { AppError } from '../errors/app-error';
 import { AppConfigService } from './app-config.service';
 import { ResourceService } from './resource.service';
 import { AppErrorHandleService } from './error-handle.service';
+import { Project } from '../management/project.model';
+
 
 
 @Injectable()
 export class ProjectsService extends ResourceService<any> {
 
   constructor( http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService) {
-    super(http,appConfig.getSiteURL() + "/api/values");
+    super(http,appConfig.getSiteURL() + "/api/projects");
   }
 
-    getAll() {
-      return this.http.get(this.url)
-      .catch((error : Response) => {
-        return  Observable.throw(new AppError(error));
-      })
-    };
-    getById(projId: number) : Observable<any> {
+  getAll() : Observable<Project[]> {
+    return this.http.get(this.url).map(
+        (response : Response)=> response
+    )
+    .catch((error : Response) => {
+      return  Observable.throw(new AppError(error));
+    })
+  };
 
-      let params = new HttpParams();
-      params.append("id",projId.toString());
 
-      return this.http.get(this.url,{"params":params})
+  update(project : Project) : Observable<Project> {
+
+      return this.http.put<Project>(this.url + "?id=" + project.CategoryID,
+      project).map(
+        article => {
+          return article;
+        },
+        error => {
+          console.log(error);
+        });
+    }
+
+    delete(project : Project) : Observable<Project> {
+      return this.http.delete<Project>(this.url + "?id=" + project.CategoryID)
+          .map(
+            response => {
+              return response
+            }
+          )
           .catch((error : Response) => {
             return  Observable.throw(new AppError(error));
           })
     }
 
-    getPost() : Observable<any> {
-      return this.http.get(this.url)
+    create(project : Project) : Observable<Project> {
+      return this.http.post<Project>(this.url,project)
+          .map(
+            response => {
+              return response
+            }
+          )
           .catch((error : Response) => {
             return  Observable.throw(new AppError(error));
           })

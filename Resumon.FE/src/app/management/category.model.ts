@@ -1,5 +1,3 @@
-
-
 export class Category {
       CategoryID : number;
       Name : string;
@@ -7,5 +5,7 @@ export class Category {
 
       constructor(){
             this.CategoryID = 0;
+            this.Name = "";
+            this.IsActive = true;
       }
 }

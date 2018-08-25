@@ -2,10 +2,10 @@
 <p-table [value]="categories" [responsive]="true">
   <ng-template pTemplate="caption">
     <div class="header row">
-      <div class="col-sm-10"><h3>{{translateWorld('Categories Managment') | translate}}  </h3></div>
+      <div class="col-sm-10"><h3>{{translateWorld('categories managment') | translate}}  </h3></div>
       <div class="col-sm-2">
         <div class="edit-tools">
-          <a h class="btn btn-success  btn-sm"  (click)="edit()">
+          <a h class="btn btn-success  btn-sm"  (click)="onEditClicked()">
              <i class="fa fa-plus-circle" aria-hidden="true"></i>
             <span>{{ translateWorld('new') | translate}}</span>
           </a>
@@ -17,15 +17,15 @@
   <ng-template pTemplate="header">
     <tr>
       <th class="ui-p-2">{{translateWorld('category') | translate}} </th>
-      <th class="ui-p-5">{{translateWorld('Name') | translate}}</th>
-      <th class="ui-p-5">{{translateWorld('is active') | translate}}</th>
+      <th class="ui-p-5">{{translateWorld('name') | translate}}</th>
+      <th class="ui-p-5">{{translateWorld('active') | translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-category>
     <tr>
       <td class="ui-p-2">
-          <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover"  aria-hidden="true" (click)="confirmDelete(category)"></i>
-          <i id="btn-row-edit" class="btn btn-outline-info fa fa-pencil btn-hover" aria-hidden="true" (click)="edit(category)"></i>
+          <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover"  aria-hidden="true" (click)="onDeleteClicked(category)"></i>
+          <i id="btn-row-edit" class="btn btn-outline-info fa fa-pencil btn-hover" aria-hidden="true" (click)="onEditClicked(category)"></i>
       </td>
       <td class="ui-p-5">{{category.Name}}</td>
       <td class="ui-p-5">{{category.IsActive}}</td>
@@ -34,8 +34,7 @@
 </p-table>
 
 <!-- ------------- [Dialog - Edit] -------------- -->
-<app-dialog-edit-category [display]="displayEditDialog"  (display)="displayEditDialog = $event"
-[category]="categoryToEdit"  ></app-dialog-edit-category>
+<app-dialog-edit-category [display]="displayEditDialog"  (display)="displayDialogResults($event)" [category]="categoryToEdit"  ></app-dialog-edit-category> 
 
 <!-- ------------- [Dialog - Confirm Delete] -------------- -->
 

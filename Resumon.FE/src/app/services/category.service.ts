@@ -12,11 +12,11 @@ import  'rxjs/add/observable/throw';
 import {TableModule} from 'primeng/table';
 
 /* App Classes & Services */
-import { AppError } from './../errors/app-error';
+import { AppError } from '../errors/app-error';
 import { AppConfigService } from './app-config.service';
 import { ResourceService } from './resource.service';
 import { AppErrorHandleService } from './error-handle.service';
-import { Category } from '../management/panels/mng-categories/category.model';
+import { Category } from '../management/category.model';
 
 @Injectable()
 export class CategoryService extends ResourceService<Category>  {
@@ -35,7 +35,7 @@ export class CategoryService extends ResourceService<Category>  {
   };
 
 
-  updae(category : Category) : Observable<Category> {
+  update(category : Category) : Observable<Category> {
 
       return this.http.put<Category>(this.url + "?id=" + category.CategoryID,
       category).map(

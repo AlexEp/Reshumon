@@ -1,0 +1,40 @@
+<p-dialog header="Category Details" [(visible)]="displayDialog" [responsive]="true"
+ showEffect="fade" [modal]="true" [width]="300" (onHide)="onHided()">
+
+
+  <form novalidate>
+
+      <div class="form-group row">
+        <label for="name"  class="col-sm-3 col-form-label">Name: </label>
+        <div class="col-sm-9" class="is-invalid">
+          <input class="form-control is-invalid"   #inputName="ngModel"
+                [ngClass]="{'is-invalid': !(inputName.valid), 'is-valid': inputName.valid }" id="name" name="name" 
+                [(ngModel)]="_category.Name" required />
+          <!-- <input type="text"  name="name" class="form-control " #inputName="ngModel" [(ngModel)]="_category.Name" required> -->
+          <small id="passwordHelpBlock"  class="invalid-feedback"  [ngClass]="{'d-invalid':!inputName.valid}">
+            This filed is requred
+          </small>
+          <!-- <span *ngIf="getFormName.invalid && getFormName.touched">invalid!!</span> -->
+        </div>
+      </div>
+   
+
+      <div class="form-group row">
+        <label for="isActive" class="col-sm-6 col-form-label">Is Active</label>
+        <div class="col-sm-3">
+          <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="_category.IsActive" />
+        </div>
+      </div>
+
+
+
+
+  </form>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-close" (click)="clickedCancel()" label="Cancel"></button>
+      <button pButton icon="fa fa-check" (click)="clickedOk()" [label]="isNewCategory()? 'Create' : 'Save'"></button>
+    </div>
+  </p-footer>
+</p-dialog>
