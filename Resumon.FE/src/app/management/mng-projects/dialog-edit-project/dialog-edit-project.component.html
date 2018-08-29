@@ -17,11 +17,12 @@
         </div>
       </div>
    
-      <div class="form-group row">
-        <label for="name"  class="col-sm-3 col-form-label">Name: </label>
+      
+      <div class="form-group row" #categ >
+        <label for="name"  class="col-sm-3 col-form-label">Name:   **{{_project.CategoryID}}**  </label>
         <div class="col-sm-9" class="is-invalid">
-          <select  (ngModel)="project.CategoryID">
-            <option *ngFor="let category of categories" [ngValue]="category.categoryID">
+          <select  [(ngModel)]="_project.CategoryID" name="category">
+            <option *ngFor="let category of categories" [ngValue]="category.CategoryID">
                 {{category.Name}}
             </option>
            </select>
@@ -43,8 +44,7 @@
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
       <button type="button" pButton icon="fa fa-close" (click)="clickedCancel()" label="Cancel"></button>
-      <button *ngIf="!isNewCategory()" type="button" pButton icon="fa fa-check" (click)="clickedOk()" label="Save"></button>
-      <button *ngIf="isNewCategory()" type="button" pButton icon="fa fa-check" (click)="create()" label="Create"></button>
+      <button pButton icon="fa fa-check" (click)="clickedOk()" [label]="isNewCategory()? 'Create' : 'Save'"></button>
     </div>
   </p-footer>
 </p-dialog>

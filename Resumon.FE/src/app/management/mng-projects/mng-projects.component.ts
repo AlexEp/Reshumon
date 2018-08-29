@@ -22,6 +22,7 @@ export class MngProjectsComponent implements OnInit {
   projects : Project[];
   projectToEdit : Project;
   displayEditDialog : boolean = false;
+  displayConfirmDeleteDialog  : boolean = false;
 
   constructor(
     private projectsService : ProjectsService,
@@ -38,8 +39,6 @@ export class MngProjectsComponent implements OnInit {
         this.categoryService.getAll().subscribe(
           response => this.categories = response
         );
-
-        
   }
 
   //Edit
@@ -54,22 +53,49 @@ export class MngProjectsComponent implements OnInit {
     this.displayEditDialog = true;
   }
 
+  onDeleteClicked(project : Project){
+    this.projectToEdit = _.cloneDeep(project);
+    this.displayConfirmDeleteDialog = true;
+  }
+
+
+
+  create(){
+    this.displayEditDialog = false;
+    this.projectsService.create(this.projectToEdit).subscribe(
+      replay => {
+        this.projects.push(replay);
+        this.showSuccess("");
+      }
+    );
+  }
+
+  delete(Project : Project){
+    this.displayConfirmDeleteDialog = false;
+    this.projectsService.delete(this.projectToEdit).subscribe(
+      replay => {
+        var index = this.projects.map(function(e) { return e.ProjectID; }).indexOf(this.projectToEdit.ProjectID);
+        this.projects.splice(index, 1); 
+        this.showSuccess("");
+      }
+    );
+  }
 
 
   displayDialogResults(result : DialogResult ){
     this.displayEditDialog = false;
 
-    if(this.projectToEdit.CategoryID > 0)  {
+    if(this.projectToEdit.ProjectID > 0)  {
       if((<DialogResult>result) == DialogResult.Ok){
         this.save();
       }
       else if((<DialogResult>result) == DialogResult.Cancel){
-      
+       
       }
     }
     else{
         if((<DialogResult>result) == DialogResult.Ok){
-
+            this.create();
         }
         else if((<DialogResult>result) == DialogResult.Cancel){
            this.showSuccess("");
@@ -81,7 +107,7 @@ export class MngProjectsComponent implements OnInit {
     this.displayEditDialog = false;
     this.projectsService.update(this.projectToEdit).subscribe(
       replay => {
-        var index = this.projects.map(function(e) { return e.CategoryID; }).indexOf(this.projectToEdit.CategoryID);
+        var index = this.projects.map(function(e) { return e.ProjectID; }).indexOf(this.projectToEdit.ProjectID);
 
         this.projects[index] = replay;
         this.showSuccess("");

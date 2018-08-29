@@ -1,3 +1,4 @@
+import { Category } from './../../category.model';
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Project } from '../../project.model';
 import { DialogResult } from '../../dialog.model';
@@ -11,6 +12,7 @@ export class DialogEditProjectComponent implements OnInit {
 
   displayEditDialog : boolean = false;
   private _project : Project;
+  selected: any = 4;
 
   @Output('display')
   displayEditDialogChange = new EventEmitter<DialogResult>();
@@ -33,12 +35,13 @@ export class DialogEditProjectComponent implements OnInit {
     }
   }
 
-  @Input('categories') categories;
+  @Input('categories') categories : Category[];
 
   constructor() { }
 
   ngOnInit() {
     this._project = new Project();
+
   }
 
   isNewCategory() {

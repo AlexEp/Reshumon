@@ -86,8 +86,7 @@ namespace Resumon.BE.Controllers
         public IHttpActionResult PostProjects([FromBody]Project Projects)
         {
             if (!ModelState.IsValid || 
-                Projects.Name == null ||
-                Projects.CategoryID < 1)
+                Projects.Name == null )
             {
                 return BadRequest(ModelState);
             }

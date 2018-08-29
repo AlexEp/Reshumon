@@ -23,7 +23,6 @@ namespace Reshumon.DAL.Repositories
         {
             return new DataBaseContext(this.ConnectionString);
         }
-
         public void Add(Category entity)
         {
             using (var Context = GetContext())
@@ -80,8 +79,8 @@ namespace Reshumon.DAL.Repositories
 
                 if (categoty != null)
                 {
-                    Context.Categories.Remove(categoty);
-                    Context.SaveChanges();
+                        Context.Categories.Remove(categoty);
+                        Context.SaveChanges();
                 }
             }
         }

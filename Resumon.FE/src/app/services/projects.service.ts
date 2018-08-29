@@ -37,7 +37,7 @@ export class ProjectsService extends ResourceService<any> {
 
   update(project : Project) : Observable<Project> {
 
-      return this.http.put<Project>(this.url + "?id=" + project.CategoryID,
+      return this.http.put<Project>(this.url + "?id=" + project.ProjectID,
       project).map(
         article => {
           return article;
@@ -48,7 +48,7 @@ export class ProjectsService extends ResourceService<any> {
     }
 
     delete(project : Project) : Observable<Project> {
-      return this.http.delete<Project>(this.url + "?id=" + project.CategoryID)
+      return this.http.delete<Project>(this.url + "?id=" + project.ProjectID)
           .map(
             response => {
               return response
@@ -60,7 +60,8 @@ export class ProjectsService extends ResourceService<any> {
     }
 
     create(project : Project) : Observable<Project> {
-      return this.http.post<Project>(this.url,project)
+    
+      return this.http.put<Project>(this.url,project)
           .map(
             response => {
               return response

@@ -20,6 +20,7 @@ namespace Reshumon.DAL.Repositories
             return new DataBaseContext(this.ConnectionString);
         }
 
+       
         public void Add(Project entity)
         {
             using (var Context = GetContext())
@@ -62,12 +63,31 @@ namespace Reshumon.DAL.Repositories
 
         public void Remove(int Id)
         {
-            throw new NotImplementedException();
+            using (var Context = GetContext())
+            {
+
+                var projects = Context.Projects.FirstOrDefault(c => c.ProjectID == Id);
+
+                if (projects != null)
+                {
+                    try
+                    {
+                        Context.Projects.Remove(projects);
+                        Context.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+                }
+            }
         }
 
         public void Remove(Project entit)
         {
-            throw new NotImplementedException();
+            Remove(entit.CategoryID);
         }
 
         public void RemoveRange(IEnumerable<Project> entitList)
