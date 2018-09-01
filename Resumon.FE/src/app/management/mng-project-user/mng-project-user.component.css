@@ -1,0 +1,23 @@
+.available-user,.selected-user{
+ 
+    border: 1px  solid rgba(19, 19, 19, 0.459)n;
+    margin: 4px;
+    border-radius: 5px;
+}
+
+.available-user{
+    background-color: azure;
+}
+.selected-user
+{
+   background-color: azure;
+}
+.available-user:hover,.selected-user:hover {
+  background-color: lemonchiffon
+}
+
+.column{
+    background-color: #b6b6b6fb;
+margin-bottom: 10px;
+
+}

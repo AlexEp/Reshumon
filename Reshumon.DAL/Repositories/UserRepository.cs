@@ -1,6 +1,7 @@
 ﻿using Reshumon.DAL.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,11 @@ namespace Reshumon.DAL.Repositories
 
         public void Edit(User entity)
         {
-            throw new NotImplementedException();
+            using (var Context = GetContext())
+            {
+                Context.Entry(entity).State = EntityState.Modified;
+                Context.SaveChanges();
+            }
         }
 
         public User Get(int Id)

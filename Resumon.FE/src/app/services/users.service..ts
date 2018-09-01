@@ -1,6 +1,7 @@
+
 import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 
 /* Rxjs */
 import { Observable } from 'rxjs/Observable';
@@ -8,26 +9,23 @@ import  'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import  'rxjs/add/observable/throw';
 
-
-import {TableModule} from 'primeng/table';
-
-/* App Classes & Services */
+/* App Classes */
 import { AppError } from '../errors/app-error';
 import { AppConfigService } from './app-config.service';
-
 import { AppErrorHandleService } from './error-handle.service';
-import { Category } from '../shared/category.model';
+import { User } from '../shared/user.model';
+
+
 
 @Injectable()
-export class CategoryService  {
+export class UsersService  {
 
   protected url : string
-  
   constructor( protected http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService) {
-    this.url = appConfig.getSiteURL() + "/api/categories";
+    this.url = appConfig.getSiteURL() + "/api/users";
   }
 
-  getAll() : Observable<Category[]> {
+  getAll() : Observable<User[]> {
     return this.http.get(this.url).map(
         (response : Response)=> response
     )
@@ -37,10 +35,10 @@ export class CategoryService  {
   };
 
 
-  update(category : Category) : Observable<Category> {
+  update(user : User) : Observable<User> {
 
-      return this.http.put<Category>(this.url + "?id=" + category.CategoryID,
-      category).map(
+      return this.http.put<User>(this.url + "?id=" + user.UserID,
+      user).map(
         article => {
           return article;
         },
@@ -49,8 +47,8 @@ export class CategoryService  {
         });
     }
 
-    delete(category : Category) : Observable<Category> {
-      return this.http.delete<Category>(this.url + "?id=" + category.CategoryID)
+    delete(user : User) : Observable<User> {
+      return this.http.delete<User>(this.url + "?id=" + user.UserID)
           .map(
             response => {
               return response
@@ -61,8 +59,9 @@ export class CategoryService  {
           })
     }
 
-    create(category : Category) : Observable<Category> {
-      return this.http.post<Category>(this.url,category)
+    create(user : User) : Observable<User> {
+    
+      return this.http.put<User>(this.url,user)
           .map(
             response => {
               return response

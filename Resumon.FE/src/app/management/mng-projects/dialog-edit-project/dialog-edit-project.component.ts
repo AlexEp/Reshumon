@@ -1,6 +1,6 @@
-import { Category } from './../../category.model';
+import { Category } from '../../../shared/category.model';
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { Project } from '../../project.model';
+import { Project } from '../../../shared/project.model';
 import { DialogResult } from '../../dialog.model';
 
 @Component({

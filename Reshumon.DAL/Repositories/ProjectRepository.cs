@@ -87,7 +87,7 @@ namespace Reshumon.DAL.Repositories
 
         public void Remove(Project entit)
         {
-            Remove(entit.CategoryID);
+            Remove(entit.ProjectID);
         }
 
         public void RemoveRange(IEnumerable<Project> entitList)

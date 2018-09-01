@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { CategoryService } from '../services/category.service';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AdminGuardService } from '../services/admin-guard.service';
+import { UsersService } from '../services/users.service.';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { AdminGuardService } from '../services/admin-guard.service';
     AppConfigService,
     ProjectsService,
     CategoryService,
-
+    UsersService,
+    
     AuthService,
 
     AuthGuardService,

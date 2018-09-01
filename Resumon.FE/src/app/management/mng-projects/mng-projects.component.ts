@@ -2,14 +2,14 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TranslateService } from 'ng2-translate';
-import { Category } from '../category.model';
+import { Category } from '../../shared/category.model';
 
 import _ = require('lodash');
 import { DialogResult } from '../dialog.model';
 import { ProjectsService } from '../../services/projects.service';
 import { CategoryService } from '../../services/category.service';
 import { MessagesService } from '../../services/messages.service';
-import { Project } from '../project.model';
+import { Project } from '../../shared/project.model';
 
 @Component({
   selector: 'app-mng-projects',
@@ -79,6 +79,11 @@ export class MngProjectsComponent implements OnInit {
         this.showSuccess("");
       }
     );
+  }
+
+  
+  cancelDelete(){
+    this.displayConfirmDeleteDialog = false;
   }
 
 

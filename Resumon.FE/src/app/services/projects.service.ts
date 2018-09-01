@@ -12,18 +12,21 @@ import  'rxjs/add/observable/throw';
 /* App Classes */
 import { AppError } from '../errors/app-error';
 import { AppConfigService } from './app-config.service';
-import { ResourceService } from './resource.service';
+
 import { AppErrorHandleService } from './error-handle.service';
-import { Project } from '../management/project.model';
+import { Project } from '../shared/project.model';
 
 
 
 @Injectable()
-export class ProjectsService extends ResourceService<any> {
+export class ProjectsService {
 
-  constructor( http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService) {
-    super(http,appConfig.getSiteURL() + "/api/projects");
+  protected url : string
+  
+  constructor( protected http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService) {
+    this.url = appConfig.getSiteURL() + "/api/projects";
   }
+
 
   getAll() : Observable<Project[]> {
     return this.http.get(this.url).map(

@@ -1,7 +1,8 @@
-import { Category } from '../../category.model';
+
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DialogResult } from '../../dialog.model';
+import { Category } from '../../../shared/category.model';
 
 @Component({
   selector: 'app-dialog-edit-category',

@@ -8,7 +8,7 @@ import * as _ from "lodash";
 
 
 
-import { Category } from '../category.model';
+import { Category } from '../../shared/category.model';
 import { CategoryService } from '../../services/category.service';
 import { MessagesService } from '../../services/messages.service';
 
