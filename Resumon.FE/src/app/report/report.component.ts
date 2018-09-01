@@ -21,7 +21,6 @@ export class ReportComponent implements OnInit {
     this.projectsService.getAll().subscribe(
       param => {
         let someparam = param;
-        debugger;
       }
     )
   }

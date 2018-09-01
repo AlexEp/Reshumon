@@ -1,26 +1,15 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>Navbar example</h1>
 
+    <p-tabView>
+      <p-tabPanel header="by-user">
+        <app-mng-project-user-by-user></app-mng-project-user-by-user>
+      </p-tabPanel>
+      <p-tabPanel header="by-project">
+        <app-mng-project-user-by-project></app-mng-project-user-by-project>
+      </p-tabPanel>
+    </p-tabView>
 
-  <main role="main" class="container">
-    <div class="jumbotron">
-      <h1>Navbar example</h1>
-     
-      <select [(ngModel)]="selectedValue">
-        <option *ngFor="let project of projects" [ngValue]="c">{{project.Name}}</option>
-      </select>
-
-      <div class="container">
-        <div class="row">
-          <div class="column col-sm-12 col-md-6"    (onDrop)="userDropBack($event)"    pDroppable="usersBack">
-            <div *ngFor="let user of availableUsers" class="available-user" style="height: 25px;cursor: -webkit-grab;" 
-            pDraggable="users"    (onDragStart)="userDragStart($event,user)" 
-           (onDragEnd)="userDragEnd($event)" (click)="userSelected(user)">
-            {{user.Name}} {{user.LastName}}</div>
-          </div>
-          <div class="column col-sm-12 col-md-6"  pDroppable="users"   (onDrop)="userDrop($event)"    >
-            <div *ngFor="let user of selectedUsers"   class="selected-user" (onDragStart)="userDragStart($event,user)" (onDragEnd)="userDragEnd($event)"  
-               pDraggable="usersBack"   (click)="userRemoved(user)" style="height: 25px">{{user.Name}} {{user.LastName}}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+  </div>
+</main>

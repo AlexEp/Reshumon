@@ -19,6 +19,7 @@ import {ToolbarModule} from 'primeng/toolbar';
 import {DialogModule} from 'primeng/dialog';
 import {GrowlModule} from 'primeng/growl';
 import {DragDropModule} from 'primeng/dragdrop';
+import { TabViewModule } from 'primeng/tabview';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -42,6 +43,10 @@ import { MngUsersComponent } from './management/mng-users/mng-users.component';
 import { MngCategoriesComponent } from './management/mng-categories/mng-categories.component';
 import { DialogEditProjectComponent } from './management/mng-projects/dialog-edit-project/dialog-edit-project.component';
 import { MngProjectUserComponent } from './management/mng-project-user/mng-project-user.component';
+
+import { MngProjectUserByProjectComponent } from './management/mng-project-user/mng-project-user-by-project/mng-project-user-by-project.component';
+import { MngProjectUserByUserComponent } from './management/mng-project-user/mng-project-user-by-user/mng-project-user-by-user.component';
+
 
 
 
@@ -77,6 +82,8 @@ const routesConfigs : Routes = [
     UserProfileComponent,
     DialogEditProjectComponent,
     MngProjectUserComponent,
+    MngProjectUserByProjectComponent,
+    MngProjectUserByUserComponent,
    
     
   ],
@@ -105,6 +112,7 @@ const routesConfigs : Routes = [
     DialogModule,
     GrowlModule,
     DragDropModule,
+    TabViewModule,
     
     NgbModule.forRoot()
   ],
