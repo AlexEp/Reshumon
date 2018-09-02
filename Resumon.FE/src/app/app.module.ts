@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 import {TranslateModule, TranslateLoader, TranslateStaticLoader} from 'ng2-translate';
 
@@ -113,8 +113,7 @@ const routesConfigs : Routes = [
     GrowlModule,
     DragDropModule,
     TabViewModule,
-    
-    NgbModule.forRoot()
+
   ],
   providers: [
 

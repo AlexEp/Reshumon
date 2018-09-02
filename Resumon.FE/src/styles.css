@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 body{
     background: #2b3549; /* Old browsers */
     background: -moz-linear-gradient(top, #2b3549 0%, #3f4c6b 100%); /* FF3.6-15 */

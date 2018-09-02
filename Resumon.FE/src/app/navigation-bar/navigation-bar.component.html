@@ -1,35 +1,43 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand" href="#">Reshumon</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <!-- <div class="collapse navbar-collapse" id="navbarTogglerDemo01"> -->
-      <div class="" id="navbarTogglerDemo01"> 
-    <a class="navbar-brand" routerLinkActive="active current" [routerLink]="['home']">Reshumon</a>
-    <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">Login</a>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0" *ngIf="isLogedIn()">
-      
-      <li ngbDropdown class="d-inline-block" >
-          <button class="btn btn-outline-primary" id="dropdown-reports" ngbDropdownToggle>{{translateWorld('reports') | translate}}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button class="dropdown-item" [routerLink]="['reports']">Action - 1</button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            {{translateWorld('reports') | translate}}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+           <button class="dropdown-item" [routerLink]="['reports']">Action - 1</button>
             <button class="dropdown-item" [routerLink]="['reports']">Another Action</button>
             <button class="dropdown-item" [routerLink]="['reports']">Something else is here</button>
           </div>
-     </li>
-     <li ngbDropdown class="d-inline-block">
-      <button class="btn btn-outline-primary" id="dropdown-managment" ngbDropdownToggle>{{translateWorld('managment') | translate}}</button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button class="dropdown-item" [routerLink]="['mng/users']">{{translateWorld('users') | translate}}</button>
-        <button class="dropdown-item" [routerLink]="['mng/categories']">{{translateWorld('categories') | translate}}</button>
-        <button class="dropdown-item" [routerLink]="['mng/projects']">{{translateWorld('projects') | translate}} </button>
-        <button class="dropdown-item" [routerLink]="['mng/projectsUsers']">{{translateWorld('projects users') | translate}} </button>
+        </li>
 
-     
-      </div>
-    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          {{translateWorld('managment') | translate}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['mng/users']">{{translateWorld('users') | translate}}</a>
+          <a class="dropdown-item" [routerLink]="['mng/categories']">{{translateWorld('categories') | translate}}</a>
+          <a class="dropdown-item" [routerLink]="['mng/projects']">{{translateWorld('projects') | translate}} </a>
+          <a class="dropdown-item" [routerLink]="['mng/projectsUsers']">{{translateWorld('projects users') | translate}} </a>
+        </div>
+      </li>
     </ul>
-
+    <form class="form-inline my-2 my-lg-0">
+        <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">Login</a>
+    </form>
   </div>
-  
 </nav>
-
