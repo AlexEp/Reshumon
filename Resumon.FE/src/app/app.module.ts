@@ -46,6 +46,7 @@ import { MngProjectUserComponent } from './management/mng-project-user/mng-proje
 
 import { MngProjectUserByProjectComponent } from './management/mng-project-user/mng-project-user-by-project/mng-project-user-by-project.component';
 import { MngProjectUserByUserComponent } from './management/mng-project-user/mng-project-user-by-user/mng-project-user-by-user.component';
+import { SelectUserCardComponent } from './shared/select-user-card/select-user-card.component';
 
 
 
@@ -84,6 +85,7 @@ const routesConfigs : Routes = [
     MngProjectUserComponent,
     MngProjectUserByProjectComponent,
     MngProjectUserByUserComponent,
+    SelectUserCardComponent,
    
     
   ],

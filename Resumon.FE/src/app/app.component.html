@@ -1,11 +1,12 @@
+<p-growl [value]="getMsg()">
 
+</p-growl>
 
-<p-growl [value]="getMsg()"></p-growl>
-
-<div class="warper"> 
+<div class="warper">
     <app-navigation-bar> </app-navigation-bar>
-    <main role="main" class="container">
-        <router-outlet></router-outlet>
-    </main><!-- /.container -->
- </div>
-
+    <div class="container">
+        <main role="main">
+            <router-outlet></router-outlet>
+        </main><!-- /.container -->
+    </div>
+</div>

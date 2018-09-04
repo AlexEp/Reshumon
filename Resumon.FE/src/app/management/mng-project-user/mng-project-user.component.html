@@ -1,15 +1,52 @@
-<main role="main" class="container">
-  <div class="jumbotron">
-    <h1>Navbar example</h1>
+<div class="row">
+  <div class="col-sm-12 col-md-9">
+      <div class="row toolbar-row" >
+          <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group btn-group-justified" role="group">
+              <div class="btn-group" role="group">
+                <button id="list" class="btn btn-primary" data-original-title="Refreshr"><i class="fa fa-refresh fa-lg" aria-hidden="true"></i></button>
+              </div>
+              <div class="btn-group" role="group">
+                <button id="new" class="btn btn-primary" data-original-title="New"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+              </div>
+              <div class="btn-group" role="group">
+                <button id="passreset" class="btn btn-primary" data-original-title="Password Reset"><i class="fa fa-key fa-lg" aria-hidden="true"></i></button>
+              </div>
+              <div class="btn-group" role="group">
+                <button id="desact" class="btn btn-primary" data-original-title="Deactivate"><i class="fa fa-low-vision fa-lg" aria-hidden="true"></i></button>
+              </div>
+              <div class="btn-group" role="group">
+                <button id="react" class="btn btn-primary disabled" data-original-title="Activate"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></button>
+              </div>
+              <div class="btn-group" role="group">
+                <button id="delete" class="btn btn-warning" data-original-title="Delete"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></button>
+              </div>
+              </div>
+            </div>
+  
+      </div>
 
-    <p-tabView>
-      <p-tabPanel header="by-user">
-        <app-mng-project-user-by-user></app-mng-project-user-by-user>
-      </p-tabPanel>
-      <p-tabPanel header="by-project">
-        <app-mng-project-user-by-project></app-mng-project-user-by-project>
-      </p-tabPanel>
-    </p-tabView>
+    <app-mng-project-user-by-project></app-mng-project-user-by-project>
+  </div>
+  <div class="col-sm-12 col-md-3">
+    <div class="row ">
+        <div class="list-group option-bar">
+            <span  class="list-group-item option-header">
+                options
+                <span class="pull-right" id="slide-submenu">
+                    <i class="fa fa-times"></i>
+                </span>
+            </span>
+            <a  class="list-group-item">
+                <i class="fa fa-comment-o"></i> by User
+            </a>
+            <a  class="list-group-item">
+                <i class="fa fa-search"></i> By Project
+            </a>
+
+        </div>   
+
+    </div>
 
   </div>
-</main>
+</div>
