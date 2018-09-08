@@ -8,7 +8,10 @@
 } */
 
 
-
+.fa {
+    margin: 0 3px;
+    color: #5695aa;
+}
 
 .navbar-default{
  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f5f6+0,e3eaed+70,c8d7dc+100 */

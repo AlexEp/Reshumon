@@ -5,7 +5,7 @@ import { User } from '../../../shared/user.model';
 import { TranslateService } from 'ng2-translate';
 import { MessagesService } from '../../../services/messages.service';
 import { CategoryService } from '../../../services/category.service';
-import { UsersService } from '../../../services/users.service.';
+import { UsersService } from '../../../services/users.service';
 import { ProjectsService } from '../../../services/projects.service';
 import _ = require('lodash');
 

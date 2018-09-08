@@ -13,9 +13,9 @@ export class AppComponent {
   posts = [];
 
   constructor(private  auth : AuthService, private messagesService : MessagesService,private translate: TranslateService) { 
-    translate.addLangs(["en", "he"]);
-    translate.setDefaultLang('he');
-     translate.use( 'he');
+    translate.addLangs(["eng", "he"]);
+    translate.setDefaultLang('eng');
+     translate.use( 'eng');
     // let browserLang = translate.getBrowserLang();
     // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
     auth.handleAuthentication();

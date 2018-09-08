@@ -18,8 +18,41 @@ body{
 }
 
 /*option bar*/
-
+.option-bar {
+    width: 100%;
+}
 .option-header{
     background-color: #dee5a6;
     font-weight: bold;
+}
+
+.option-bar .list-group-item:not(:first-child){
+    text-align: left;
+}
+.option-bar .list-group-item:not(:first-child):hover{
+    background-color:#c9ecd8;
+    cursor: pointer;
+   
+}
+
+
+/*nav*/
+.nav-link {
+    border-radius: 5px;
+    margin: 0 0.25em;
+    background-color:#f1f1f1;
+    border: 1px solid #f0f0f0;
+}
+
+
+.nav-link.active,.dropdown-item.active {
+    background-color:#8adaad;
+    color: aliceblue;
+}
+
+
+
+.nav-link:hover,.dropdown-item:hover{
+    background-color:#c9ecd8;
+    border: 1px solid #8adaad;
 }

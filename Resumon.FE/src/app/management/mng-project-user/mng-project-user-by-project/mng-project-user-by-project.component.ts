@@ -5,16 +5,20 @@ import { User } from '../../../shared/user.model';
 import { TranslateService } from 'ng2-translate';
 import { MessagesService } from '../../../services/messages.service';
 import { CategoryService } from '../../../services/category.service';
-import { UsersService } from '../../../services/users.service.';
+import { UsersService } from '../../../services/users.service';
 import { ProjectsService } from '../../../services/projects.service';
 import _ = require('lodash');
+import { CanComponentDeactivate } from '../../../services/can-deactivate-guard.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-mng-project-user-by-project',
   templateUrl: './mng-project-user-by-project.component.html',
   styleUrls: ['./mng-project-user-by-project.component.css']
 })
-export class MngProjectUserByProjectComponent implements OnInit {
+export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeactivate {
+  
+
 
   categories: Category[];
   projects: Project[];
@@ -85,5 +89,7 @@ export class MngProjectUserByProjectComponent implements OnInit {
     this.selectedUsers = this.selectedUsers.filter((val, i) => val.UserID != user.UserID);
   }
 
-
+  canDeactivate(){
+    return confirm("do you wont to exit ?")
+  };
 }

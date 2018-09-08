@@ -1,0 +1,34 @@
+{
+    "options":{
+        "direction" : "ltr"
+    },
+    "dictionery":{
+        "pages" :{
+            "navigation":{
+                "users" : "users",
+                "categories" : "categories",
+                "projects" : "projects",
+                "managment" : "managment",
+                "reports" : "reports"
+            },
+            "mng-categories":
+            {
+                "new" : "חדש",
+                "category": "קטגוריה",
+                "name": "שם",
+                "categories managment" : "ניהול קטגריות",
+                "active" : "פעיל"
+            },
+            "mng-projects" : {
+                "new" : "חדש",
+                "category": "קטגוריה",
+                "project": "פרויקט",
+                "name": "שם",
+                "projects managment" : "ניהול פרויקטים",
+                "active" : "פעיל"
+            }
+            
+        }
+    }
+
+}

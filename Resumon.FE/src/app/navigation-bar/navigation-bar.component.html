@@ -11,32 +11,36 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['home']">Home</a>
+      <li class="nav-item ">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['home']"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
       </li>
+
+      <li class="nav-item ">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['home']"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Daily Activity</a>
+        </li>
 
       <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
-            {{translateWorld('reports') | translate}}
+            <i class="fa fa-bar-chart" aria-hidden="true"></i> {{translateWorld('reports') | translate}}
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-           <button class="dropdown-item" [routerLink]="['reports']">Action - 1</button>
-            <button class="dropdown-item" [routerLink]="['reports']">Another Action</button>
-            <button class="dropdown-item" [routerLink]="['reports']">Something else is here</button>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+           <button class="dropdown-item"  routerLinkActive="active" [routerLink]="['reports/byproject']">Action - 1</button>
+            <button class="dropdown-item" routerLinkActive="active" [routerLink]="['reports/byproject']">Another Action</button>
+            <button class="dropdown-item" routerLinkActive="active" [routerLink]="['reports/byproject']">Something else is here</button>
           </div>
         </li>
 
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
-          {{translateWorld('managment') | translate}}
+          <i class="fa fa-cogs" aria-hidden="true"></i> {{translateWorld('managment') | translate}}
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['mng/users']">{{translateWorld('users') | translate}}</a>
-          <a class="dropdown-item" [routerLink]="['mng/categories']">{{translateWorld('categories') | translate}}</a>
-          <a class="dropdown-item" [routerLink]="['mng/projects']">{{translateWorld('projects') | translate}} </a>
-          <a class="dropdown-item" [routerLink]="['mng/projectsUsers']">{{translateWorld('projects users') | translate}} </a>
+        <div class="dropdown-menu" routerLinkActive="active"  aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']">{{translateWorld('users') | translate}}</a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']">{{translateWorld('categories') | translate}}</a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']">{{translateWorld('projects') | translate}} </a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']">{{translateWorld('projects users') | translate}} </a>
         </div>
       </li>
     </ul>
