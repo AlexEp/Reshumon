@@ -22,15 +22,23 @@ body{
     width: 100%;
 }
 .option-header{
-    background-color: #dee5a6;
+    background-color: #89bef7;
     font-weight: bold;
 }
 
 .option-bar .list-group-item:not(:first-child){
     text-align: left;
+    height: 40px;
 }
+
+.option-bar .list-group-item:not(:first-child).active{
+   background-color: #ebebeb;
+   color: #3f4c6b;
+   border: 1px solid #3f4c6b;
+}
+
 .option-bar .list-group-item:not(:first-child):hover{
-    background-color:#c9ecd8;
+    background-color:#cacaca;
     cursor: pointer;
    
 }

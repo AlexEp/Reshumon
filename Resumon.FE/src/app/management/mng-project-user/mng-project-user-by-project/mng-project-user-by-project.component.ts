@@ -18,12 +18,10 @@ import { Observable } from 'rxjs';
 })
 export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeactivate {
   
-
-
   categories: Category[];
   projects: Project[];
   users: User[];
-
+  isDataChanged : boolean = false;
 
   usersIn: User[];
   draggedEUser: User;
@@ -77,19 +75,35 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
 
   userDragEnd(event) {
     this.draggedEUser = null;
+
   }
 
   userSelected(user : User) {
     this.selectedUsers.push(user);
     this.availableUsers = this.availableUsers.filter((val, i) => val.UserID != user.UserID);
+    this.isDataChanged = true;
   }
 
   userRemoved(user : User) {
     this.availableUsers.push(user);
     this.selectedUsers = this.selectedUsers.filter((val, i) => val.UserID != user.UserID);
+    this.isDataChanged = true;
   }
 
   canDeactivate(){
-    return confirm("do you wont to exit ?")
+    if(this.isDataChanged)    {
+      return confirm("do you wont to exit ?")
+    }
+    return true;
   };
+
+  onClear(){
+     //todo:
+  }
+  onSave(){
+    //todo:
+    this.isDataChanged = false;
+  }
+
+  
 }

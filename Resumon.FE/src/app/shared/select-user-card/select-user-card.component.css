@@ -1,17 +1,9 @@
 .profile-card{
-   display: grid ;
-   grid-template-columns: 72px 1fr 3fr;
-   grid-template-rows: 36px  36px  ;
-   grid-template-areas: 
-   "pic name-l name-t "
-   "pic lastname-l  lastname-t";
-   grid-column-gap:3px;
-    grid-row-gap:3px;
-
-   background-color: darkseagreen;
-   padding: 5px;
+   width: 200px;
+   height:  47px;
    border-radius: 10px;
-   border: 1px dotted blue;
+   background-color: floralwhite;
+   border: 1px solid rgb(1, 77, 26);
   
 }
 
@@ -20,19 +12,5 @@
 }
 
 .profile-pic img {
-    max-width: 65px;
+    max-height: 40px;
 }
-.item-name-l {
-  grid-area: name-l;
-  text-align: left;
-}
-.item-name-t {
-    grid-area: name-t;
-  }
-  .item-lastname-l {
-    grid-area: lastname-l;
-    text-align: left;
-  }
-  .item-lastname-t {
-    grid-area: lastname-t;
-  }

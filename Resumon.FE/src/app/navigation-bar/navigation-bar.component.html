@@ -16,7 +16,7 @@
       </li>
 
       <li class="nav-item ">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['home']"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Daily Activity</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['daily-activity']"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>{{translateWorld('daily activity') | translate}} </a>
         </li>
 
       <li class="nav-item dropdown">
@@ -45,7 +45,8 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-        <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">Login</a>
+        <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>Login</a>
     </form>
   </div>
 </nav>

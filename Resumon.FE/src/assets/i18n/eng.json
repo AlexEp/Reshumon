@@ -9,15 +9,16 @@
                 "categories" : "categories",
                 "projects" : "projects",
                 "managment" : "managment",
-                "reports" : "reports"
+                "reports" : "reports",
+                "projects users" : "projects & users"
             },
             "mng-categories":
             {
-                "new" : "חדש",
-                "category": "קטגוריה",
+                "new" : "new",
+                "category": "category",
                 "name": "שם",
                 "categories managment" : "ניהול קטגריות",
-                "active" : "פעיל"
+                "active" : "active"
             },
             "mng-projects" : {
                 "new" : "חדש",

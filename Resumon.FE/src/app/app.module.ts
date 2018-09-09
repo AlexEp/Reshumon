@@ -50,6 +50,7 @@ import { MngProjectUserByUserComponent } from './management/mng-project-user/mng
 import { SelectUserCardComponent } from './shared/select-user-card/select-user-card.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MngComponent } from './management/mng/mng.component';
+import { DailyActivityComponent } from './daily-activity/daily-activity.component';
 
 
 
@@ -60,6 +61,8 @@ const routesConfigs: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: TimeRegistrationComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'daily-activity', component: DailyActivityComponent, canActivate: [AuthGuardService] },
+  
   {
     path: 'reports', component: ReportComponent, canActivate: [AuthGuardService],
     children: [
@@ -105,13 +108,14 @@ const routesConfigs: Routes = [
     MngCategoriesComponent,
     DialogEditCategoryComponent,
     UserProfileComponent,
-    DialogEditProjectComponent,
+        DialogEditProjectComponent,
     MngProjectUserComponent,
     MngProjectUserByProjectComponent,
     MngProjectUserByUserComponent,
     SelectUserCardComponent,
     PageNotFoundComponent,
-    MngComponent
+    MngComponent,
+    DailyActivityComponent
 
   ],
   imports: [
