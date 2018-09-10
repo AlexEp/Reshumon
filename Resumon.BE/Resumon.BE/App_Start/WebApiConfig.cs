@@ -16,8 +16,7 @@ namespace Reshumon.BE
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+          
 
             // Force to ignore Request Content Type Header and reply only JSON
             config.Formatters.Clear();
@@ -27,6 +26,9 @@ namespace Reshumon.BE
 
             //GlobalConfiguration.Configuration.Formatters.XmlFormatter.MediaTypeMappings.Add(
             //    new QueryStringMapping("type", "xml", new MediaTypeHeaderValue("application/xml")));
+
+            // Web API routes
+            config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

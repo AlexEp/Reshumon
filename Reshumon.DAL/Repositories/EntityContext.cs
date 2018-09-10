@@ -29,13 +29,16 @@ namespace Reshumon.DAL.Repositories
             this.Users = new UserRepository(connectionString);
             this.Categories = new CategoryRepository(connectionString);
             this.Projects = new ProjectRepository(connectionString);
+            this.DailyActivity = new DailyActivityRepository(connectionString);
+            this.UserProject = new UserProjectRepository(connectionString);
 
         }
 
         public IUserRepository Users { get; set; }
         public ICategoryRepository Categories { get; set; }
         public IProjectRepository Projects { get; set; }
-     
+        public IDailyActivityRepository DailyActivity { get; }
+        public IUserProjectRepository UserProject { get; }
     }
 
 }

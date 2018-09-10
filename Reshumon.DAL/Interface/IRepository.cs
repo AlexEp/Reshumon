@@ -32,6 +32,13 @@ namespace Reshumon.DAL
     {
     }
 
+    public interface IDailyActivityRepository : IGenericRepository<DailyActivity>
+    {
+    }
 
-} 
+    public interface IUserProjectRepository : IGenericRepository<UserProject>
+    {
+    }
+
+}
 

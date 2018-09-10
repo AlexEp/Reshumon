@@ -16,6 +16,8 @@ namespace Reshumon.DAL.DTO
         public DbSet<Project> Projects { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserProject> UserProject { get; set; }
+        public DbSet<DailyActivity> DailyActivity { get; set; }
     }
 
 }
