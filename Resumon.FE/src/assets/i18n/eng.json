@@ -10,23 +10,24 @@
                 "projects" : "projects",
                 "managment" : "managment",
                 "reports" : "reports",
-                "projects users" : "projects & users"
+                "projects users" : "projects & users",
+                "daily activity" : "daily activity"
             },
             "mng-categories":
             {
                 "new" : "new",
                 "category": "category",
-                "name": "שם",
-                "categories managment" : "ניהול קטגריות",
+                "name": "name",
+                "categories managment" : "categories managment",
                 "active" : "active"
             },
             "mng-projects" : {
-                "new" : "חדש",
-                "category": "קטגוריה",
-                "project": "פרויקט",
-                "name": "שם",
-                "projects managment" : "ניהול פרויקטים",
-                "active" : "פעיל"
+                "new" : "new",
+                "category": "category",
+                "project": "project",
+                "name": "name",
+                "projects managment" : "projects managment",
+                "active" : "active"
             }
             
         }

@@ -21,6 +21,7 @@ import { DialogModule } from 'primeng/dialog';
 import { GrowlModule } from 'primeng/growl';
 import { DragDropModule } from 'primeng/dragdrop';
 import { TabViewModule } from 'primeng/tabview';
+import {ToastModule} from 'primeng/toast';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -51,6 +52,8 @@ import { SelectUserCardComponent } from './shared/select-user-card/select-user-c
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MngComponent } from './management/mng/mng.component';
 import { DailyActivityComponent } from './daily-activity/daily-activity.component';
+import { AnimatedLoadingComponent } from './shared/animated-loading/animated-loading.component';
+
 
 
 
@@ -108,14 +111,15 @@ const routesConfigs: Routes = [
     MngCategoriesComponent,
     DialogEditCategoryComponent,
     UserProfileComponent,
-        DialogEditProjectComponent,
+    DialogEditProjectComponent,
     MngProjectUserComponent,
     MngProjectUserByProjectComponent,
     MngProjectUserByUserComponent,
     SelectUserCardComponent,
     PageNotFoundComponent,
     MngComponent,
-    DailyActivityComponent
+    DailyActivityComponent,
+    AnimatedLoadingComponent
 
   ],
   imports: [
@@ -142,6 +146,7 @@ const routesConfigs: Routes = [
     ToolbarModule,
     DialogModule,
     GrowlModule,
+    ToastModule,
     DragDropModule,
     TabViewModule,
 

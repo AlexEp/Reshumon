@@ -1,19 +1,72 @@
-<select [(ngModel)]="selectedValue">
-  <option *ngFor="let user of users" [ngValue]="c">{{user.Name}}</option>
-</select>
+<div *ngIf="isDataReady; else elseBlock">
 
-<div class="container">
-  <div class="row">
-    <div class="column col-sm-12 col-md-6"    (onDrop)="userDropBack($event)"    pDroppable="usersBack">
-      <div *ngFor="let project of availableProject" class="available-project" style="height: 25px;cursor: -webkit-grab;" 
-      pDraggable="project"    (onDragStart)="userDragStart($event,project)" 
-     (onDragEnd)="userDragEnd($event)" (click)="userSelected(project)">
-      {{project.Name}}</div>
-    </div>
-    <div class="column col-sm-12 col-md-6"  pDroppable="users"   (onDrop)="userDrop($event)"    >
-      <div *ngFor="let project of selectedProject"   class="selected-project" (onDragStart)="userDragStart($event,project)"
-       (onDragEnd)="userDragEnd($event)"  
-         pDraggable="usersBack"   (click)="userRemoved(project)" style="height: 25px">{{project.Name}}</div>
-    </div>
-  </div>
+    <div class="row toolbar-row">
+        <div class="card btn-toolbar" >
+                  <div class="card-body ">
+                
+                      <div class="form-row align-items-center">
+                          <div class="col-sm-3 my-1">
+                              <button id="list "   [ngClass]="{ 'btn-warning' : isDataChanged , 'btn-secondary' : !isDataChanged }" class="btn btn-warning " data-original-title="Clear " [disabled]="!isDataChanged"(click)="onRevert() ">
+                                  <i class="fa fa-undo" aria-hidden="true " ></i>Revert</button>
+                          </div>
+                          <div class="col-sm-3 my-1">
+                              <button id="list " class="btn " data-original-title="Save "
+                              [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }" [disabled]="!isDataChanged" (click)="onSave() ">
+                                <i class="fa fa-cloud-upload " aria-hidden="true "  ></i>Save</button>
+                          </div>
+                          <div class="col-auto my-1">
+                              <select  class="custom-select " 
+                              [ngModel]="selectedUser" (ngModelChange)="onSelectionChanged($event)" 
+                               name="Select name" > 
+                                  <option *ngFor="let user of users" 
+                                  [ngValue]="user"  >{{user.Name}}</option>
+                                </select>
+                          </div>
+                        </div>
+      
+                  </div>
+          </div> 
+        </div>
+      
+      
+      <div class="row ">
+        <div class="col-sm-12 col-md-6 ">
+          <div class="card ">
+            <div class="card-header ">
+              Available Projects
+            </div>
+            <div class="card-body " (onDrop)="userDropBack($event) " pDroppable="usersBack ">
+                <div *ngFor="let project of availableProject" class="available-project" style="height: 25px;cursor: -webkit-grab;" 
+                pDraggable="project"    (onDragStart)="userDragStart($event,project)" 
+               (onDragEnd)="userDragEnd($event)" (click)="userSelected(project)">
+                {{project.Name}}</div>
+            </div>
+          </div>
+        </div>
+        <div class=" col-sm-12 col-md-6 ">
+          <div class="card ">
+            <div class="card-header ">
+               Selected Projects
+            </div>
+            <div class="card-body " pDroppable="users " (onDrop)="userDrop($event) ">
+                <div class="column col-sm-12 col-md-6"  pDroppable="users"   (onDrop)="userDrop($event)"    >
+                    <div *ngFor="let project of selectedProject"   class="selected-project" (onDragStart)="userDragStart($event,project)"
+                     (onDragEnd)="userDragEnd($event)"  
+                       pDraggable="usersBack"   (click)="userRemoved(project)" style="height: 25px">{{project.Name}}</div>
+                  </div>
+      
+            </div>
+          </div>
+        </div>
+      </div>
+
 </div>
+
+
+
+<ng-template #elseBlock>
+    <app-animated-loading></app-animated-loading>
+</ng-template>
+
+
+

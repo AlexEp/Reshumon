@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import {TabViewModule} from 'primeng/tabview';
+import { UsersProjectService } from '../../services/user-project.service';
 
 
 @Component({
@@ -9,7 +10,12 @@ import {TabViewModule} from 'primeng/tabview';
   styleUrls: ['./mng-project-user.component.css']
 })
 export class MngProjectUserComponent implements OnInit {
+
+  
+  constructor() { }
+
   ngOnInit(): void {
    
+
   }
 }

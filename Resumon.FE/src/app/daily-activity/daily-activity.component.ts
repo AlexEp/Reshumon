@@ -1,4 +1,6 @@
+import { DailyActivity } from './../shared/daily-activity.model';
 import { Component, OnInit } from '@angular/core';
+import { DailyActivityService } from '../services/daily-activity.service';
 
 @Component({
   selector: 'app-daily-activity',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./daily-activity.component.css']
 })
 export class DailyActivityComponent implements OnInit {
+  dailyActivity : DailyActivity[];
 
-  constructor() { }
+  constructor(private dailyActivityService : DailyActivityService) { }
 
   ngOnInit() {
+    this.dailyActivityService.getAll().subscribe(
+      r => this.dailyActivity = r
+    );
+
   }
 
 }
