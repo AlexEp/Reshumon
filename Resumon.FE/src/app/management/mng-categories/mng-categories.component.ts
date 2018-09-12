@@ -1,8 +1,9 @@
+
 import { DialogResult } from '../dialog.model';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 
-import { FormGroup, FormControl, FormArray, NgForm, Validators, PatternValidator } from '@angular/forms';
+
 import { TranslateService } from 'ng2-translate';
 import * as _ from "lodash";
 
@@ -10,7 +11,7 @@ import * as _ from "lodash";
 
 import { Category } from '../../shared/category.model';
 import { CategoryService } from '../../services/category.service';
-import { MessagesService } from '../../services/messages.service';
+import { MessagesService, MsgType } from '../../services/messages.service';
 
 
 
@@ -25,8 +26,9 @@ export class MngCategoriesComponent implements OnInit {
 
   displayEditDialog = false;
   displayConfirmDeleteDialog= false;
-
-  
+  isDataReady = false;
+  isDataLodingFailed = false;
+  failedLoadingMsg = "";
 
   constructor(
     private categoryService : CategoryService,
@@ -38,7 +40,11 @@ export class MngCategoriesComponent implements OnInit {
   ngOnInit() {
     //Load  data
     this.categoryService.getAll().subscribe(
-      response => this.categories = response
+      response => {this.categories = response;
+        this.isDataReady = true;},
+      e => {
+        this.messagesService.setMsg(e,MsgType.error); 
+         this.isDataLodingFailed = true;},
     );
   }
 
@@ -133,4 +139,18 @@ export class MngCategoriesComponent implements OnInit {
     return path ? path + world : 'dictionery.pages.mng-categories.' + world
   }
   
+}
+
+@Pipe({
+  name: 'filterCategories'
+})
+export class FilterCategories implements PipeTransform {
+  transform(items: Category[], searchText: string): any[] {
+    if(!items) return [];
+    if(!searchText) return items;
+searchText = searchText.toLowerCase();
+return items.filter( it => {
+      return it.Name.toLowerCase().includes(searchText);
+    });
+   }
 }

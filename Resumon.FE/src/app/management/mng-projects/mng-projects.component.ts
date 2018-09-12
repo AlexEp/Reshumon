@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 
 import { TranslateService } from 'ng2-translate';
 import { Category } from '../../shared/category.model';
@@ -8,13 +8,15 @@ import _ = require('lodash');
 import { DialogResult } from '../dialog.model';
 import { ProjectsService } from '../../services/projects.service';
 import { CategoryService } from '../../services/category.service';
-import { MessagesService } from '../../services/messages.service';
+import { MessagesService, MsgType } from '../../services/messages.service';
 import { Project } from '../../shared/project.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-mng-projects',
   templateUrl: './mng-projects.component.html',
-  styleUrls: ['./mng-projects.component.css']
+  styleUrls: ['./mng-projects.component.css'],
+
 })
 export class MngProjectsComponent implements OnInit {
 
@@ -24,6 +26,10 @@ export class MngProjectsComponent implements OnInit {
   displayEditDialog : boolean = false;
   displayConfirmDeleteDialog  : boolean = false;
 
+  isDataReady = false;
+  isDataLodingFailed = false;
+  failedLoadingMsg = "";
+
   constructor(
     private projectsService : ProjectsService,
     private categoryService : CategoryService,
@@ -32,13 +38,26 @@ export class MngProjectsComponent implements OnInit {
 
   ngOnInit() {
         //Load  data
-        this.projectsService.getAll().subscribe(
-          response => this.projects = response
-        );
 
-        this.categoryService.getAll().subscribe(
-          response => this.categories = response
-        );
+        Observable.forkJoin(
+          this.projectsService.getAll(),
+          this.categoryService.getAll(),
+
+        ).subscribe( 
+            r => {
+    
+              //load from replay
+              this.projects = r[0]; 
+              this.categories = r[1]; 
+
+              this.isDataReady = true;
+    
+            },
+            e => {
+              this.messagesService.setMsg(e,MsgType.error); 
+               this.isDataLodingFailed = true;},
+            () => console.log('onCompleted')
+        )
   }
 
   //Edit
@@ -128,4 +147,19 @@ export class MngProjectsComponent implements OnInit {
   translateWorld(world,path){
     return path ? path + world : 'dictionery.pages.mng-projects.' + world
   }
+}
+
+
+@Pipe({
+  name: 'filterProjects'
+})
+export class FilterProjects implements PipeTransform {
+  transform(items: Project[], searchText: string): any[] {
+    if(!items) return [];
+    if(!searchText) return items;
+searchText = searchText.toLowerCase();
+return items.filter( it => {
+      return it.Name.toLowerCase().includes(searchText);
+    });
+   }
 }

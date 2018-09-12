@@ -21,9 +21,7 @@ export class AppComponent {
     auth.handleAuthentication();
   }
 
-  getMsg(){
-    return this.messagesService.getMsg();
-  }
+
 
 
 }

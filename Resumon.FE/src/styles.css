@@ -64,3 +64,8 @@ body{
     background-color:#c9ecd8;
     border: 1px solid #8adaad;
 }
+
+/*button*/
+button i{
+    margin: 0 5px;
+}

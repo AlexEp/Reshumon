@@ -7,3 +7,18 @@
     color: aliceblue;
 }
 
+.row {
+    margin: 15px 0;
+}
+
+
+.name {
+    width: 50%;
+}
+.active{
+    width: 40%;
+}
+
+th.ui-p-6,  td.ui-p-6,{
+    width: 10%;
+}

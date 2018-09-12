@@ -19,4 +19,8 @@ export class DailyActivityComponent implements OnInit {
 
   }
 
+  translateWorld(world,path){
+    return path ? path + world : 'dictionery.pages.daily-activity.' + world
+  }
+
 }

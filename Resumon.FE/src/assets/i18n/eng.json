@@ -5,13 +5,13 @@
     "dictionery":{
         "pages" :{
             "navigation":{
-                "users" : "users",
-                "categories" : "categories",
-                "projects" : "projects",
-                "managment" : "managment",
-                "reports" : "reports",
-                "projects users" : "projects & users",
-                "daily activity" : "daily activity"
+                "users" : "Users",
+                "categories" : "Categories",
+                "projects" : "Projects",
+                "managment" : "Managment",
+                "reports" : "Reports",
+                "projects users" : "Projects & Users",
+                "daily activity" : "Daily Activity"
             },
             "mng-categories":
             {
@@ -19,7 +19,11 @@
                 "category": "category",
                 "name": "name",
                 "categories managment" : "categories managment",
-                "active" : "active"
+                "active" : "active",
+                "save" : "save",
+                "edit" : "edit",
+                "revert":"revert"
+            
             },
             "mng-projects" : {
                 "new" : "new",
@@ -27,7 +31,16 @@
                 "project": "project",
                 "name": "name",
                 "projects managment" : "projects managment",
-                "active" : "active"
+                "active" : "active",
+                "edit" : "edit",
+                "save" : "save",
+                "revert":"revert"
+            },
+            "daily-activity":{
+                "edit" : "edit",
+                "save" : "save",
+                "new" : "new",
+                "revert":"revert"
             }
             
         }

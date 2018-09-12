@@ -1,12 +1,12 @@
-<p-growl [value]="getMsg()">
-
-</p-growl>
 
 <div class="warper">
     <app-navigation-bar> </app-navigation-bar>
     <div class="container-fluid">
+         
         <main role="main">
+                <p-toast key="global-toas" [style]="{marginTop: '80px'}"></p-toast>
             <router-outlet></router-outlet>
         </main><!-- /.container -->
     </div>
 </div>
+

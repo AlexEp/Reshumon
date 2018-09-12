@@ -1,5 +1,5 @@
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
-import { MessagesService } from './services/messages.service';
+
 
 
 
@@ -10,8 +10,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-
-
+import { MessageService as ToasMessageService  } from 'primeng/components/common/messageservice';
+import { MessagesService } from './services/messages.service';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 import { CalendarModule } from 'primeng/calendar';
@@ -40,9 +40,9 @@ import { AdminGuardService } from './services/admin-guard.service';
 import { AuthModule, AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { DialogEditCategoryComponent } from './management/mng-categories/dialog-edit-category/dialog-edit-category.component';
-import { MngProjectsComponent } from './management/mng-projects/mng-projects.component';
+import { MngProjectsComponent, FilterProjects } from './management/mng-projects/mng-projects.component';
 import { MngUsersComponent } from './management/mng-users/mng-users.component';
-import { MngCategoriesComponent } from './management/mng-categories/mng-categories.component';
+import { MngCategoriesComponent, FilterCategories } from './management/mng-categories/mng-categories.component';
 import { DialogEditProjectComponent } from './management/mng-projects/dialog-edit-project/dialog-edit-project.component';
 import { MngProjectUserComponent } from './management/mng-project-user/mng-project-user.component';
 
@@ -53,8 +53,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { MngComponent } from './management/mng/mng.component';
 import { DailyActivityComponent } from './daily-activity/daily-activity.component';
 import { AnimatedLoadingComponent } from './shared/animated-loading/animated-loading.component';
-
-
 
 
 
@@ -119,8 +117,11 @@ const routesConfigs: Routes = [
     PageNotFoundComponent,
     MngComponent,
     DailyActivityComponent,
-    AnimatedLoadingComponent
-
+    AnimatedLoadingComponent,
+    
+    //pipes
+    FilterProjects,
+     FilterCategories
   ],
   imports: [
     BrowserModule,
@@ -145,17 +146,21 @@ const routesConfigs: Routes = [
     TableModule,
     ToolbarModule,
     DialogModule,
-    GrowlModule,
     ToastModule,
     DragDropModule,
     TabViewModule,
 
+
+
   ],
   providers: [
 
+
+    ToasMessageService,
     //App Services
     MessagesService,
     AUTH_PROVIDERS
+
 
 
   ],
