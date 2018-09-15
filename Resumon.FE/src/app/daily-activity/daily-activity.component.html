@@ -10,7 +10,7 @@
       <div class="col-2">
         <button id="list " class="btn " [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }" [disabled]="!isDataChanged"
           (click)="onSave() ">
-          <i class="fa fa-cloud-upload " aria-hidden="true "></i>{{ translateWorld('save') | translate}}</button>
+          <i class="fa fa-floppy-o " aria-hidden="true "></i>{{ translateWorld('save') | translate}}</button>
       </div>
       <div class="col-2">
         <button id="list " class="btn btn-success" (click)="onEditClicked()">

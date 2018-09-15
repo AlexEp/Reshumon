@@ -1,7 +1,7 @@
 
 import { DialogResult } from '../dialog.model';
 
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, OnDestroy } from '@angular/core';
 
 
 import { TranslateService } from 'ng2-translate';
@@ -12,6 +12,7 @@ import * as _ from "lodash";
 import { Category } from '../../shared/category.model';
 import { CategoryService } from '../../services/category.service';
 import { MessagesService, MsgType } from '../../services/messages.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -20,7 +21,9 @@ import { MessagesService, MsgType } from '../../services/messages.service';
   templateUrl: './mng-categories.component.html',
   styleUrls: ['./mng-categories.component.css']
 })
-export class MngCategoriesComponent implements OnInit {
+export class MngCategoriesComponent implements OnInit, OnDestroy {
+
+
   categoryToEdit : Category;
   categories : Category[];
 
@@ -28,8 +31,13 @@ export class MngCategoriesComponent implements OnInit {
   displayConfirmDeleteDialog= false;
   isDataReady = false;
   isDataLodingFailed = false;
+  isDataChanged= false;
   failedLoadingMsg = "";
+  changedCategories : any = {};
 
+   loadingDataSubscription : Subscription ;
+
+   
   constructor(
     private categoryService : CategoryService,
     private messagesService : MessagesService,
@@ -39,16 +47,31 @@ export class MngCategoriesComponent implements OnInit {
 
   ngOnInit() {
     //Load  data
-    this.categoryService.getAll().subscribe(
-      response => {this.categories = response;
-        this.isDataReady = true;},
-      e => {
-        this.messagesService.setMsg(e,MsgType.error); 
-         this.isDataLodingFailed = true;},
-    );
+    this.ReloadData();
   }
 
+  private ReloadData() {
+    this.isDataReady = false;
+    this.changedCategories  = {};
+    this.isDataChanged= false;
 
+    this.loadingDataSubscription = this.categoryService.getAll().subscribe(response => {
+      this.categories = response;
+      this.isDataReady = true;
+    }, e => {
+      this.messagesService.setMsg(e, MsgType.error);
+      this.isDataLodingFailed = true;
+    });
+  }
+
+  onRevert(){
+    this.ReloadData();
+  }
+
+  onChange(category : Category){
+    this.changedCategories[category.CategoryID] = category;
+    this.isDataChanged = true;
+  }
 
   onDeleteClicked(category : Category){
     this.categoryToEdit = _.cloneDeep(category);
@@ -66,21 +89,34 @@ export class MngCategoriesComponent implements OnInit {
     this.displayEditDialog = true;
   }
 
+  ngOnDestroy(): void {
+    this.loadingDataSubscription.unsubscribe();
+  }
 
   cancelDelete(){
     this.displayConfirmDeleteDialog = false;
   }
 
-  save(){
-    this.displayEditDialog = false;
-    this.categoryService.update(this.categoryToEdit).subscribe(
-      replay => {
-        var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
+  onSave(){
 
-        this.categories[index] = replay;
-        this.showSuccess("");
-      }
-    );
+    let changedProjects : Category[] =  _.map(this.changedCategories, (value, key) => { return value } );
+
+    this.categoryService.updateRange(changedProjects).subscribe(
+      r => {
+        this.ReloadData();
+      },
+      e => {},
+    )
+
+    // this.displayEditDialog = false;
+    // this.categoryService.update(this.categoryToEdit).subscribe(
+    //   replay => {
+    //     var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
+
+    //     this.categories[index] = replay;
+    //     this.showSuccess("");
+    //   }
+    // );
   }
  
 
@@ -119,7 +155,7 @@ export class MngCategoriesComponent implements OnInit {
 
     if(this.categoryToEdit.CategoryID > 0)  {
       if((<DialogResult>result) == DialogResult.Ok){
-        this.save();
+        this.onSave();
       }
       else if((<DialogResult>result) == DialogResult.Cancel){
        

@@ -13,10 +13,10 @@
       <div class="col-2">
         <button id="list " class="btn " [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }" [disabled]="!isDataChanged"
           (click)="onSave() ">
-          <i class="fa fa-cloud-upload " aria-hidden="true "></i>{{ translateWorld('save') | translate}}</button>
+          <i class="fa fa-floppy-o" aria-hidden="true "></i>{{ translateWorld('save') | translate}}</button>
       </div>
       <div class="col-2">
-        <button id="list " class="btn btn-success" (click)="onEditClicked()">
+        <button id="list " class="btn btn-primary" (click)="onEditClicked()">
           <i class="fa fa-plus-circle" aria-hidden="true "></i>{{ translateWorld('new') | translate}}</button>
       </div>
       <div class="col-6">
@@ -54,10 +54,9 @@
             <tr>
               <td class="ui-p-1">
                 <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true" (click)="onDeleteClicked(category)"></i>
-                <i id="btn-row-edit" class="btn btn-outline-info fa fa-pencil btn-hover" aria-hidden="true" (click)="onEditClicked(category)"></i>
               </td>
               <td class="ui-p-5">
-                  <input class="form-control is-invalid"   #inputName="ngModel" autocomplete="off"
+                  <input class="form-control is-invalid"   #inputName="ngModel" autocomplete="off" (change)="onChange(category)"
                   [ngClass]="{'is-invalid': !(inputName.valid), 'is-valid': inputName.valid }" id="name" name="name" 
                   [(ngModel)]="category.Name" required />
         
@@ -66,7 +65,7 @@
               </small>
                 </td>
               <td class="ui-p-5">
-                  <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="category.IsActive" />
+                  <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="category.IsActive" (change)="onChange(category)" />
                 </td>
             </tr>
           </ng-template>
@@ -83,7 +82,7 @@
   <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
   <div  *ngIf="isDataLodingFailed" class="">
       <div class="alert alert-danger" role="alert">
-          <strong>{{'Loading Data Filed'}}</strong>
+          <strong>{{'Loading Data Failed'}}</strong>
         </div>
       </div>
 </ng-template>

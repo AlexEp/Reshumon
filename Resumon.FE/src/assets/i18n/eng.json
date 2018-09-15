@@ -3,6 +3,9 @@
         "direction" : "ltr"
     },
     "dictionery":{
+        "global" : {
+            "confirm data lost" : "There are unsaved changes. Do you really want to continue?"
+        },
         "pages" :{
             "navigation":{
                 "users" : "Users",

@@ -41,10 +41,10 @@ export class UsersService  {
       user).map(
         article => {
           return article;
-        },
-        error => {
-          console.log(error);
-        });
+        })
+        .catch((error : Response) => {
+          return  Observable.throw(new AppError(error));
+        })
     }
 
     delete(user : User) : Observable<User> {

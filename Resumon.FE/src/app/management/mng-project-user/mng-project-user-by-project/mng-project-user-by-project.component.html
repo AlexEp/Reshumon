@@ -13,7 +13,7 @@
           <div class="col-sm-3 my-1">
             <button id="list " class="btn " data-original-title="Save " [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }"
               [disabled]="!isDataChanged" (click)="onSave() ">
-              <i class="fa fa-cloud-upload " aria-hidden="true "></i>Save</button>
+              <i class="fa fa-floppy-o " aria-hidden="true "></i>Save</button>
           </div>
           <div class="col-auto my-1">
             <select class="custom-select " [ngModel]="selectedProject" (ngModelChange)="onSelectionChanged($event)" name="Select name">

@@ -3,21 +3,21 @@
  <div class="card mw-100">
     <div class="card-body row">
   
-      <div class="col-2">
+      <div class="col-4 col-sm-4 col-md-2 ">
         <button id="list " [ngClass]="{ 'btn-warning' : isDataChanged , 'btn-secondary' : !isDataChanged }" class="btn btn-warning "
           [disabled]="!isDataChanged" (click)="onRevert() ">
-          <i class="fa fa-undo" aria-hidden="true "></i>{{ translateWorld('revert') | translate}}</button>
+          <i class="fa fa-undo" aria-hidden="true "></i><span class="d-none d-sm-inline">{{ translateWorld('revert') | translate}}</span></button>
       </div>
-      <div class="col-2">
+      <div class="col-4 col-sm-4 col-md-2">
         <button id="list " class="btn " [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }" [disabled]="!isDataChanged"
           (click)="onSave() ">
-          <i class="fa fa-cloud-upload " aria-hidden="true "></i>{{ translateWorld('save') | translate}}</button>
+          <i class="fa fa-floppy-o " aria-hidden="true "></i><span class="d-none d-sm-inline">{{ translateWorld('save') | translate}}</span></button>
       </div>
-      <div class="col-2">
-        <button id="list " class="btn btn-success" (click)="onEditClicked()">
-          <i class="fa fa-plus-circle" aria-hidden="true "></i>{{ translateWorld('new') | translate}}</button>
+      <div class="col-4 col-sm-4 col-md-2">
+        <button id="list " class="btn btn-primary" (click)="onEditClicked()">
+          <i class="fa fa-plus-circle" aria-hidden="true "></i><span class="d-none d-sm-inline">{{ translateWorld('new') | translate}}</span></button>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-sm-12 col-md-6">
   
         <div class="input-group">
           <div class="input-group-prepend">
@@ -42,20 +42,19 @@
             <p-table [value]="projects | filterProjects:search" [responsive]="true">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th class="ui-p-2">{{translateWorld('edit') | translate}} </th>
-                    <th class="ui-p-3">{{translateWorld('name') | translate}}</th>
-                    <th class="ui-p-3">{{translateWorld('category') | translate}}</th>
-                    <th class="ui-p-3">{{translateWorld('active') | translate}}</th>
+                    <th class="ui-p-2 edit" >{{translateWorld('edit') | translate}} </th>
+                    <th class="ui-p-3 name" >{{translateWorld('name') | translate}}</th>
+                    <th class="ui-p-3 category" >{{translateWorld('category') | translate}}</th>
+                    <th class="ui-p-3 active" >{{translateWorld('active') | translate}}</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-project>
                   <tr>
                     <td class="ui-p-2">
                       <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true" (click)="onDeleteClicked(project)"></i>
-                      <i id="btn-row-edit" class="btn btn-outline-info fa fa-pencil btn-hover" aria-hidden="true" (click)="onEditClicked(project)"></i>
                     </td>
                     <td class="ui-p-3">
-                        <input class="form-control is-invalid"   #inputName="ngModel" autocomplete="off"
+                        <input class="form-control is-invalid"   #inputName="ngModel" autocomplete="off" (change)="onChange(project)"
                         [ngClass]="{'is-invalid': !(inputName.valid), 'is-valid': inputName.valid }" id="name" name="name" 
                         [(ngModel)]="project.Name" required />
               
@@ -65,13 +64,13 @@
 
                     </td>
   
-                    <select class="custom-select " [(ngModel)]="project.CategoryID">
-                      <option *ngFor="let category of categories " [ngValue]="category.CategoryID">
+                    <select class="custom-select " [(ngModel)]="project.CategoryID" (change)="onChange(project)">
+                      <option *ngFor="let category of categories " [ngValue]="category.CategoryID" >
                         {{category.Name}}
                       </option>
                     </select>
                     <td class="ui-p-3">
-                        <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="project.IsActive" />
+                        <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="project.IsActive" (change)="onChange(project)" />
                     </td>
                   </tr>
                 </ng-template>
@@ -90,7 +89,7 @@
   <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
   <div *ngIf="isDataLodingFailed" class="">
     <div class="alert alert-danger" role="alert">
-      <strong>{{'Loading Data Filed'}}</strong>
+      <strong>{{'Loading Data Failed'}}</strong>
     </div>
   </div>
 </ng-template>

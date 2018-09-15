@@ -24,7 +24,7 @@ export class ProjectsService {
   protected url : string
   
   constructor( protected http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService) {
-    this.url = appConfig.getSiteURL() + "/api/projects";
+    this.url = appConfig.getSiteURL() + "/api/v1/projects";
   }
 
 
@@ -44,10 +44,22 @@ export class ProjectsService {
       project).map(
         article => {
           return article;
-        },
-        error => {
-          console.log(error);
-        });
+        })
+        .catch((error : Response) => {
+          return  Observable.throw(new AppError(error));
+        })
+    }
+
+    updateRange(projects : Project[]) : Observable<Project[]> {
+
+      return this.http.put<Project[]>(this.url,
+        projects).map(
+          response => {
+          return response;
+        })
+        .catch((error : Response) => {
+          return  Observable.throw(new AppError(error));
+        })
     }
 
     delete(project : Project) : Observable<Project> {

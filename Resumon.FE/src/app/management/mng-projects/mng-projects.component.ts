@@ -1,3 +1,4 @@
+import { Project } from './../../shared/project.model';
 
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 
@@ -9,8 +10,9 @@ import { DialogResult } from '../dialog.model';
 import { ProjectsService } from '../../services/projects.service';
 import { CategoryService } from '../../services/category.service';
 import { MessagesService, MsgType } from '../../services/messages.service';
-import { Project } from '../../shared/project.model';
+
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-mng-projects',
@@ -29,6 +31,8 @@ export class MngProjectsComponent implements OnInit {
   isDataReady = false;
   isDataLodingFailed = false;
   failedLoadingMsg = "";
+  changedProjects : any = {};
+  isDataChanged = false;
 
   constructor(
     private projectsService : ProjectsService,
@@ -38,26 +42,31 @@ export class MngProjectsComponent implements OnInit {
 
   ngOnInit() {
         //Load  data
+        this.ReloadData();
+  }
 
-        Observable.forkJoin(
-          this.projectsService.getAll(),
-          this.categoryService.getAll(),
+  private ReloadData() {
 
-        ).subscribe( 
-            r => {
-    
-              //load from replay
-              this.projects = r[0]; 
-              this.categories = r[1]; 
+    this.isDataReady = false;
+    this.changedProjects  = {};
+    this.isDataChanged= false;
 
-              this.isDataReady = true;
-    
-            },
-            e => {
-              this.messagesService.setMsg(e,MsgType.error); 
-               this.isDataLodingFailed = true;},
-            () => console.log('onCompleted')
-        )
+    Observable.forkJoin(this.projectsService.getAll(), this.categoryService.getAll()).subscribe(r => {
+      //load from replay
+      this.projects = r[0];
+      this.categories = r[1];
+      this.isDataReady = true;
+    }, e => {
+      this.messagesService.setMsg(e, MsgType.error);
+      this.isDataLodingFailed = true;
+    }, () => console.log('onCompleted'));
+  }
+
+  onRevert(){
+    if(this.isDataChanged && confirm(this.translateWorld("confirm data lost","dictionery.global"))){
+      this.ReloadData();
+    }
+
   }
 
   //Edit
@@ -70,6 +79,12 @@ export class MngProjectsComponent implements OnInit {
     }
   
     this.displayEditDialog = true;
+  }
+
+  
+  onChange(project : Project){
+    this.changedProjects[project.ProjectID] = project;
+    this.isDataChanged = true;
   }
 
   onDeleteClicked(project : Project){
@@ -111,7 +126,7 @@ export class MngProjectsComponent implements OnInit {
 
     if(this.projectToEdit.ProjectID > 0)  {
       if((<DialogResult>result) == DialogResult.Ok){
-        this.save();
+        this.onSave();
       }
       else if((<DialogResult>result) == DialogResult.Cancel){
        
@@ -127,16 +142,17 @@ export class MngProjectsComponent implements OnInit {
     }
   }
 
-  save(){
-    this.displayEditDialog = false;
-    this.projectsService.update(this.projectToEdit).subscribe(
-      replay => {
-        var index = this.projects.map(function(e) { return e.ProjectID; }).indexOf(this.projectToEdit.ProjectID);
+  onSave(){
+    //this.displayEditDialog = false;
+    let changedProjects : Project[] =  _.map(this.changedProjects, (value, key) => { return value } );
 
-        this.projects[index] = replay;
-        this.showSuccess("");
-      }
-    );
+    this.projectsService.updateRange(changedProjects).subscribe(
+      r => {
+        this.ReloadData();
+      },
+      e => {},
+    )
+
   }
 
   showSuccess(msg : string) {
@@ -145,7 +161,8 @@ export class MngProjectsComponent implements OnInit {
 
 
   translateWorld(world,path){
-    return path ? path + world : 'dictionery.pages.mng-projects.' + world
+    let wordpath = path ? path + world : 'dictionery.pages.mng-projects.' + world;
+    return wordpath;
   }
 }
 
