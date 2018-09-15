@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Reshumon.DAL.Repositories
 {
 
+   
 
     internal class UserProjectRepository : IUserProjectRepository
     {
@@ -28,6 +29,16 @@ namespace Reshumon.DAL.Repositories
             using (var Context = GetContext())
             {
                 Context.UserProject.Add(entity);
+                Context.SaveChanges();
+            }
+
+        }
+
+        public void AddRange(IEnumerable<UserProject> entities)
+        {
+            using (var Context = GetContext())
+            {
+                Context.UserProject.AddRange(entities);
                 Context.SaveChanges();
             }
 
@@ -81,12 +92,38 @@ namespace Reshumon.DAL.Repositories
 
         public void Remove(UserProject entity)
         {
-            throw new NotImplementedException();
+            using (var Context = GetContext())
+            {
+                Context.UserProject.Remove(entity);
+            }
         }
 
-        public void RemoveRange(IEnumerable<UserProject> entitList)
+        public void RemoveRange(IEnumerable<UserProject> entityList)
         {
-            throw new NotImplementedException();
+            using (var Context = GetContext())
+            {
+                Context.UserProject.RemoveRange(entityList);
+            }
+        }
+
+        public void RemoveRange(Project project)
+        {
+            using (var Context = GetContext())
+            {
+              var entityList = Context.UserProject.Where(up => up.ProjectID == project.ProjectID);
+              Context.UserProject.RemoveRange(entityList);
+                Context.SaveChanges();
+            }
+        }
+
+        public void RemoveRange(User user)
+        {
+            using (var Context = GetContext())
+            {
+                var entityList = Context.UserProject.Where(up => up.UserID == user.UserID);
+                Context.UserProject.RemoveRange(entityList);
+                Context.SaveChanges();
+            }
         }
     }
 }

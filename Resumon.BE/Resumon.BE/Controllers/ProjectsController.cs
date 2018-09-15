@@ -14,9 +14,11 @@ using Resumon.BE.Models;
 
 namespace Resumon.BE.Controllers
 {
+    [RoutePrefix("api/v1/projects")]
     public class ProjectsController : ApiController
     {
         // GET: api/Categories
+        [HttpGet, Route("")]
         public IEnumerable<Project> GetProjects()
         {
             try
@@ -34,6 +36,7 @@ namespace Resumon.BE.Controllers
 
         // GET: api/Categories/5
         [ResponseType(typeof(Project))]
+        [HttpGet, Route("{id:int}")]
         public IHttpActionResult GetProjects(int id)
         {
             Project Projects = ServiceProvider.EntityContext.Projects.Get(id);
@@ -47,7 +50,7 @@ namespace Resumon.BE.Controllers
 
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
-        [HttpPut]
+        [HttpPut, Route("{id:int}")]
         public IHttpActionResult PutProjects(int id, [FromBody] Project Projects)
         {
             if (!ModelState.IsValid)
@@ -82,37 +85,47 @@ namespace Resumon.BE.Controllers
 
         // POST: api/Categories
 
-        [HttpPut]
-        public IHttpActionResult PostProjects([FromBody]Project Projects)
+   
+        [HttpPut, Route("")]
+        public IHttpActionResult PostProjects([FromBody] IEnumerable<Project> projects)
         {
-            if (!ModelState.IsValid || 
-                Projects.Name == null )
+            if (!ModelState.IsValid ||
+                projects.Count( p => String.IsNullOrWhiteSpace(p.Name)) > 0 ||
+                projects.Count(p => p.ProjectID < 1) > 0)
             {
                 return BadRequest(ModelState);
             }
 
+            IList<Project> projectsSuccessfulUpdated = new List<Project>();
             try
             {
-                ServiceProvider.EntityContext.Projects.Add(Projects);
+                foreach (var project in projects)
+                {
+                    try
+                    {
+                        ServiceProvider.EntityContext.Projects.Edit(project);
+                    }
+                    catch (Exception)
+                    {
+                        //Do nothing ..
+                    }
+                    projectsSuccessfulUpdated.Add(project);
+
+                }
+             
             }
             catch (DbUpdateException)
             {
-                if (ProjectsExists(Projects.ProjectID))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-            return Ok(Projects);
+            return Ok(projectsSuccessfulUpdated);
             //return Content(HttpStatusCode.Created, Projects);
         }
 
         // DELETE: api/Categories/5
         [ResponseType(typeof(Project))]
-        public IHttpActionResult DeleteProjects(int id)
+        [HttpDelete, Route("")]
+        public IHttpActionResult DeleteProjects([FromUri] int id)
         {
 
             Project Projects = ServiceProvider.EntityContext.Projects.Get(id);

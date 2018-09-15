@@ -83,32 +83,59 @@ namespace Resumon.BE.Controllers
         }
 
         // POST: api/Categories
-
-        [HttpPost,  Route("")]
-        public IHttpActionResult Post([FromBody]UserProject entity)
+        [HttpPost, Route("project/{projectID:int}/update")]
+        public IHttpActionResult PostByProject(int projectID, [FromBody]IList<User> entities)
         {
-            if (!ModelState.IsValid )
+
+            var userProjectList = new List<UserProject>();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+       
+            try
+            {
+                //1. remove old data
+                ServiceProvider.EntityContext.UserProject.RemoveRange(new Project() { ProjectID = projectID });
+
+                //2. add new recoreds
+                userProjectList = entities.Select(u => new UserProject() { ProjectID = projectID , UserID = u.UserID }).ToList();
+                ServiceProvider.EntityContext.UserProject.AddRange(userProjectList);
+            }
+            catch (DbUpdateException exp)
+            {
+                Content(HttpStatusCode.InternalServerError, exp.Message);
+            }
+            return Ok(new { ProjectID = projectID, UserProjectList  = userProjectList });
+
+        }
+
+        [HttpPost,  Route("user/{userID:int}/update")]
+        public IHttpActionResult PostByUser(int userID, [FromBody]IList<Project> entities)
+        {
+            var userProjectList = new List<UserProject>();
+
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             try
             {
-                ServiceProvider.EntityContext.UserProject.Add(entity);
+                //1. remove old data
+                ServiceProvider.EntityContext.UserProject.RemoveRange(new User() { UserID = userID });
+
+                //2. add new recoreds
+                userProjectList = entities.Select( p=> new UserProject() { ProjectID = p.ProjectID, UserID = userID }).ToList();
+                ServiceProvider.EntityContext.UserProject.AddRange(userProjectList);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException exp)
             {
-                if (IsExists(entity.ID))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                Content(HttpStatusCode.InternalServerError, exp.Message);
             }
-            return Ok(entity);
-     
+            return Ok(new { UserID = userID, UserProjectList = userProjectList });
+
         }
 
         // DELETE: api/Categories/5

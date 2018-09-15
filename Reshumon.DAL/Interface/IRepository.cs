@@ -38,6 +38,9 @@ namespace Reshumon.DAL
 
     public interface IUserProjectRepository : IGenericRepository<UserProject>
     {
+        void RemoveRange(Project project);
+        void RemoveRange(User user);
+        void AddRange(IEnumerable<UserProject> entities);
     }
 
 }
