@@ -53,6 +53,7 @@
     <Compile Include="DTO\DataBaseContext.cs" />
     <Compile Include="DTO\Project.cs" />
     <Compile Include="DTO\DailyActivity.cs" />
+    <Compile Include="DTO\UserFavorite.cs" />
     <Compile Include="DTO\UserProject.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="Interface\IEntityContext.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\DailyActivityRepository.cs" />
     <Compile Include="Repositories\UserProjectRepository.cs" />
+    <Compile Include="Repositories\UserFavorite.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>

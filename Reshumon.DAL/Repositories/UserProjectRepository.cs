@@ -28,7 +28,7 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                Context.UserProject.Add(entity);
+                Context.UserProjects.Add(entity);
                 Context.SaveChanges();
             }
 
@@ -38,7 +38,7 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                Context.UserProject.AddRange(entities);
+                Context.UserProjects.AddRange(entities);
                 Context.SaveChanges();
             }
 
@@ -58,7 +58,7 @@ namespace Reshumon.DAL.Repositories
             UserProject results;
             using (var Context = GetContext())
             {
-                results = Context.UserProject.Find(Id);
+                results = Context.UserProjects.Find(Id);
             }
 
             return results;
@@ -69,7 +69,7 @@ namespace Reshumon.DAL.Repositories
             IEnumerable<UserProject> results;
             using (var Context = GetContext())
             {
-                results = Context.UserProject.ToList();
+                results = Context.UserProjects.ToList();
             }
 
             return results;
@@ -79,11 +79,11 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                var userProject = Context.UserProject.FirstOrDefault(u => u.ID == Id);
+                var userProject = Context.UserProjects.FirstOrDefault(u => u.ID == Id);
 
                 if (userProject != null)
                 {
-                    Context.UserProject.Remove(userProject);
+                    Context.UserProjects.Remove(userProject);
                     Context.SaveChanges();
                 }
             }
@@ -94,7 +94,7 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                Context.UserProject.Remove(entity);
+                Context.UserProjects.Remove(entity);
             }
         }
 
@@ -102,7 +102,7 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                Context.UserProject.RemoveRange(entityList);
+                Context.UserProjects.RemoveRange(entityList);
             }
         }
 
@@ -110,8 +110,8 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-              var entityList = Context.UserProject.Where(up => up.ProjectID == project.ProjectID);
-              Context.UserProject.RemoveRange(entityList);
+              var entityList = Context.UserProjects.Where(up => up.ProjectID == project.ProjectID);
+              Context.UserProjects.RemoveRange(entityList);
                 Context.SaveChanges();
             }
         }
@@ -120,8 +120,8 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                var entityList = Context.UserProject.Where(up => up.UserID == user.UserID);
-                Context.UserProject.RemoveRange(entityList);
+                var entityList = Context.UserProjects.Where(up => up.UserID == user.UserID);
+                Context.UserProjects.RemoveRange(entityList);
                 Context.SaveChanges();
             }
         }

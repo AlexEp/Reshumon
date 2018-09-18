@@ -28,6 +28,11 @@ namespace Reshumon.DAL
     {
     }
 
+    public interface IUserFavoriteRepository : IGenericRepository<UserFavorite>
+    {
+    }
+    
+
     public interface ICategoryRepository : IGenericRepository<Category>
     {
     }

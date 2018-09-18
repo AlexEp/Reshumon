@@ -14,11 +14,13 @@ using Resumon.BE.Models;
 
 namespace Resumon.BE.Controllers
 {
+    [RoutePrefix("api/v1/categories")]
 
     public class CategoriesController : ApiController
     {
 
         // GET: api/Categories
+        [HttpGet, Route("")]
         public IEnumerable<Category> GetCategory()
         {
             try
@@ -36,6 +38,7 @@ namespace Resumon.BE.Controllers
 
         // GET: api/Categories/5
         [ResponseType(typeof(Category))]
+        [HttpGet, Route("{id:int}")]
         public IHttpActionResult GetCategory(int id)
         {
             Category category  = ServiceProvider.EntityContext.Categories.Get(id);
@@ -49,7 +52,8 @@ namespace Resumon.BE.Controllers
 
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
-        [HttpPost]
+        [HttpPost, Route("{id:int}")]
+
         public IHttpActionResult PutCategory(int id,[FromBody] Category category)
         {
             if (!ModelState.IsValid)
@@ -84,7 +88,7 @@ namespace Resumon.BE.Controllers
 
         // POST: api/Categories
 
-        [HttpPost]
+        [HttpPost, Route("")]
         public IHttpActionResult PostCategory([FromBody]Category category)
         {
             if (!ModelState.IsValid || category.Name == null)
@@ -111,9 +115,46 @@ namespace Resumon.BE.Controllers
             //return Content(HttpStatusCode.Created, category);
         }
 
+        [HttpPut, Route("")]
+        public IHttpActionResult PostProjects([FromBody] IEnumerable<Category> categories)
+        {
+            if (!ModelState.IsValid ||
+                categories.Count(p => String.IsNullOrWhiteSpace(p.Name)) > 0 ||
+                categories.Count(p => p.CategoryID < 1) > 0)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IList<Category> categoriesuccessfulUpdated = new List<Category>();
+            try
+            {
+                foreach (var category in categories)
+                {
+                    try
+                    {
+                        ServiceProvider.EntityContext.Categories.Edit(category);
+                    }
+                    catch (Exception)
+                    {
+                        //Do nothing ..
+                    }
+                    categoriesuccessfulUpdated.Add(category);
+
+                }
+
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+            return Ok(categoriesuccessfulUpdated);
+            //return Content(HttpStatusCode.Created, Projects);
+        }
+
         // DELETE: api/Categories/5
         [ResponseType(typeof(Category))]
-        public IHttpActionResult DeleteCategory(int id)
+        [HttpDelete, Route("")]
+        public IHttpActionResult DeleteCategory([FromUri]int id)
         {
             
             Category category = ServiceProvider.EntityContext.Categories.Get(id);

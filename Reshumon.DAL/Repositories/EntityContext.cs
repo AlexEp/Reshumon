@@ -31,6 +31,7 @@ namespace Reshumon.DAL.Repositories
             this.Projects = new ProjectRepository(connectionString);
             this.DailyActivity = new DailyActivityRepository(connectionString);
             this.UserProject = new UserProjectRepository(connectionString);
+            this.UserFavorites = new UserFavoriteRepository(connectionString);
 
         }
 
@@ -39,6 +40,7 @@ namespace Reshumon.DAL.Repositories
         public IProjectRepository Projects { get; set; }
         public IDailyActivityRepository DailyActivity { get; }
         public IUserProjectRepository UserProject { get; }
+        public IUserFavoriteRepository UserFavorites { get;  }
     }
 
 }

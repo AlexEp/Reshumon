@@ -10,10 +10,10 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    internal class DailyActivityRepository : IDailyActivityRepository
+    internal class UserFavoriteRepository : IUserFavoriteRepository
     {
         string ConnectionString = "";
-        public DailyActivityRepository(string connectionString)
+        public UserFavoriteRepository(string connectionString)
         {
             this.ConnectionString = connectionString;
         }
@@ -23,17 +23,17 @@ namespace Reshumon.DAL.Repositories
             return new DataBaseContext(this.ConnectionString);
         }
 
-        public void Add(DailyActivity entity)
+        public void Add(UserFavorite entity)
         {
             using (var Context = GetContext())
             {
-                Context.DailyActivities.Add(entity);
+                Context.UserFavorites.Add(entity);
                 Context.SaveChanges();
             }
 
         }
 
-        public void Edit(DailyActivity entity)
+        public void Edit(UserFavorite entity)
         {
             using (var Context = GetContext())
             {
@@ -42,23 +42,23 @@ namespace Reshumon.DAL.Repositories
             }
         }
 
-        public DailyActivity Get(int Id)
+        public UserFavorite Get(int Id)
         {
-            DailyActivity results;
+            UserFavorite results;
             using (var Context = GetContext())
             {
-                results = Context.DailyActivities.Find(Id);
+                results = Context.UserFavorites.Find(Id);
             }
 
             return results;
         }
 
-        public IEnumerable<DailyActivity> GetAll()
+        public IEnumerable<UserFavorite> GetAll()
         {
-            IEnumerable<DailyActivity> results;
+            IEnumerable<UserFavorite> results;
             using (var Context = GetContext())
             {
-                results = Context.DailyActivities.ToList();
+                results = Context.UserFavorites.ToList();
             }
 
             return results;
@@ -68,23 +68,23 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                var dailyActivity = Context.DailyActivities.FirstOrDefault(u => u.ActivityID == Id);
+                var userFavorites = Context.UserFavorites.FirstOrDefault(u => u.UserID == Id);
 
-                if (dailyActivity != null)
+                if (userFavorites != null)
                 {
-                    Context.DailyActivities.Remove(dailyActivity);
+                    Context.UserFavorites.Remove(userFavorites);
                     Context.SaveChanges();
                 }
             }
          
         }
 
-        public void Remove(DailyActivity entity)
+        public void Remove(UserFavorite entit)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveRange(IEnumerable<DailyActivity> entitList)
+        public void RemoveRange(IEnumerable<UserFavorite> entitList)
         {
             throw new NotImplementedException();
         }
