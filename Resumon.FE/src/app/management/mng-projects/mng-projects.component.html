@@ -39,7 +39,7 @@
 
 
         <div class="card-body mw-100">
-            <p-table [value]="projects | filterProjects:search" [responsive]="true">
+            <p-table [value]="projects | filterProjectByName:search" [responsive]="true">
                 <ng-template pTemplate="header">
                   <tr>
                     <th class="ui-p-2 edit" >{{translateWorld('edit') | translate}} </th>

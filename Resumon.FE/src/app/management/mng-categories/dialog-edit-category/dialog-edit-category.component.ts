@@ -54,11 +54,13 @@ export class DialogEditCategoryComponent implements OnInit {
   }
 
   onHided() {
+    this.displayEditDialog = false;
     this.displayEditDialogChange.emit(DialogResult.Cancel);
   }
 
 
   clickedOk() {
+    
     this.displayEditDialogChange.emit(DialogResult.Ok);
   }
 

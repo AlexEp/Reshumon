@@ -1,4 +1,13 @@
-.btn-toolbar{
+.toolbar-row{
     margin: 0 auto;
     margin-bottom: 15px;
+}
+
+.available-project,.selected-project{
+    margin: 10px;
+    background-color: beige;
+    width: 100%;
+    height: 35px;
+    cursor: -webkit-grab;
+    border-radius: 5px;
 }

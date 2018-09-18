@@ -40,10 +40,13 @@
                 "revert":"revert"
             },
             "daily-activity":{
-                "edit" : "edit",
-                "save" : "save",
-                "new" : "new",
-                "revert":"revert"
+                "project" : "project",
+                "hours" : "hours",
+                "notes" : "notes",
+                "daily activity": "daily activity",
+                "prev" : "prev",
+                "next" : "next"
+  
             }
             
         }

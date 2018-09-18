@@ -10,18 +10,20 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { MessageService as ToasMessageService  } from 'primeng/components/common/messageservice';
 import { MessagesService } from './services/messages.service';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
+/* primeng */
+import { MessageService as ToasMessageService  } from 'primeng/components/common/messageservice';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
-import { GrowlModule } from 'primeng/growl';
 import { DragDropModule } from 'primeng/dragdrop';
 import { TabViewModule } from 'primeng/tabview';
 import {ToastModule} from 'primeng/toast';
+import {AccordionModule} from 'primeng/accordion';
+import {SpinnerModule} from 'primeng/spinner';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -40,7 +42,7 @@ import { AdminGuardService } from './services/admin-guard.service';
 import { AuthModule, AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { DialogEditCategoryComponent } from './management/mng-categories/dialog-edit-category/dialog-edit-category.component';
-import { MngProjectsComponent, FilterProjects } from './management/mng-projects/mng-projects.component';
+import { MngProjectsComponent } from './management/mng-projects/mng-projects.component';
 import { MngUsersComponent } from './management/mng-users/mng-users.component';
 import { MngCategoriesComponent, FilterCategories } from './management/mng-categories/mng-categories.component';
 import { DialogEditProjectComponent } from './management/mng-projects/dialog-edit-project/dialog-edit-project.component';
@@ -53,6 +55,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { MngComponent } from './management/mng/mng.component';
 import { DailyActivityComponent } from './daily-activity/daily-activity.component';
 import { AnimatedLoadingComponent } from './shared/animated-loading/animated-loading.component';
+import { FilterProjectByName } from './pipes/filter-project-by-name.pipe';
+import { FilterProjectFavorite } from './pipes/filter-project-favorite.pipe';
 
 
 
@@ -120,8 +124,9 @@ const routesConfigs: Routes = [
     AnimatedLoadingComponent,
     
     //pipes
-    FilterProjects,
-     FilterCategories
+    FilterCategories,
+    FilterProjectByName,
+    FilterProjectFavorite
   ],
   imports: [
     BrowserModule,
@@ -149,6 +154,8 @@ const routesConfigs: Routes = [
     ToastModule,
     DragDropModule,
     TabViewModule,
+    AccordionModule,
+    SpinnerModule
 
 
 

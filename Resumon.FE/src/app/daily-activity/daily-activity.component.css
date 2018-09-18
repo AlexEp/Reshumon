@@ -1,0 +1,11 @@
+.toolbar-row{
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+
+#available-project-list li
+{
+    height:54px ;
+}
+

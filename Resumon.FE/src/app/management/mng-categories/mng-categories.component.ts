@@ -166,7 +166,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
             this.create(this.categoryToEdit);
         }
         else if((<DialogResult>result) == DialogResult.Cancel){
-           this.showSuccess("");
+          // this.showSuccess("");
         }
     }
   }

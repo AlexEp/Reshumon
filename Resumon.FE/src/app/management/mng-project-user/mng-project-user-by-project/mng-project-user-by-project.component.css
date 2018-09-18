@@ -1,9 +1,5 @@
-.btn-toolbar{
+.toolbar-row{
     margin: 0 auto;
     margin-bottom: 15px;
-}
-
-.btn-toolbar button{
-    margin: 0 15px;
 }
 

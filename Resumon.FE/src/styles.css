@@ -26,18 +26,18 @@ body{
     font-weight: bold;
 }
 
-.option-bar .list-group-item:not(:first-child){
+.option-bar .list-group-item:not(.option-header){
     text-align: left;
     height: 40px;
 }
 
-.option-bar .list-group-item:not(:first-child).active{
+.option-bar .list-group-item:not(.option-header).active{
    background-color: #ebebeb;
    color: #3f4c6b;
    border: 1px solid #3f4c6b;
 }
 
-.option-bar .list-group-item:not(:first-child):hover{
+.option-bar .list-group-item:not(.option-header):hover{
     background-color:#cacaca;
     cursor: pointer;
    

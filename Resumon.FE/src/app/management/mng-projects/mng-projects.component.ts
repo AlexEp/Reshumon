@@ -167,16 +167,3 @@ export class MngProjectsComponent implements OnInit {
 }
 
 
-@Pipe({
-  name: 'filterProjects'
-})
-export class FilterProjects implements PipeTransform {
-  transform(items: Project[], searchText: string): any[] {
-    if(!items) return [];
-    if(!searchText) return items;
-searchText = searchText.toLowerCase();
-return items.filter( it => {
-      return it.Name.toLowerCase().includes(searchText);
-    });
-   }
-}

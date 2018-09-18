@@ -75,11 +75,11 @@ export class MngProjectUserByUserComponent implements OnInit {
     }
 
 
-  userDragStart(event, project: Project) {
+  projectDragStart(event, project: Project) {
     this.draggedProject = project;
   }
 
-  userDrop(event) {
+  projectDrop(event) {
 
     if (this.draggedProject) {
       this.userSelected(this.draggedProject);
@@ -87,7 +87,7 @@ export class MngProjectUserByUserComponent implements OnInit {
     }
   }
 
-  userDropBack(event) {
+  projectDropBack(event) {
     if (this.draggedProject) {
       this.userRemoved(this.draggedProject);
       this.draggedProject = null;
