@@ -71,8 +71,8 @@ export class MngProjectUserByUserComponent implements OnInit {
           e => {this.messagesService.setMsg(e,MsgType.error);  this.isDataReady = true;},
           () => console.log('onCompleted')
       )
-      
-    }
+
+      }
 
 
   projectDragStart(event, project: Project) {
@@ -144,6 +144,12 @@ export class MngProjectUserByUserComponent implements OnInit {
     this.selectedProject = group['true'] || [];
   }
 
+  canDeactivate(){
+    if(this.isDataChanged)    {
+      return confirm("do you wont to exit ?")
+    }
+    return true;
+  };
 }
 
 

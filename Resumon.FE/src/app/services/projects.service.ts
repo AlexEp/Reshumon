@@ -76,7 +76,7 @@ export class ProjectsService {
 
     create(project : Project) : Observable<Project> {
     
-      return this.http.put<Project>(this.url,project)
+      return this.http.post<Project>(this.url,project)
           .map(
             response => {
               return response

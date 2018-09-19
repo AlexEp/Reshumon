@@ -142,7 +142,11 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
   
   }
 
-  onSelectionChanged(project:Project){
+  onSelectionChanged(event){
+    this.isDataChanged = true;
+  }
+
+  onProjectChanged(project:Project){
 
     this.selectedProject = project;
     this.loadProjectUsers(project) ;

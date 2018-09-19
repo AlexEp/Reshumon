@@ -11,3 +11,17 @@
     cursor: -webkit-grab;
     border-radius: 5px;
 }
+
+.available-project:hover,.selected-project:hover{
+
+    background-color: rgb(216, 216, 148);
+}
+
+.limit-width{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.header-title{
+    margin-bottom: 15px;
+}

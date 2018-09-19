@@ -24,6 +24,8 @@ import { TabViewModule } from 'primeng/tabview';
 import {ToastModule} from 'primeng/toast';
 import {AccordionModule} from 'primeng/accordion';
 import {SpinnerModule} from 'primeng/spinner';
+// import {PickListModule} from 'primeng/picklist';
+import {DropdownModule} from 'primeng/dropdown';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -57,6 +59,8 @@ import { DailyActivityComponent } from './daily-activity/daily-activity.componen
 import { AnimatedLoadingComponent } from './shared/animated-loading/animated-loading.component';
 import { FilterProjectByName } from './pipes/filter-project-by-name.pipe';
 import { FilterProjectFavorite } from './pipes/filter-project-favorite.pipe';
+import { FilterUsers } from './pipes/filter-users.pipe';
+import { SelectItemPipe } from './pipes/select-Item.pipe';
 
 
 
@@ -88,7 +92,7 @@ const routesConfigs: Routes = [
         canActivate: [AuthGuardService, AdminGuardService],
 
         children: [
-          { path: 'user', component: MngProjectUserByUserComponent, canActivate: [AuthGuardService, AdminGuardService] },
+          { path: 'user', component: MngProjectUserByUserComponent, canActivate: [AuthGuardService, AdminGuardService] , canDeactivate: [CanDeactivateGuard]},
           { path: 'project', component: MngProjectUserByProjectComponent, canActivate: [AuthGuardService, AdminGuardService], canDeactivate: [CanDeactivateGuard]}
         ]
       },
@@ -126,7 +130,10 @@ const routesConfigs: Routes = [
     //pipes
     FilterCategories,
     FilterProjectByName,
-    FilterProjectFavorite
+    FilterProjectFavorite,
+    FilterUsers,
+    SelectItemPipe
+    
   ],
   imports: [
     BrowserModule,
@@ -155,10 +162,9 @@ const routesConfigs: Routes = [
     DragDropModule,
     TabViewModule,
     AccordionModule,
-    SpinnerModule
-
-
-
+    SpinnerModule,
+    DropdownModule
+    
   ],
   providers: [
 

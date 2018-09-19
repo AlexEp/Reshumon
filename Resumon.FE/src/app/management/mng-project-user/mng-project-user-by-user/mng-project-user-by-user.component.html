@@ -4,7 +4,6 @@
     <div class="card-body ">
 
       <div class="form-row align-items-center">
-
         <div class="col-sm-3">
           <button id="list " [ngClass]="{ 'btn-warning' : isDataChanged , 'btn-secondary' : !isDataChanged }" class="btn btn-warning "
             data-original-title="Clear " [disabled]="!isDataChanged" (click)="onRevert() ">
@@ -16,9 +15,24 @@
             <i class="fa fa-floppy-o " aria-hidden="true "></i>Save</button>
         </div>
         <div class="col-sm-6">
-          <select class="custom-select " [ngModel]="selectedUser" (ngModelChange)="onSelectionChanged($event)" name="Select name">
+          <!-- <select class="custom-select " [ngModel]="selectedUser" (ngModelChange)="onSelectionChanged($event)" name="Select name">
             <option *ngFor="let user of users" [ngValue]="user">{{user.Name}}</option>
-          </select>
+          </select> -->
+
+          <p-dropdown [options]="users|selectItemPipe:'Name'" [(ngModel)]="selectedUser" (onChange)="onSelectionChanged($event.value)"
+            placeholder="Select a City" [showClear]="false" filter="true" filterBy="label,value.LastName" [style]="{'width':'300px'}">
+            <ng-template let-user pTemplate="selectedItem">
+
+              <span style="vertical-align:middle; margin-left: .5em">{{user.value.Name}} - {{user.value.LastName}}</span>
+            </ng-template>
+            <ng-template let-user pTemplate="item">
+              <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+
+                <div style="font-size:14px;float:right;margin-top:4px">{{user.value.Name}} - {{user.value.LastName}}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+    
         </div>
       </div>
 
@@ -29,30 +43,52 @@
 
   <div class="row ">
     <div class="col-sm-12 col-md-6 ">
-      <div class="card "  (onDrop)="projectDropBack($event)" pDroppable="projectBack">
+      <div class="card" (onDrop)="projectDropBack($event)" pDroppable="projectBack">
         <div class="card-header ">
-          Available Projects
+
+          <div class="header-title">
+            Available Projects
+          </div>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="searchAvailable"> <i class="fa fa-search" aria-hidden="true"></i></span>
+            </div>
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchAvailable" autocomplete="off">
+          </div>
+
         </div>
-        <div class="card-body ">
-          <div *ngFor="let project of availableProject" class="available-project"   
+        <div class="card-body limit-width">
+          <div *ngFor="let project of availableProject | filterProjectByName:searchAvailable" class="available-project"
             pDraggable="project" (onDragStart)="projectDragStart($event,project)" (onDragEnd)="userDragEnd($event)"
             (click)="userSelected(project)">
 
             {{project.Name}}</div>
+
         </div>
       </div>
     </div>
     <div class=" col-sm-12 col-md-6 ">
-      <div class="card "  (onDrop)="projectDrop($event) " pDroppable="project">
+      <div class="card " (onDrop)="projectDrop($event) " pDroppable="project">
         <div class="card-header ">
-          Selected Projects
-        </div>
-        <div class="card-body "  >
+          <div class="header-title">
+            Selected Projects
+          </div>
 
-            <div *ngFor="let project of selectedProject" class="selected-project"  (onDragStart)="projectDragStart($event,project)"
-              (onDragEnd)="userDragEnd($event)" pDraggable="projectBack" (click)="userRemoved(project)" >
-             {{project.Name}}
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="searchSelected"> <i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchSelected" autocomplete="off">
+          </div>
+        </div>
+        <div class="card-body  limit-width">
+
+          <div *ngFor="let project of selectedProject | filterProjectByName:searchSelected" class="selected-project"
+            (onDragStart)="projectDragStart($event,project)" (onDragEnd)="userDragEnd($event)" pDraggable="projectBack"
+            (click)="userRemoved(project)">
+            {{project.Name}}
+          </div>
 
 
         </div>
