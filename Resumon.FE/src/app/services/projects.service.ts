@@ -37,6 +37,15 @@ export class ProjectsService {
     })
   };
 
+  getAllActive() : Observable<Project[]> {
+    return this.http.get(this.url + '/active').map(
+        (response : Response)=> response
+    )
+    .catch((error : Response) => {
+      return  Observable.throw(new AppError(error));
+    })
+  };
+
 
   update(project : Project) : Observable<Project> {
 

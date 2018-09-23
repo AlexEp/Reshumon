@@ -1,0 +1,32 @@
+.options-bar{
+    margin: 0 auto;
+}
+
+#project-list input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  padding: 10px;
+}
+
+#project-list input {
+    margin:  0 15px 0 0
+}
+
+
+canvas{
+
+    width:100% !important;
+    height:300px !important;
+  
+  }
+
+/* p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 20px;
+  } */

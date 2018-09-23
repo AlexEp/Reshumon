@@ -37,6 +37,15 @@ export class CategoryService {
       })
   };
 
+  getAllActive() : Observable<Category[]> {
+    return this.http.get(this.url + '/active').map(
+        (response : Response)=> response
+    )
+    .catch((error : Response) => {
+      return  Observable.throw(new AppError(error));
+    })
+  };
+
 
   update(category: Category): Observable<Category> {
 

@@ -108,15 +108,6 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
       e => {},
     )
 
-    // this.displayEditDialog = false;
-    // this.categoryService.update(this.categoryToEdit).subscribe(
-    //   replay => {
-    //     var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
-
-    //     this.categories[index] = replay;
-    //     this.showSuccess("");
-    //   }
-    // );
   }
  
 

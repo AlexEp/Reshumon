@@ -15,6 +15,8 @@ import { AppConfigService } from './app-config.service';
 import { AppErrorHandleService } from './error-handle.service';
 import { DailyActivity } from '../shared/daily-activity.model';
 
+import * as Moment from 'moment'; 
+
 
 
 
@@ -36,6 +38,17 @@ export class DailyActivityService  {
     })
   };
 
+  getByDates(from :Date, to : Date) : Observable<DailyActivity[]> {
+    let fromFormatted = Moment(from).format('YYYY-MM-DD');
+    let toFormatted = Moment(to).format('YYYY-MM-DD');
+
+    return this.http.get(this.url + `?from=${fromFormatted}&to=${toFormatted}`).map(
+        (response : Response)=> response
+    )
+    .catch((error : Response) => {
+      return  Observable.throw(new AppError(error));
+    })
+  };
 
   update(dailyActivity : DailyActivity) : Observable<DailyActivity> {
 

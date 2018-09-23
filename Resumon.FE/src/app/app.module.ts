@@ -24,14 +24,15 @@ import { TabViewModule } from 'primeng/tabview';
 import {ToastModule} from 'primeng/toast';
 import {AccordionModule} from 'primeng/accordion';
 import {SpinnerModule} from 'primeng/spinner';
-// import {PickListModule} from 'primeng/picklist';
 import {DropdownModule} from 'primeng/dropdown';
+import {ListboxModule} from 'primeng/listbox';
+import {ColorPickerModule} from 'primeng/colorpicker';
 
 /* Component */
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { HomeComponent } from './home/home.component';
-import { ReportComponent } from './report/report.component';
+
 import { LoginComponent } from './login/login.component';
 import { TimeRegistrationComponent } from './time-registration/time-registration.component';
 
@@ -61,6 +62,13 @@ import { FilterProjectByName } from './pipes/filter-project-by-name.pipe';
 import { FilterProjectFavorite } from './pipes/filter-project-favorite.pipe';
 import { FilterUsers } from './pipes/filter-users.pipe';
 import { SelectItemPipe } from './pipes/select-Item.pipe';
+import { FilterProject } from './pipes/filter-project.pipe';
+import { FilterItem } from './pipes/filter-item.pipe';
+
+import { ReportByProjectComponent } from './reports/report-by-project/report-by-project.component';
+import { ReportByUserComponent } from './reports/report-by-user/report-by-user.component';
+import { ReportComponent } from './reports/report/report.component';
+import { ReportByCategoryComponent } from './reports/report-by-category/report-by-category.component';
 
 
 
@@ -75,9 +83,9 @@ const routesConfigs: Routes = [
   {
     path: 'reports', component: ReportComponent, canActivate: [AuthGuardService],
     children: [
-      { path: 'byhours', component: ReportComponent },
-      { path: 'byproject', component: ReportComponent },
-      { path: 'byuser', component: ReportComponent },
+      { path: 'bycategory', component: ReportByCategoryComponent  },
+      { path: 'byproject', component: ReportByProjectComponent },
+      { path: 'byuser', component: ReportByUserComponent  },
     ]
   },
   {
@@ -126,13 +134,19 @@ const routesConfigs: Routes = [
     MngComponent,
     DailyActivityComponent,
     AnimatedLoadingComponent,
-    
+    ReportByProjectComponent,
+    ReportByUserComponent,
+
+
     //pipes
     FilterCategories,
     FilterProjectByName,
     FilterProjectFavorite,
     FilterUsers,
-    SelectItemPipe
+    FilterItem,
+    SelectItemPipe,
+    ReportByCategoryComponent,
+
     
   ],
   imports: [
@@ -163,7 +177,9 @@ const routesConfigs: Routes = [
     TabViewModule,
     AccordionModule,
     SpinnerModule,
-    DropdownModule
+    DropdownModule,
+    ListboxModule,
+    ColorPickerModule
     
   ],
   providers: [

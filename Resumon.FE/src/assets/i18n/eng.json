@@ -47,6 +47,13 @@
                 "prev" : "prev",
                 "next" : "next"
   
+            },
+            "reports":{
+                "projects" : "Projects",
+                "from" : "From",
+                "to" : "To",
+                "load" : "Load"
+  
             }
             
         }
