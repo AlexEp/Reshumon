@@ -12,7 +12,7 @@ namespace Reshumon.DAL.DTO
     public class UserFavorite
     {
         [Key, Column("UserFavoriteID")]
-        public int ID { get; set; }
+        public int UsersFavoriteID { get; set; }
 
         [Column("UserID")]
         public int UserID { get; set; }

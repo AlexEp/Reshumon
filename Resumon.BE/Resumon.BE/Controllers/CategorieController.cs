@@ -36,6 +36,23 @@ namespace Resumon.BE.Controllers
            
         }
 
+
+        [HttpGet, Route("active")]
+        public IEnumerable<Category> GetAcriveCategories()
+        {
+            try
+            {
+                var ans = ServiceProvider.EntityContext.Categories.GetAll().Where(p => p.IsActive);
+                return ans.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         // GET: api/Categories/5
         [ResponseType(typeof(Category))]
         [HttpGet, Route("{id:int}")]
@@ -53,7 +70,6 @@ namespace Resumon.BE.Controllers
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
         [HttpPost, Route("{id:int}")]
-
         public IHttpActionResult PutCategory(int id,[FromBody] Category category)
         {
             if (!ModelState.IsValid)

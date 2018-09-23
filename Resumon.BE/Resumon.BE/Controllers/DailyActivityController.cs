@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -30,7 +31,28 @@ namespace Resumon.BE.Controllers
             {
                 throw;
             }
+        }
 
+        [HttpGet, Route("")]
+        public IEnumerable<DailyActivity> Get([FromUri] string from, [FromUri] string to)
+        {
+            try
+            {
+                CultureInfo provider = CultureInfo.InvariantCulture;
+
+                DateTime toDate = DateTime.Now;
+                DateTime fromDate = toDate.AddMonths(-1);
+
+                DateTime.TryParseExact(from, "yyyy-MM-dd", provider, DateTimeStyles.None, out fromDate);
+                DateTime.TryParseExact(to, "yyyy-MM-dd", provider, DateTimeStyles.None ,out toDate);
+
+                var ans = ServiceProvider.EntityContext.DailyActivity.GetByDate(fromDate, toDate);
+                return ans.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         // GET: api/Categories/5

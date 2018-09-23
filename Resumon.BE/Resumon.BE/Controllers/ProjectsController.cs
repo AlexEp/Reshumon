@@ -34,6 +34,23 @@ namespace Resumon.BE.Controllers
 
         }
 
+        [HttpGet, Route("active")]
+        public IEnumerable<Project> GetAcriveProjects()
+        {
+            try
+            {
+                var ans = ServiceProvider.EntityContext.Projects.GetAll().Where(p => p.IsActive);
+                return ans.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        
+
         // GET: api/Categories/5
         [ResponseType(typeof(Project))]
         [HttpGet, Route("{id:int}")]
@@ -87,7 +104,7 @@ namespace Resumon.BE.Controllers
 
    
         [HttpPut, Route("")]
-        public IHttpActionResult PostProjects([FromBody] IEnumerable<Project> projects)
+        public IHttpActionResult PutProjects([FromBody] IEnumerable<Project> projects)
         {
             if (!ModelState.IsValid ||
                 projects.Count( p => String.IsNullOrWhiteSpace(p.Name)) > 0 ||
@@ -120,6 +137,34 @@ namespace Resumon.BE.Controllers
             }
             return Ok(projectsSuccessfulUpdated);
             //return Content(HttpStatusCode.Created, Projects);
+        }
+
+
+        [HttpPost, Route("")]
+        public IHttpActionResult PostProjects([FromBody] Project project)
+        {
+            if (!ModelState.IsValid || project.Name == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                ServiceProvider.EntityContext.Projects.Add(project);
+            }
+            catch (DbUpdateException)
+            {
+                if (ProjectsExists(project.ProjectID))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Ok(project);
+            //return Content(HttpStatusCode.Created, category);
         }
 
         // DELETE: api/Categories/5

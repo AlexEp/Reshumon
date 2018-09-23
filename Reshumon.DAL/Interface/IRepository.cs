@@ -39,6 +39,7 @@ namespace Reshumon.DAL
 
     public interface IDailyActivityRepository : IGenericRepository<DailyActivity>
     {
+        IEnumerable<DailyActivity> GetByDate(DateTime from, DateTime to);
     }
 
     public interface IUserProjectRepository : IGenericRepository<UserProject>

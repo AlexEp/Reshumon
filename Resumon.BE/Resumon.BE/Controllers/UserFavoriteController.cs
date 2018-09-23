@@ -23,7 +23,7 @@ namespace Resumon.BE.Controllers
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.UserFavorite.GetAll();
+                var ans = ServiceProvider.EntityContext.UserFavorites.GetAll();
                 return ans.ToList();
             }
             catch (Exception)
@@ -38,7 +38,7 @@ namespace Resumon.BE.Controllers
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            UserFavorite entety = ServiceProvider.EntityContext.UserFavorite.Get(id);
+            UserFavorite entety = ServiceProvider.EntityContext.UserFavorites.Get(id);
             if (entety == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace Resumon.BE.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != entity.ID)
+            if (id != entity.UsersFavoriteID)
             {
                 return BadRequest();
             }
@@ -64,7 +64,7 @@ namespace Resumon.BE.Controllers
 
             try
             {
-                ServiceProvider.EntityContext.UserFavorite.Edit(entity);
+                ServiceProvider.EntityContext.UserFavorites.Edit(entity);
             }
             catch (DbUpdateConcurrencyException)
             {

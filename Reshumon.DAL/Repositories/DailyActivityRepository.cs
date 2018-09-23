@@ -81,12 +81,42 @@ namespace Reshumon.DAL.Repositories
 
         public void Remove(DailyActivity entity)
         {
-            throw new NotImplementedException();
+            using (var Context = GetContext())
+            {
+
+                var dailyActivities = Context.DailyActivities.FirstOrDefault(c => c.ActivityID == entity.ActivityID);
+
+                if (dailyActivities != null)
+                {
+                    try
+                    {
+                        Context.DailyActivities.Remove(dailyActivities);
+                        Context.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+                }
+            }
         }
 
         public void RemoveRange(IEnumerable<DailyActivity> entitList)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<DailyActivity> GetByDate(DateTime from, DateTime to)
+        {
+            IEnumerable<DailyActivity> results;
+            using (var Context = GetContext())
+            {
+                results = Context.DailyActivities.Where( d => d.StartDate >= from && d.StartDate <= to).ToList();
+            }
+
+            return results;
         }
     }
 }
