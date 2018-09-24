@@ -22,11 +22,20 @@ export class UsersService  {
 
   protected url : string
   constructor( protected http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService) {
-    this.url = appConfig.getSiteURL() + "/api/users";
+    this.url = appConfig.getSiteURL() + "/api/v1/users";
   }
 
   getAll() : Observable<User[]> {
     return this.http.get(this.url).map(
+        (response : Response)=> response
+    )
+    .catch((error : Response) => {
+      return  Observable.throw(new AppError(error));
+    })
+  };
+
+  getAllActive() : Observable<User[]> {
+    return this.http.get(this.url + '/active').map(
         (response : Response)=> response
     )
     .catch((error : Response) => {

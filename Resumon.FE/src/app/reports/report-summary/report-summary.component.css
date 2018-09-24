@@ -1,5 +1,5 @@
-.row,card {
-    margin: 15px 0;
+.row,.card,.selection-section{
+    margin:  0  0 15px  0;
 }
 
 

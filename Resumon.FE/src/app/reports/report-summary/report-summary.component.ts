@@ -1,3 +1,6 @@
+
+import { Project } from './../../shared/project.model';
+import { User } from './../../shared/user.model';
 import { Chart } from 'chart.js';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MsgType, MessagesService } from '../../services/messages.service';
@@ -8,20 +11,19 @@ import { ActivatedRoute } from '@angular/router';
 import { DailyActivityService } from '../../services/daily-activity.service';
 import { CategoryService } from '../../services/category.service';
 import * as Moment from 'moment';
-import { Project } from '../../shared/project.model';
 import { Category } from '../../shared/category.model';
 import { DailyActivity } from '../../shared/daily-activity.model';
 import _ = require('lodash');
 import { Colore } from '../../shared/colore.model';
 import { UsersService } from '../../services/users.service';
-import { User } from '../../shared/user.model';
+
 
 @Component({
-  selector: 'app-report-by-project',
-  templateUrl: './report-by-project.component.html',
-  styleUrls: ['./report-by-project.component.css']
+  selector: 'app-report-summary',
+  templateUrl: './report-summary.component.html',
+  styleUrls: ['./report-summary.component.css']
 })
-export class ReportByProjectComponent implements OnInit {
+export class ReportSummaryComponent implements OnInit {
 
   @ViewChild('myCanvas') canvasRef: ElementRef;
 
@@ -37,16 +39,17 @@ export class ReportByProjectComponent implements OnInit {
   categories: Category[];
   users: User[];
   searchSelected: string;
-  coloredProjects: ColoredValue[];
+  coloredProjects: ColoredValue<Project>[];
+  coloredUsers: ColoredValue<User>[];
 
   dailyActivity: DailyActivity[];
-  selectedProjects: ColoredValue[];
+
 
   chart: Chart; // This will hold our chart 
   chartOptions: any; // This will hold our chart info
   loadingDataSubscription: Subscription;
 
-  chartData: ChartData;
+
   reportByProject : ReportByProject = new ReportByProject();
   reportCols : any[];
   selectPeriod : number = 0;
@@ -70,10 +73,11 @@ export class ReportByProjectComponent implements OnInit {
     this.onPeriodChange(Period.LastWeek);
 
     this.reportCols = [
-      { field: 'category', header: 'Category' },
-      { field: 'user', header: 'User' },
-      { field: 'project', header: 'Project' },
-      { field: 'hours', header: 'Hours' },
+      { field: 'date', header: 'Date' ,footer : ''},
+      { field: 'category', header: 'Category' ,footer : '' },
+      { field: 'user', header: 'User'  ,footer : ''},
+      { field: 'project', header: 'Project'  ,footer : ''},
+      { field: 'hours', header: 'Hours' ,footer : '0' },
   ];
 
     this.isDataReady = false;
@@ -91,6 +95,7 @@ export class ReportByProjectComponent implements OnInit {
         this.users = r[2];
 
         this.coloredProjects = this.projects.map(p => new ColoredValue(this.generateRandomColor(), p));
+        this.coloredUsers = this.users.map(u => new ColoredValue(this.generateRandomColor(), u));
         this.isDataReady = true;
 
       },
@@ -128,7 +133,7 @@ export class ReportByProjectComponent implements OnInit {
 
         })
 
-        this.reloadChart();
+        this.reloadReport();
 
       },
       e => { this.messagesService.setMsg(e, MsgType.error); this.isDataReady = true; },
@@ -144,11 +149,10 @@ export class ReportByProjectComponent implements OnInit {
       let dateTo =  Moment();
       let dateFrom =  Moment();
 
-
+    if (Period.Custom == +period)  //do nothing
+      return;
+    
       switch (+period) {
-        case  Period.Custom:
-        dateFrom.add(-7, 'day');
-          break;
           case  Period.LastWeek:
            dateFrom.add(-7, 'day');
           break;
@@ -172,93 +176,64 @@ export class ReportByProjectComponent implements OnInit {
 
   }
 
-  filtercoloredProjects(coloredProject: ColoredValue, searchSelected: string) {
-    return coloredProject.project.Name.toLowerCase().includes(searchSelected)
+  filtercoloredProjects(coloredProject: ColoredValue<Project>, searchSelected: string) {
+    return coloredProject.value.Name.toLowerCase().includes(searchSelected)
+  }
+
+  filtercoloredUsers(coloredProject: ColoredValue<User>, searchSelected: string) {
+    return coloredProject.value.Name.toLowerCase().includes(searchSelected)
   }
 
 
 
-  reloadChart() {
 
-    //create an empty chart
-    if (!this.chart) {
-      let context = this.canvasRef.nativeElement.getContext('2d');
-      this.chartOptions = {
-        type: 'bar',
-        responsive: true,
-        data: {
-          labels: [],
-          datasets: [{
-            data: [],
-            backgroundColor: [],
-            borderColor: [],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }],
-            legend: {
-              display: false
-            }
-          }
-        }
-      }
-
-      this.chart = new Chart(context, this.chartOptions);
-    }
+  reloadReport() {
 
     let activityGroup = _.groupBy(this.dailyActivity, (da) => { return da.ProjectID });
 
-    this.selectedProjects = this.coloredProjects.filter(key => key.isChecked);
+    let selectedProjects = this.coloredProjects.filter(key => key.isChecked);
+    let selectedUsers = this.coloredUsers.filter(key => key.isChecked);
 
 
-  
+    let selectedActivites = this.dailyActivity.filter(a => {
+      let userExist = _.findIndex(selectedUsers, s => s.value.UserID == a.UserID) >= 0;
+      let ProjectExist = _.findIndex(selectedProjects, s => s.value.ProjectID == a.ProjectID) >= 0;
+      
+      return userExist && ProjectExist;
+      });
 
-   this.reportByProject.values = this.selectedProjects.map(key => {
-        let reportByProjectValue = new ReportByProjectValue();
-        reportByProjectValue.project = key.project.Name;
-        reportByProjectValue.category = this.categories.find( c => c.CategoryID == key.project.CategoryID).Name;
-        
-        let groupedArray = activityGroup[key.project.ProjectID];
-        reportByProjectValue.hours =(!groupedArray) ?0 : _.sumBy(groupedArray, k => k.Hours);
 
-        return reportByProjectValue;
-    });
+   this.reportByProject.values = selectedActivites.map(
+     a => {
+       let reportRecored : ReportRecord = new ReportRecord();
+
+       let user = _.find(this.users,u => u.UserID ==  a.UserID);
+       let project = _.find(this.projects,p => p.ProjectID ==  a.ProjectID);
+
+       let category = project ? _.find(this.categories,c => c.CategoryID ==  project.CategoryID) : null;
+
+       reportRecored.date = Moment(a.StartDate).format('DD-MM-YYYY');
+       reportRecored.user = user ? user.Name : "";
+       reportRecored.project = project ? project.Name : "";
+       reportRecored.category = category ? category.Name : "";
+       reportRecored.hours = a.Hours;
+
+       return reportRecored;
+     }
+   );
     
-    let keys = this.selectedProjects.map(key => key.project.Name);
+   this.reportCols.find( r => r.field == 'hours').footer = _.sumBy(this.reportByProject.values, v => v.hours);
 
-    //count group hours
-    let values = this.selectedProjects.map(key => {
-      let groupedArray = activityGroup[key.project.ProjectID];
+    // let keys = selectedProjects.map(key => key.value.Name);
 
-      if (!groupedArray) return 0;
-      return _.sumBy(groupedArray, k => k.Hours);
-    })
+    // //count group hours
+    // let values = selectedProjects.map(key => {
+    //   let groupedArray = activityGroup[key.value.ProjectID];
 
-    let backgroundColor = this.selectedProjects.map(key => key.colore);
+    //   if (!groupedArray) return 0;
+    //   return _.sumBy(groupedArray, k => k.Hours);
+    // })
 
-    this.chartData = new ChartData();
-    this.chartData.xValues = keys;
-    this.chartData.yValues = values;
-    this.chartData.colors = backgroundColor;
-
-    this.updateData(this.chart, this.chartData)
-  }
-
-  updateData(chart, ChartData: ChartData) {
-
-
-    this.chartOptions.data.labels = ChartData.xValues;
-    this.chartOptions.data.datasets[0].data = ChartData.yValues;
-    this.chartOptions.data.datasets[0].backgroundColor = ChartData.colors.map(key => this.getRGBValue(key));;
-
-
-    chart.update();
   }
 
   generateRandomColor(): Colore {
@@ -273,13 +248,22 @@ export class ReportByProjectComponent implements OnInit {
     return `rgba(${color.r}, ${color.g}, ${color.b}, 0.7)`;
   }
 
-  selectAll(){
+  selectAllProject(){
     this.coloredProjects.forEach(p => p.isChecked = true);
   }
 
-  selectNone(){
+  selectNoneProject(){
     this.coloredProjects.forEach(p => p.isChecked = false);
   }
+
+  selectAllUsers(){
+    this.coloredUsers.forEach(p => p.isChecked = true);
+  }
+
+  selectNoneUsers(){
+    this.coloredUsers.forEach(p => p.isChecked = false);
+  }
+
   translateWorld(world, path) {
     let wordpath = path ? path + world : 'dictionery.pages.reports.' + world;
     return wordpath;
@@ -288,32 +272,26 @@ export class ReportByProjectComponent implements OnInit {
 
 }
 
-class ColoredValue {
+class ColoredValue<T> {
   public isChecked: boolean = false;
 
   constructor(
     public colore: Colore,
-    public project: Project) { }
+    public value : T ) { }
 }
 
-class ReportData {
-  xValues: string[]
-  yValues: number[]
-}
 
-class ChartData extends ReportData {
-  colors: Colore[]
-}
 
 class ReportByProject {
-  values: ReportByProjectValue[]
+  values: ReportRecord[]
 
   constructor() {
     this.values = []
   }
 }
 
-class ReportByProjectValue {
+class ReportRecord {
+  date: string;
   category: string;
   user: string;
   project: string;
