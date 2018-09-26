@@ -53,7 +53,8 @@
                 "from" : "From",
                 "to" : "To",
                 "load" : "Load",
-                "users" : "Users"
+                "users" : "Users",
+                "time" : "Time"
   
             }
             

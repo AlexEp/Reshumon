@@ -2,7 +2,7 @@
 import { Project } from './../../shared/project.model';
 import { User } from './../../shared/user.model';
 import { Chart } from 'chart.js';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { MsgType, MessagesService } from '../../services/messages.service';
 import { Observable, Subscription } from 'rxjs';
 import { TranslateService } from 'ng2-translate';
@@ -26,7 +26,10 @@ import { UsersService } from '../../services/users.service';
 export class ReportSummaryComponent implements OnInit {
 
   @ViewChild('myCanvas') canvasRef: ElementRef;
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+  }
   isDataReady = false;
   isDataLodingFailed = false;
 
@@ -48,12 +51,17 @@ export class ReportSummaryComponent implements OnInit {
   chart: Chart; // This will hold our chart 
   chartOptions: any; // This will hold our chart info
   loadingDataSubscription: Subscription;
-
+  innerWidth: number;
 
   reportByProject : ReportByProject = new ReportByProject();
   reportCols : any[];
   selectPeriod : number = 0;
 
+  visibleSidebar1 : boolean = false;
+  visibleSidebarProject : boolean = false;
+  visibleSidebarUser : boolean = false;
+  visibleSidebarTime : boolean = false;
+  
   constructor(
     private route: ActivatedRoute,
     private projectsService: ProjectsService,
@@ -64,12 +72,11 @@ export class ReportSummaryComponent implements OnInit {
     private translate: TranslateService) { }
 
 
-
   ngOnInit() {
 
     this.minDateValue = Moment().add(-180, 'day').toDate();
     this.maxDateValue = Moment().add(1, 'day').toDate();
-
+    this.innerWidth = window.innerWidth;
     this.onPeriodChange(Period.LastWeek);
 
     this.reportCols = [

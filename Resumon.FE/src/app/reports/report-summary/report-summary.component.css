@@ -24,22 +24,7 @@ canvas{
   }
 
 
-  #date-from , #date-to{
-    text-align: left;
-    
-}
- 
-#date-from , #date-to{
-    text-align: left;
-}
 
-  @media (min-width: 765px) {
-    #date-from , #date-to,#btn-load{
-        text-align: center;
-
-
-    }
-}
 
 
 /* p {

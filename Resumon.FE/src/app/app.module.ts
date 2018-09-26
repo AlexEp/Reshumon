@@ -27,11 +27,13 @@ import {SpinnerModule} from 'primeng/spinner';
 import {DropdownModule} from 'primeng/dropdown';
 import {ListboxModule} from 'primeng/listbox';
 import {ColorPickerModule} from 'primeng/colorpicker';
+import {SidebarModule} from 'primeng/sidebar';
 
 /* Component */
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { HomeComponent } from './home/home.component';
+
 
 import { LoginComponent } from './login/login.component';
 import { TimeRegistrationComponent } from './time-registration/time-registration.component';
@@ -69,6 +71,7 @@ import { ReportByProjectComponent } from './reports/report-by-project/report-by-
 import { ReportByUserComponent } from './reports/report-by-user/report-by-user.component';
 import { ReportComponent } from './reports/report/report.component';
 import { ReportByCategoryComponent } from './reports/report-by-category/report-by-category.component';
+import { ReportSummaryComponent } from './reports/report-summary/report-summary.component';
 
 
 
@@ -86,6 +89,7 @@ const routesConfigs: Routes = [
       { path: 'bycategory', component: ReportByCategoryComponent  },
       { path: 'byproject', component: ReportByProjectComponent },
       { path: 'byuser', component: ReportByUserComponent  },
+      { path: 'summery', component: ReportSummaryComponent  },
     ]
   },
   {
@@ -146,6 +150,7 @@ const routesConfigs: Routes = [
     FilterItem,
     SelectItemPipe,
     ReportByCategoryComponent,
+    ReportSummaryComponent,
 
     
   ],
@@ -179,7 +184,8 @@ const routesConfigs: Routes = [
     SpinnerModule,
     DropdownModule,
     ListboxModule,
-    ColorPickerModule
+    ColorPickerModule,
+    SidebarModule
     
   ],
   providers: [

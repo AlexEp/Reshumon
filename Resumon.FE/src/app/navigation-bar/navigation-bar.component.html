@@ -1,11 +1,11 @@
 <nav id="custom-bootstrap-menu" class="navbar navbar-expand-lg  sticky-top navbar-light bg-light">
 
-    <a class="navbar-brand" href="#">
-        <img src="/docs/4.1/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        Reshumon
-      </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-    aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand" href="#">
+    <img src="/docs/4.1/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    Reshumon
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -16,38 +16,38 @@
       </li> -->
 
       <li class="nav-item ">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['daily-activity']"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>{{translateWorld('daily activity') | translate}} </a>
-        </li>
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['daily-activity']"><i class="fa fa-pencil-square-o"
+            aria-hidden="true"></i>{{translateWorld('daily activity') | translate}} </a>
+      </li>
+
+
+      <li class="nav-item ">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['reports/summery']"><i class="fa  fa-bar-chart"
+            aria-hidden="true"></i>{{translateWorld('reports') | translate}} </a>
+      </li>
+
+
 
       <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-            <i class="fa fa-bar-chart" aria-hidden="true"></i> {{translateWorld('reports') | translate}}
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
-           <button class="dropdown-item"  routerLinkActive="active" [routerLink]="['reports/bycategory']">by category</button>
-            <button class="dropdown-item" routerLinkActive="active" [routerLink]="['reports/byproject']">by project</button>
-            <button class="dropdown-item" routerLinkActive="active" [routerLink]="['reports/byuser']">by user</button>
-            <button class="dropdown-item" routerLinkActive="active" [routerLink]="['reports/summery']">Summery</button>
-          </div>
-        </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-cogs" aria-hidden="true"></i> {{translateWorld('managment') | translate}}
         </a>
-        <div class="dropdown-menu" routerLinkActive="active"  aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']"> <i class="fa fa-user" aria-hidden="true"></i>{{translateWorld('users') | translate}}</a>
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']"> <i class="fa fa-folder" aria-hidden="true"></i>{{translateWorld('categories') | translate}}</a>
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']"> <i class="fa fa-flask" aria-hidden="true"></i>{{translateWorld('projects') | translate}} </a>
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']"> <i class="fa fa-link" aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </a>
+        <div class="dropdown-menu" routerLinkActive="active" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']"> <i class="fa fa-user"
+              aria-hidden="true"></i>{{translateWorld('users') | translate}}</a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']"> <i class="fa fa-folder"
+              aria-hidden="true"></i>{{translateWorld('categories') | translate}}</a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']"> <i class="fa fa-flask"
+              aria-hidden="true"></i>{{translateWorld('projects') | translate}} </a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']"> <i class="fa fa-link"
+              aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </a>
         </div>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-        <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">
-            <i class="fa fa-sign-out" aria-hidden="true"></i>Login</a>
+      <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">
+        <i class="fa fa-sign-out" aria-hidden="true"></i>Login</a>
     </form>
   </div>
 </nav>
