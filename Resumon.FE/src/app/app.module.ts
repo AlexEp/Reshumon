@@ -28,6 +28,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {ListboxModule} from 'primeng/listbox';
 import {ColorPickerModule} from 'primeng/colorpicker';
 import {SidebarModule} from 'primeng/sidebar';
+import {PaginatorModule} from 'primeng/paginator';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -185,7 +186,8 @@ const routesConfigs: Routes = [
     DropdownModule,
     ListboxModule,
     ColorPickerModule,
-    SidebarModule
+    SidebarModule,
+    PaginatorModule
     
   ],
   providers: [

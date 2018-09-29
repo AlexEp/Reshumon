@@ -1,9 +1,9 @@
-.row,.card,.selection-section{
+.selection-section{
     margin:  0  0 15px  0;
 }
 
 
-#project-list input[type=checkbox]
+input[type=checkbox]
 {
   /* Double-sized Checkboxes */
   -ms-transform: scale(2); /* IE */
@@ -12,24 +12,3 @@
   -o-transform: scale(2); /* Opera */
   padding: 10px;
 }
-
-#project-list input {
-    margin:  0 15px 0 0
-}
-
-
-canvas{
-    width:100% !important;
-    height:300px !important;
-  }
-
-
-
-
-
-/* p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 20px;
-  } */

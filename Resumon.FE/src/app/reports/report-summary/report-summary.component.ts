@@ -16,20 +16,20 @@ import { DailyActivity } from '../../shared/daily-activity.model';
 import _ = require('lodash');
 import { Colore } from '../../shared/colore.model';
 import { UsersService } from '../../services/users.service';
+import { FilterItem } from '../../pipes/filter-item.pipe';
+import { Paginator } from 'primeng/paginator';
 
 
 @Component({
   selector: 'app-report-summary',
+  providers: [FilterItem],
   templateUrl: './report-summary.component.html',
   styleUrls: ['./report-summary.component.css']
 })
 export class ReportSummaryComponent implements OnInit {
 
-  @ViewChild('myCanvas') canvasRef: ElementRef;
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.innerWidth = window.innerWidth;
-  }
+  @ViewChild(Paginator) paginator: Paginator;
+
   isDataReady = false;
   isDataLodingFailed = false;
 
@@ -51,17 +51,30 @@ export class ReportSummaryComponent implements OnInit {
   chart: Chart; // This will hold our chart 
   chartOptions: any; // This will hold our chart info
   loadingDataSubscription: Subscription;
-  innerWidth: number;
 
-  reportByProject : ReportByProject = new ReportByProject();
-  reportCols : any[];
-  selectPeriod : number = 0;
 
-  visibleSidebar1 : boolean = false;
-  visibleSidebarProject : boolean = false;
-  visibleSidebarUser : boolean = false;
-  visibleSidebarTime : boolean = false;
-  
+  reportByProject: ReportByProject = new ReportByProject();
+  reportCols: any[];
+  selectPeriod: number = 0;
+
+  visibleSidebar1: boolean = false;
+  visibleSidebarProject: boolean = false;
+  visibleSidebarUser: boolean = false;
+  visibleSidebarTime: boolean = false;
+
+  colsUser: any[];
+  colsProjects: any[];
+
+  //side par paging
+  pageSize = 7;
+  searchUsersSelected: string = "";
+  usersPageStart = 0;
+  usersPageEnd = this.pageSize;
+
+  searchProjectSelected: string = "";
+  ProjectPageStart = 0;
+  ProjectPageEnd = this.pageSize;
+
   constructor(
     private route: ActivatedRoute,
     private projectsService: ProjectsService,
@@ -69,23 +82,37 @@ export class ReportSummaryComponent implements OnInit {
     private usersService: UsersService,
     private dailyActivityService: DailyActivityService,
     private messagesService: MessagesService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private filterItem: FilterItem) { }
 
 
   ngOnInit() {
 
     this.minDateValue = Moment().add(-180, 'day').toDate();
     this.maxDateValue = Moment().add(1, 'day').toDate();
-    this.innerWidth = window.innerWidth;
+
     this.onPeriodChange(Period.LastWeek);
 
     this.reportCols = [
-      { field: 'date', header: 'Date' ,footer : ''},
-      { field: 'category', header: 'Category' ,footer : '' },
-      { field: 'user', header: 'User'  ,footer : ''},
-      { field: 'project', header: 'Project'  ,footer : ''},
-      { field: 'hours', header: 'Hours' ,footer : '0' },
-  ];
+      { field: 'date', header: 'Date', footer: '' },
+      { field: 'category', header: 'Category', footer: '' },
+      { field: 'user', header: 'User', footer: '' },
+      { field: 'project', header: 'Project', footer: '' },
+      { field: 'hours', header: 'Hours', footer: '0' },
+    ];
+
+
+    this.colsUser = [
+      { field: 'Name', header: 'name' },
+      { field: 'LastName', header: 'last name' },
+      { field: 'isChecked', header: 'is checked' },
+      
+    ];
+
+    this.colsProjects = [
+      { field: 'Name', header: 'name' },
+      { field: 'isChecked', header: 'is checked' },
+    ];
 
     this.isDataReady = false;
 
@@ -100,6 +127,12 @@ export class ReportSummaryComponent implements OnInit {
         this.projects = r[0];
         this.categories = r[1];
         this.users = r[2];
+        for (let index = 0; index < 2; index++) {
+
+          this.users.forEach(x => this.users.push(x));
+
+
+        }
 
         this.coloredProjects = this.projects.map(p => new ColoredValue(this.generateRandomColor(), p));
         this.coloredUsers = this.users.map(u => new ColoredValue(this.generateRandomColor(), u));
@@ -112,7 +145,29 @@ export class ReportSummaryComponent implements OnInit {
 
   }
 
-  onDateSelect(){
+  paginateUsers(event) {
+    console.log(event);
+    this.usersPageStart = event.first;
+    this.usersPageEnd = event.first + event.rows;
+    //event.first = Index of the first record
+    //event.rows = Number of rows to display in new page
+    //event.page = Index of the new page
+    //event.pageCount = Total number of pages
+  }
+
+
+log(event){
+  this.log(event);
+}
+  getFilteredUsers() {
+    return this.filterItem.transform(this.coloredUsers, this.filtercoloredUsers, this.searchUsersSelected);
+  }
+
+  getFilteredProjects() {
+    return this.filterItem.transform(this.coloredProjects, this.filtercoloredProjects, this.searchProjectSelected);
+  }
+
+  onDateSelect() {
     this.onPeriodChange(Period.Custom);
   }
 
@@ -148,33 +203,32 @@ export class ReportSummaryComponent implements OnInit {
     )
 
   }
-  
-  onPeriodChange(period : Period)
-  {
-      this.selectPeriod = period;
 
-      let dateTo =  Moment();
-      let dateFrom =  Moment();
+  onPeriodChange(period: Period) {
+    this.selectPeriod = period;
+
+    let dateTo = Moment();
+    let dateFrom = Moment();
 
     if (Period.Custom == +period)  //do nothing
       return;
-    
-      switch (+period) {
-          case  Period.LastWeek:
-           dateFrom.add(-7, 'day');
-          break;
-          case  Period.LastMonth:
-           dateFrom.add(-1, 'month');
-          break;
-          case  Period.Last3Month:
-           dateFrom.add(-3, 'month');
-          break;
-        default:
-          break;
-      }
 
-      this.selectedToDate = dateTo.toDate();
-      this.selectedFromDate =  dateFrom.toDate();
+    switch (+period) {
+      case Period.LastWeek:
+        dateFrom.add(-7, 'day');
+        break;
+      case Period.LastMonth:
+        dateFrom.add(-1, 'month');
+        break;
+      case Period.Last3Month:
+        dateFrom.add(-3, 'month');
+        break;
+      default:
+        break;
+    }
+
+    this.selectedToDate = dateTo.toDate();
+    this.selectedFromDate = dateFrom.toDate();
 
   }
 
@@ -188,7 +242,8 @@ export class ReportSummaryComponent implements OnInit {
   }
 
   filtercoloredUsers(coloredProject: ColoredValue<User>, searchSelected: string) {
-    return coloredProject.value.Name.toLowerCase().includes(searchSelected)
+    return coloredProject.value.Name.toLowerCase().includes(searchSelected) ||
+      coloredProject.value.LastName.toLowerCase().includes(searchSelected)
   }
 
 
@@ -205,31 +260,31 @@ export class ReportSummaryComponent implements OnInit {
     let selectedActivites = this.dailyActivity.filter(a => {
       let userExist = _.findIndex(selectedUsers, s => s.value.UserID == a.UserID) >= 0;
       let ProjectExist = _.findIndex(selectedProjects, s => s.value.ProjectID == a.ProjectID) >= 0;
-      
+
       return userExist && ProjectExist;
-      });
+    });
 
 
-   this.reportByProject.values = selectedActivites.map(
-     a => {
-       let reportRecored : ReportRecord = new ReportRecord();
+    this.reportByProject.values = selectedActivites.map(
+      a => {
+        let reportRecored: ReportRecord = new ReportRecord();
 
-       let user = _.find(this.users,u => u.UserID ==  a.UserID);
-       let project = _.find(this.projects,p => p.ProjectID ==  a.ProjectID);
+        let user = _.find(this.users, u => u.UserID == a.UserID);
+        let project = _.find(this.projects, p => p.ProjectID == a.ProjectID);
 
-       let category = project ? _.find(this.categories,c => c.CategoryID ==  project.CategoryID) : null;
+        let category = project ? _.find(this.categories, c => c.CategoryID == project.CategoryID) : null;
 
-       reportRecored.date = Moment(a.StartDate).format('DD-MM-YYYY');
-       reportRecored.user = user ? user.Name : "";
-       reportRecored.project = project ? project.Name : "";
-       reportRecored.category = category ? category.Name : "";
-       reportRecored.hours = a.Hours;
+        reportRecored.date = Moment(a.StartDate).format('DD-MM-YYYY');
+        reportRecored.user = user ? user.Name : "";
+        reportRecored.project = project ? project.Name : "";
+        reportRecored.category = category ? category.Name : "";
+        reportRecored.hours = a.Hours;
 
-       return reportRecored;
-     }
-   );
-    
-   this.reportCols.find( r => r.field == 'hours').footer = _.sumBy(this.reportByProject.values, v => v.hours);
+        return reportRecored;
+      }
+    );
+
+    this.reportCols.find(r => r.field == 'hours').footer = _.sumBy(this.reportByProject.values, v => v.hours);
 
     // let keys = selectedProjects.map(key => key.value.Name);
 
@@ -255,21 +310,23 @@ export class ReportSummaryComponent implements OnInit {
     return `rgba(${color.r}, ${color.g}, ${color.b}, 0.7)`;
   }
 
-  selectAllProject(){
+  selectAllProject() {
     this.coloredProjects.forEach(p => p.isChecked = true);
   }
 
-  selectNoneProject(){
+  selectNoneProject() {
     this.coloredProjects.forEach(p => p.isChecked = false);
   }
 
-  selectAllUsers(){
+  selectAllUsers() {
     this.coloredUsers.forEach(p => p.isChecked = true);
   }
 
-  selectNoneUsers(){
+  selectNoneUsers() {
     this.coloredUsers.forEach(p => p.isChecked = false);
   }
+
+
 
   translateWorld(world, path) {
     let wordpath = path ? path + world : 'dictionery.pages.reports.' + world;
@@ -284,7 +341,7 @@ class ColoredValue<T> {
 
   constructor(
     public colore: Colore,
-    public value : T ) { }
+    public value: T) { }
 }
 
 

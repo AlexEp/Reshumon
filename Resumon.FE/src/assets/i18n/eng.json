@@ -54,8 +54,10 @@
                 "to" : "To",
                 "load" : "Load",
                 "users" : "Users",
-                "time" : "Time"
-  
+                "time" : "Time",
+                "name" : "Name",
+                "last name" : "Last Name",
+                "is checked" : "checked"
             }
             
         }

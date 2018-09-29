@@ -28,21 +28,21 @@
 
 
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+      <li class="nav-item dropdown"  routerLinkActive="active">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-cogs" aria-hidden="true"></i> {{translateWorld('managment') | translate}}
         </a>
-        <div class="dropdown-menu" routerLinkActive="active" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']"> <i class="fa fa-user"
-              aria-hidden="true"></i>{{translateWorld('users') | translate}}</a>
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']"> <i class="fa fa-folder"
-              aria-hidden="true"></i>{{translateWorld('categories') | translate}}</a>
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']"> <i class="fa fa-flask"
-              aria-hidden="true"></i>{{translateWorld('projects') | translate}} </a>
-          <a class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']"> <i class="fa fa-link"
-              aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </a>
-        </div>
+        <ul  class="dropdown-menu"  aria-labelledby="navbarDropdown">
+          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']"> <i class="fa fa-user"
+              aria-hidden="true"></i>{{translateWorld('users') | translate}}</li >
+          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']"> <i class="fa fa-folder"
+              aria-hidden="true"></i>{{translateWorld('categories') | translate}}</li >
+          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']"> <i class="fa fa-flask"
+              aria-hidden="true"></i>{{translateWorld('projects') | translate}} </li >
+          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']"> <i class="fa fa-link"
+              aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </li >
+        </ul >
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">

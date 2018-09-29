@@ -1,197 +1,178 @@
 <div *ngIf="isDataReady; else elseBlock">
 
-            <!-- ----------- Tool bar ----------- -->
-            <div class="card  toolbar-section mw-100">
-                <div class="card-body ">
-           
-                    <div class="btn-toolbar mw-100" role="toolbar" aria-label="Toolbar with button groups">
-                        <div class="btn-group" role="group" aria-label="load group">
-                            <button id="list" class="btn btn-warning" data-original-title="load" (click)="onReloadData()">
-                                <i class="fa fa-refresh" aria-hidden="true "></i>
-                                <span class="d-none d-sm-inline"> {{translateWorld('load') | translate}}</span>
-                            </button>
-                        </div>
-                        <div class="btn-group  mr-5" role="group" aria-label="filters group">
-                            <button id="list" class="btn btn btn-light" data-original-title="open project bar" (click)="visibleSidebarProject = !visibleSidebarProject">
-                                <i class="fa  fa-folder" aria-hidden="true "></i>
-                                <span class="d-none d-sm-inline"> {{translateWorld('projects') | translate}}</span>
-                            </button>
-                            <button id="list" class="btn btn btn-light" data-original-title="open user bar" (click)="visibleSidebarUser =!visibleSidebarUser">
-                                <i class="fa   fa-user" aria-hidden="true "></i>
-                                <span class="d-none d-sm-inline"> {{translateWorld('users') | translate}}</span>
-                            </button>
-                            <button id="list" class="btn btn btn-lightg" data-original-title="open time bar" (click)="visibleSidebarTime = !visibleSidebarUser">
-                                    <i class="fa  fa-calendar " aria-hidden="true "></i>
-                                    <span class="d-none d-sm-inline"> {{translateWorld('time') | translate}}</span>
-                             </button>
-                        </div>
-                    </div>
-                    <!-- ----------- Table ----------- -->
-                    <div class="card   mw-100">
-                        <div class="card-body ">
-                            <p-table #dt [columns]="reportCols" [value]="reportByProject.values">
-                                <ng-template pTemplate="caption">
-                                    <div class="ui-helper-clearfix">
-                                        <button type="button" pButton icon="fa fa-file-excel-o" iconPos="left" label="Export"
-                                            (click)="dt.exportCSV()" style="float:right"></button>
+    <!-- ----------- Tool bar ----------- -->
+    <div class="card  toolbar-section mw-100">
+        <div class="card-body ">
 
-                                        <button pButton type="button" style="float:left" (click)="visibleSidebar1 = true"
-                                            *ngIf="innerWidth < 770;" icon="pi pi-arrow-right"></button>
-                                    </div>
-                                </ng-template>
-
-                                <ng-template pTemplate="header" let-columns>
-                                    <tr>
-                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                            {{col.header}}
-                                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
-                                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                                            <!-- <p-multiSelect *ngSwitchCase="'user'" [options]="users" defaultLabel="All Colors" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect> -->
-                                        </th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-rowData let-columns="reportCols">
-                                    <tr [pSelectableRow]="rowData">
-                                        <td *ngFor="let col of reportCols">
-                                            {{rowData[col.field]}}
-
-
-                                        </td>
-
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="footer" let-columns>
-                                    <tr>
-                                        <td *ngFor="let col of columns">
-                                            {{col.footer}}
-                                        </td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                        </div>
-
-
-
-                    </div>
-
+            <div class="btn-toolbar mw-100 toolbar-section" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group" role="group" aria-label="load group">
+                    <button id="list" class="btn btn-warning" data-original-title="load" (click)="onReloadData()">
+                        <i class="fa fa-refresh" aria-hidden="true "></i>
+                        <span class="d-none d-sm-inline"> {{translateWorld('load') | translate}}</span>
+                    </button>
                 </div>
-
-
+                <div class="btn-group mx-auto " role="group" aria-label="filters group">
+                    <button id="list" class="btn btn btn-light" data-original-title="open project bar" (click)="visibleSidebarProject = !visibleSidebarProject">
+                        <i class="fa  fa-folder" aria-hidden="true "></i>
+                        <span class="d-none d-sm-inline"> {{translateWorld('projects') | translate}}</span>
+                    </button>
+                    <button id="list" class="btn btn btn-light" data-original-title="open user bar" (click)="visibleSidebarUser =!visibleSidebarUser">
+                        <i class="fa   fa-user" aria-hidden="true "></i>
+                        <span class="d-none d-sm-inline"> {{translateWorld('users') | translate}}</span>
+                    </button>
+                    <button id="list" class="btn btn btn-lightg" data-original-title="open time bar" (click)="visibleSidebarTime = !visibleSidebarUser">
+                        <i class="fa  fa-calendar " aria-hidden="true "></i>
+                        <span class="d-none d-sm-inline"> {{translateWorld('time') | translate}}</span>
+                    </button>
+                </div>
             </div>
+        </div>
+    </div>
+    <!-- ----------- Table ----------- -->
+    <div class="card   mw-100">
+        <div class="card-body ">
+            <p-table #dt [columns]="reportCols" [value]="reportByProject.values">
+                <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
+                        <button type="button" pButton icon="fa fa-file-excel-o" iconPos="left" label="Export" style="float:left"
+                            (click)="dt.exportCSV()"></button>
+                    </div>
+                </ng-template>
 
-
-
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                            <!-- <p-multiSelect *ngSwitchCase="'user'" [options]="users" defaultLabel="All Colors" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect> -->
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="reportCols">
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of reportCols">
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="footer" let-columns>
+                    <tr>
+                        <td *ngFor="let col of columns">
+                            {{col.footer}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
 
-            <!-- ------------- [Loading Animation] -------------- -->
-            <ng-template #elseBlock>
-                <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
-                <div *ngIf="isDataLodingFailed" class="">
-                    <div class="alert alert-danger" role="alert">
-                        <strong>{{'Loading Data Failed'}}</strong>
-                    </div>
-                </div>
-            </ng-template>
- <!-- ------------- [sidebar - project] -------------- -->
- <p-sidebar [(visible)]="visibleSidebarProject" [baseZIndex]="10000">
-        <h1 style="font-weight:normal">Left Sidebar</h1>
-        <button pButton type="button" (click)="visibleSidebarProject = false" label="Close" class="ui-button-secondary"></button>
+    </div>
+</div>
 
-        <ul id="project-list" class="list-group" style="text-align: left">
-                <li class="list-group-item">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="searchProjectSelected"> <i class="fa fa-search"
-                                    aria-hidden="true"></i></span>
-                        </div>
-                        <input type="text" class="form-control" id="search" [(ngModel)]="searchProjectSelected"
-                            autocomplete="off">
-                    </div>
+<!-- ------------- [Loading Animation] -------------- -->
+<ng-template #elseBlock>
+    <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
+    <div *ngIf="isDataLodingFailed" class="">
+        <div class="alert alert-danger" role="alert">
+            <strong>{{'Loading Data Failed'}}</strong>
+        </div>
+    </div>
+</ng-template>
+<!-- ------------- [sidebar - project] -------------- -->
+<p-sidebar [(visible)]="visibleSidebarProject" [baseZIndex]="10000">
+    <h1 style="font-weight:normal"> Project</h1>
 
-                </li>
-                <li class="list-group-item">
-                    <button type="button" class="btn btn-primary" (click)="selectAllProject()"><i class="fa fa-check-square-o"
-                            aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-primary float-right" (click)="selectNoneProject()"><i
-                            class="fa fa-square-o" aria-hidden="true"></i></button>
-                </li>
-                <li *ngFor="let coloredProject of coloredProjects | filterItem:filtercoloredProjects:searchProjectSelected"
-                    class="list-group-item">
-                    <div>
-                        <input type="checkbox" [(ngModel)]="coloredProject.isChecked">
-                        <!-- <p-colorPicker [(ngModel)]="coloredProject.colore" format="rgb"></p-colorPicker> -->
-                        <span>{{coloredProject.value.Name}}</span>
-                    </div>
-
-                </li>
-            </ul>
-    </p-sidebar>   
-
-    <!-- ------------- [sidebar - user] -------------- -->
- <p-sidebar [(visible)]="visibleSidebarUser" [baseZIndex]="10000">
-        <h1 style="font-weight:normal">Left Sidebar</h1>
-        <button pButton type="button" (click)="visibleSidebarUser = false" label="Close" class="ui-button-secondary"></button>
-
-        <ul id="project-list" class="list-group" style="text-align: left">
-                <li class="list-group-item">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="searchUsersSelected"> <i class="fa fa-search"
-                                    aria-hidden="true"></i></span>
-                        </div>
-                        <input type="text" class="form-control" id="search" [(ngModel)]="searchUsersSelected"
-                            autocomplete="off">
-                    </div>
-
-                </li>
-                <li class="list-group-item">
-                    <button type="button" class="btn btn-primary" (click)="selectAllUsers()"><i class="fa fa-check-square-o"
-                            aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-primary float-right" (click)="selectNoneUsers()"><i
-                            class="fa fa-square-o" aria-hidden="true"></i></button>
-                </li>
-                <li *ngFor="let coloredUser of coloredUsers | filterItem:filtercoloredUsers:searchUsersSelected"
-                    class="list-group-item">
-                    <div>
-                        <input type="checkbox" [(ngModel)]="coloredUser.isChecked">
-                        <!-- <p-colorPicker [(ngModel)]="coloredProject.colore" format="rgb"></p-colorPicker> -->
-                        <span>{{coloredUser.value.Name}}</span>
-                    </div>
-
-                </li>
-            </ul>
-      
-    </p-sidebar>  
-
-      <!-- ------------- [sidebar - time] -------------- -->
- <p-sidebar [(visible)]="visibleSidebarTime" [baseZIndex]="10000">
-        <h1 style="font-weight:normal">Left Sidebar</h1>
-        <button pButton type="button" (click)="visibleSidebarTime = false" label="Close" class="ui-button-secondary"></button>
-
-        <div class="row">
-                <div class="col-12 ">
-                    <select name="select-period" id="select-period" class="custom-select" [(ngModel)]="selectPeriod"
-                        (change)="onPeriodChange(selectPeriod)">
-                        <option value="0">Custom</option>
-                        <option value="1">Last Week</option>
-                        <option value="2">Last Month</option>
-                        <option value="3">Last 3 Month</option>
-                    </select>
-                </div>
+    <p-table #dtProjects [value]="getFilteredProjects()" [globalFilterFields]="['value.Name']" [paginator]="true"
+        [rows]="7">
+        <ng-template pTemplate="caption">
+            <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="25" placeholder="Search project name" (input)="dtProjects.filterGlobal($event.target.value, 'contains')"
+                    style="width:auto">
             </div>
-            <div class="col-6  ">
-                    <label for="date-from"> {{translateWorld('from') | translate}}</label>
-                <p-calendar id="date-from" [(ngModel)]="selectedFromDate" [minDate]="minDateValue"
-                    [maxDate]="maxDateValue" [inputStyle]="{'width':'100px'}" [showIcon]="true" dateFormat="dd/mm/yy"
-                    [readonlyInput]="true" (onSelect)="onDateSelect()"></p-calendar>
-            </div>
-            <div class="col-6 ">
-                    <label for="date-to"> {{translateWorld('to') | translate}}</label>
-                <p-calendar id="date-to" [(ngModel)]="selectedToDate" [minDate]="minDateValue" [maxDate]="maxDateValue"
-                    [inputStyle]="{'width':'100px'}" [showIcon]="true" dateFormat="dd/mm/yy"
-                    [readonlyInput]="true" (onSelect)="onDateSelect()"></p-calendar>
+        </ng-template>
+        <ng-template pTemplate="header">
+
+            <tr>
+                <th *ngFor="let col of colsProjects" [ngSwitch]="col.field">
+                    {{translateWorld(col.header) | translate}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="colsProjects">
+            <tr [pSelectableRow]="rowData">
+                <td>
+                    {{rowData.value.Name}}
+                </td>
+                <td >
+                  <input type="checkbox" name="" id="" [(ngModel)]="rowData.isChecked">
+                </td>
+            </tr>
+            <tr>
+        </tr> 
+        </ng-template>
+
+    </p-table>
 
 
+</p-sidebar>
+
+<!-- ------------- [sidebar - user] -------------- -->
+<p-sidebar [(visible)]="visibleSidebarUser" [baseZIndex]="10000" [blockScroll]="true">
+    <h1 style="font-weight:normal"> Users</h1>
+
+    <p-table #dtUsers [value]="getFilteredUsers()" [globalFilterFields]="['value.Name','value.LastName']" [paginator]="true"
+        [rows]="7">
+        <ng-template pTemplate="caption">
+            <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="25" placeholder="Search user name/last name" (input)="dtUsers.filterGlobal($event.target.value, 'contains')"
+                    style="width:auto">
             </div>
-    </p-sidebar>  
-   
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="ui-p-2" style="width: 50%">{{translateWorld('name') | translate}} </th>
+                <th class="ui-p-2" style="width: 50%">{{translateWorld('last name') | translate}} </th>
+                <th class="ui-p-2" style="width: 50%">{{translateWorld('is checked') | translate}} </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td class="ui-p-1">{{user.value.Name}} </td>
+                <td class="ui-p-1">{{user.value.LastName}} </td>
+                <td class="ui-p-1">  <input type="checkbox" name="" id="" [(ngModel)]="user.isChecked"></td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
+</p-sidebar>
+
+<!-- ------------- [sidebar - time] -------------- -->
+<p-sidebar [(visible)]="visibleSidebarTime" [baseZIndex]="10000">
+    <h1 style="font-weight:normal"> Time</h1>
+
+    <div class="row">
+        <div class="col-12 ">
+            <select name="select-period" id="select-period" class="custom-select" [(ngModel)]="selectPeriod" (change)="onPeriodChange(selectPeriod)">
+                <option value="0">Custom</option>
+                <option value="1">Last Week</option>
+                <option value="2">Last Month</option>
+                <option value="3">Last 3 Month</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-6  ">
+        <label for="date-from"> {{translateWorld('from') | translate}}</label>
+        <p-calendar id="date-from" [(ngModel)]="selectedFromDate" [minDate]="minDateValue" [maxDate]="maxDateValue"
+            [inputStyle]="{'width':'100px'}" [showIcon]="true" dateFormat="dd/mm/yy" [readonlyInput]="true" (onSelect)="onDateSelect()"></p-calendar>
+    </div>
+    <div class="col-6 ">
+        <label for="date-to"> {{translateWorld('to') | translate}}</label>
+        <p-calendar id="date-to" [(ngModel)]="selectedToDate" [minDate]="minDateValue" [maxDate]="maxDateValue"
+            [inputStyle]="{'width':'100px'}" [showIcon]="true" dateFormat="dd/mm/yy" [readonlyInput]="true" (onSelect)="onDateSelect()"></p-calendar>
+
+
+    </div>
+</p-sidebar>

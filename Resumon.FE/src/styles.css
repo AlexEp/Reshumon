@@ -58,7 +58,7 @@ body{
 }
 
 
-.nav-link.active,.dropdown-item.active {
+.nav-link.active,.nav-item.active > a,.dropdown-item.active {
     background-color:#8adaad;
     color: aliceblue;
 }
