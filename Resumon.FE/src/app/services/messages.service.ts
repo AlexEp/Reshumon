@@ -6,7 +6,7 @@ export class MessagesService {
   msgs : any[];
   constructor(private messageService: ToasMessageService) { }
 
-  public setMsg(msg:string,msgType? : MsgType){
+  public setMsg(msg:string,subject :string ,msgType? : MsgType){
     this.msgs = [];
     msgType = msgType? msgType : MsgType.success;
     let severity = 'success';
@@ -26,7 +26,7 @@ export class MessagesService {
       break;
     }  
 
-    this.messageService.add({key: 'global-toas',severity:'info', summary:'Message 1', detail:'PrimeNG rocks'});
+    this.messageService.add({key: 'global-toas','severity':severity, summary:subject, detail:msg});
     //this.msgs.push({'severity':severity, summary:msg, detail:'Order submitted'});
   }
 

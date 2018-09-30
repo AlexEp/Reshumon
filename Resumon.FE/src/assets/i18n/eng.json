@@ -18,26 +18,26 @@
             },
             "mng-categories":
             {
-                "new" : "new",
-                "category": "category",
-                "name": "name",
-                "categories managment" : "categories managment",
-                "active" : "active",
-                "save" : "save",
-                "edit" : "edit",
-                "revert":"revert"
+                "new" : "New",
+                "category": "Category",
+                "name": "Name",
+                "categories managment" : "Categories managment",
+                "active" : "Active",
+                "save" : "Save",
+                "edit" : "Edit",
+                "revert":"Revert"
             
             },
             "mng-projects" : {
-                "new" : "new",
-                "category": "category",
-                "project": "project",
-                "name": "name",
-                "projects managment" : "projects managment",
-                "active" : "active",
-                "edit" : "edit",
-                "save" : "save",
-                "revert":"revert"
+                "new" : "New",
+                "category": "Category",
+                "project": "Project",
+                "name": "Name",
+                "projects managment" : "Projects managment",
+                "active" : "Active",
+                "edit" : "Edit",
+                "save" : "Save",
+                "revert":"Revert"
             },
             "daily-activity":{
                 "project" : "project",

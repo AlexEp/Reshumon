@@ -12,7 +12,7 @@ import { CategoryService } from '../../services/category.service';
 import { MessagesService, MsgType } from '../../services/messages.service';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-mng-projects',
@@ -34,6 +34,8 @@ export class MngProjectsComponent implements OnInit {
   changedProjects : any = {};
   isDataChanged = false;
 
+  columns : any[];
+  
   constructor(
     private projectsService : ProjectsService,
     private categoryService : CategoryService,
@@ -43,6 +45,12 @@ export class MngProjectsComponent implements OnInit {
   ngOnInit() {
         //Load  data
         this.ReloadData();
+
+        this.columns  = [
+          { field: 'Name', header: 'Name' },
+          { field: 'CategoryID', header: 'Category' },
+          { field: 'IsActive', header: 'Active' },
+        ];
   }
 
   private ReloadData() {
@@ -57,13 +65,17 @@ export class MngProjectsComponent implements OnInit {
       this.categories = r[1];
       this.isDataReady = true;
     }, e => {
-      this.messagesService.setMsg(e, MsgType.error);
+      this.messagesService.setMsg(e,'Action failed' ,MsgType.error);
       this.isDataLodingFailed = true;
     }, () => console.log('onCompleted'));
+
   }
 
   onRevert(){
-    if(this.isDataChanged && confirm(this.translateWorld("confirm data lost","dictionery.global"))){
+  
+    var confirmmsg = this.translate.instant("dictionery.global." + "confirm data lost");
+
+    if(this.isDataChanged && confirm(confirmmsg)){
       this.ReloadData();
     }
 
@@ -99,7 +111,7 @@ export class MngProjectsComponent implements OnInit {
     this.projectsService.create(this.projectToEdit).subscribe(
       replay => {
         this.projects.push(replay);
-        this.showSuccess("");
+        this.messagesService.setMsg('The projects was successfully created','Action succeeded',MsgType.success);
       }
     );
   }
@@ -110,7 +122,7 @@ export class MngProjectsComponent implements OnInit {
       replay => {
         var index = this.projects.map(function(e) { return e.ProjectID; }).indexOf(this.projectToEdit.ProjectID);
         this.projects.splice(index, 1); 
-        this.showSuccess("");
+        this.messagesService.setMsg('The projects was successfully deleted','Action succeeded',MsgType.success);
       }
     );
   }
@@ -129,7 +141,7 @@ export class MngProjectsComponent implements OnInit {
         this.onSave();
       }
       else if((<DialogResult>result) == DialogResult.Cancel){
-       
+       //do nothing
       }
     }
     else{
@@ -137,7 +149,7 @@ export class MngProjectsComponent implements OnInit {
             this.create();
         }
         else if((<DialogResult>result) == DialogResult.Cancel){
-           this.showSuccess("");
+          //do nothing
         }
     }
   }
@@ -155,9 +167,7 @@ export class MngProjectsComponent implements OnInit {
 
   }
 
-  showSuccess(msg : string) {
-    this.messagesService.setMsg(msg);
-  }
+  
 
 
   translateWorld(world,path){

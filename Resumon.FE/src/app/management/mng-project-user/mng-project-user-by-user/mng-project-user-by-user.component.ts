@@ -68,7 +68,7 @@ export class MngProjectUserByUserComponent implements OnInit {
              this.loadProjectUsers(this.selectedUser);
   
           },
-          e => {this.messagesService.setMsg(e,MsgType.error);  this.isDataReady = true;},
+          e => {this.messagesService.setMsg(e,'Action ',MsgType.error);  this.isDataReady = true;},
           () => console.log('onCompleted')
       )
 
@@ -145,8 +145,10 @@ export class MngProjectUserByUserComponent implements OnInit {
   }
 
   canDeactivate(){
+    let confirmmsg = this.translate.instant("dictionery.global." + "confirm data lost");
+
     if(this.isDataChanged)    {
-      return confirm("do you wont to exit ?")
+      return confirm(confirmmsg)
     }
     return true;
   };

@@ -139,7 +139,7 @@ export class ReportSummaryComponent implements OnInit {
         this.isDataReady = true;
 
       },
-      e => { this.messagesService.setMsg(e, MsgType.error); this.isDataReady = true; },
+      e => { this.messagesService.setMsg(e, 'Loading failed',MsgType.error); this.isDataReady = true; },
       () => console.log('onCompleted')
     )
 
@@ -198,7 +198,7 @@ log(event){
         this.reloadReport();
 
       },
-      e => { this.messagesService.setMsg(e, MsgType.error); this.isDataReady = true; },
+      e => { this.messagesService.setMsg(e,'Loading failed' ,MsgType.error); this.isDataReady = true; },
       () => console.log('onCompleted')
     )
 

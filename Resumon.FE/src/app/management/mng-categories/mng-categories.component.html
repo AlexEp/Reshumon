@@ -16,7 +16,7 @@
             <i class="fa fa-floppy-o" aria-hidden="true "></i>{{ translateWorld('save') | translate}}</button>
         </div>
         <div class="col-2">
-          <button id="list " class="btn btn-primary" (click)="onEditClicked()">
+          <button id="list " class="btn btn-primary" (click)="onNewClicked()">
             <i class="fa fa-plus-circle" aria-hidden="true "></i>{{ translateWorld('new') | translate}}</button>
         </div>
         <div class="col-6">
@@ -25,7 +25,8 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
-            <input type="text" class="form-control" id="search" placeholder="Search category name" [(ngModel)]="search" autocomplete="off">
+            <input type="text" class="form-control" id="search" placeholder="Search category name" [(ngModel)]="search"
+              autocomplete="off">
           </div>
         </div>
 
@@ -45,9 +46,13 @@
 
           <ng-template pTemplate="header">
             <tr>
-              <th class="ui-p-2" style="width: 15%">{{translateWorld('edit') | translate}} </th>
-              <th class="ui-p-5" style="width: 70%">{{translateWorld('name') | translate}}</th>
-              <th class="ui-p-5" style="width: 15%">{{translateWorld('active') | translate}}</th>
+             <th class="ui-p-2" style="width: 15%"  >{{translateWorld('edit') | translate}}
+              </th>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="th-{{col.field}}">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th> 
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-category>

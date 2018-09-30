@@ -1,13 +1,8 @@
-
 import { DialogResult } from '../dialog.model';
-
 import { Component, OnInit, Pipe, PipeTransform, OnDestroy } from '@angular/core';
-
 
 import { TranslateService } from 'ng2-translate';
 import * as _ from "lodash";
-
-
 
 import { Category } from '../../shared/category.model';
 import { CategoryService } from '../../services/category.service';
@@ -23,69 +18,67 @@ import { Subscription } from 'rxjs';
 })
 export class MngCategoriesComponent implements OnInit, OnDestroy {
 
-
-  categoryToEdit : Category;
-  categories : Category[];
+  categoryToEdit: Category;
+  categories: Category[];
 
   displayEditDialog = false;
-  displayConfirmDeleteDialog= false;
+  displayConfirmDeleteDialog = false;
   isDataReady = false;
   isDataLodingFailed = false;
-  isDataChanged= false;
-  failedLoadingMsg = "";
-  changedCategories : any = {};
+  isDataChanged = false;
+  changedCategories: any = {};
 
-   loadingDataSubscription : Subscription ;
+  loadingDataSubscription: Subscription;
 
-   
+  columns :any[]
+
   constructor(
-    private categoryService : CategoryService,
-    private messagesService : MessagesService,
+    private categoryService: CategoryService,
+    private messagesService: MessagesService,
     private translate: TranslateService) {
 
-   }
+  }
 
   ngOnInit() {
     //Load  data
     this.ReloadData();
+
+    this.columns  = [
+      { field: 'Name', header: 'Name' },
+      { field: 'IsActive', header: 'Active' },
+    ];
   }
 
   private ReloadData() {
     this.isDataReady = false;
-    this.changedCategories  = {};
-    this.isDataChanged= false;
+    this.changedCategories = {};
+    this.isDataChanged = false;
 
     this.loadingDataSubscription = this.categoryService.getAll().subscribe(response => {
       this.categories = response;
       this.isDataReady = true;
     }, e => {
-      this.messagesService.setMsg(e, MsgType.error);
+      this.messagesService.setMsg(e, 'Loading failed',MsgType.error);
       this.isDataLodingFailed = true;
     });
   }
 
-  onRevert(){
+  onRevert() {
     this.ReloadData();
   }
 
-  onChange(category : Category){
+  onChange(category: Category) {
     this.changedCategories[category.CategoryID] = category;
     this.isDataChanged = true;
   }
 
-  onDeleteClicked(category : Category){
+  onDeleteClicked(category: Category) {
     this.categoryToEdit = _.cloneDeep(category);
     this.displayConfirmDeleteDialog = true;
   }
 
-  onEditClicked(category : Category){
-    if(category == null)  {
-      this.categoryToEdit = new Category() ;
-    }
-    else{
-      this.categoryToEdit = _.cloneDeep(category);
-    }
-  
+  onNewClicked() {
+    this.categoryToEdit = new Category();
     this.displayEditDialog = true;
   }
 
@@ -93,79 +86,77 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
     this.loadingDataSubscription.unsubscribe();
   }
 
-  cancelDelete(){
+  cancelDelete() {
     this.displayConfirmDeleteDialog = false;
   }
 
-  onSave(){
+  onSave() {
 
-    let changedProjects : Category[] =  _.map(this.changedCategories, (value, key) => { return value } );
+    let changedProjects: Category[] = _.map(this.changedCategories, (value, key) => { return value });
 
     this.categoryService.updateRange(changedProjects).subscribe(
       r => {
+        this.messagesService.setMsg('The category was successfully saved','Action succeeded',MsgType.success);
         this.ReloadData();
       },
-      e => {},
+      e => { },
     )
-
   }
- 
 
-  delete(category : Category){
+
+  delete(category: Category) {
     this.displayConfirmDeleteDialog = false;
     this.categoryService.delete(this.categoryToEdit).subscribe(
       replay => {
-        var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
-        this.categories.splice(index, 1); 
-        this.showSuccess("");
+        var index = this.categories.map(function (e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
+        this.categories.splice(index, 1);
+        this.messagesService.setMsg('The category was successfully deleted','Action succeeded',MsgType.success);
       }
     );
   }
 
-  create(category : Category){
+  create(category: Category) {
     this.displayEditDialog = false;
     this.categoryService.create(this.categoryToEdit).subscribe(
       replay => {
         //var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
         this.categories.push(replay);
-        this.showSuccess("");
+        this.messagesService.setMsg('The category was successfully created','Action succeeded',MsgType.success);
       }
     );
   }
 
-  isNewCategory(){
-    return !this.categoryToEdit|| this.categoryToEdit.CategoryID < 1
+  isNewCategory() {
+    return !this.categoryToEdit || this.categoryToEdit.CategoryID < 1
   }
 
-  showSuccess(msg : string) {
-    this.messagesService.setMsg(msg);
-  }
+  
 
-  displayDialogResults(result : DialogResult ){
+  displayDialogResults(result: DialogResult) {
     this.displayEditDialog = false;
 
-    if(this.categoryToEdit.CategoryID > 0)  {
-      if((<DialogResult>result) == DialogResult.Ok){
+    if (this.categoryToEdit.CategoryID > 0) {
+      if ((<DialogResult>result) == DialogResult.Ok) {
         this.onSave();
       }
-      else if((<DialogResult>result) == DialogResult.Cancel){
-       
+      else if ((<DialogResult>result) == DialogResult.Cancel) {
+
       }
     }
-    else{
-        if((<DialogResult>result) == DialogResult.Ok){
-            this.create(this.categoryToEdit);
-        }
-        else if((<DialogResult>result) == DialogResult.Cancel){
-          // this.showSuccess("");
-        }
+    else {
+      if ((<DialogResult>result) == DialogResult.Ok) {
+        this.create(this.categoryToEdit);
+      }
+      else if ((<DialogResult>result) == DialogResult.Cancel) {
+        // this.showSuccess("");
+      }
     }
   }
-  
-  translateWorld(world,path){
+
+  translateWorld(world, path) {
     return path ? path + world : 'dictionery.pages.mng-categories.' + world
   }
-  
+
 }
 
 @Pipe({
@@ -173,11 +164,11 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
 })
 export class FilterCategories implements PipeTransform {
   transform(items: Category[], searchText: string): any[] {
-    if(!items) return [];
-    if(!searchText) return items;
-searchText = searchText.toLowerCase();
-return items.filter( it => {
+    if (!items) return [];
+    if (!searchText) return items;
+    searchText = searchText.toLowerCase();
+    return items.filter(it => {
       return it.Name.toLowerCase().includes(searchText);
     });
-   }
+  }
 }

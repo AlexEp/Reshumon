@@ -69,9 +69,7 @@ import { FilterProject } from './pipes/filter-project.pipe';
 import { FilterItem } from './pipes/filter-item.pipe';
 
 import { ReportByProjectComponent } from './reports/report-by-project/report-by-project.component';
-import { ReportByUserComponent } from './reports/report-by-user/report-by-user.component';
 import { ReportComponent } from './reports/report/report.component';
-import { ReportByCategoryComponent } from './reports/report-by-category/report-by-category.component';
 import { ReportSummaryComponent } from './reports/report-summary/report-summary.component';
 
 
@@ -87,9 +85,7 @@ const routesConfigs: Routes = [
   {
     path: 'reports', component: ReportComponent, canActivate: [AuthGuardService],
     children: [
-      { path: 'bycategory', component: ReportByCategoryComponent  },
       { path: 'byproject', component: ReportByProjectComponent },
-      { path: 'byuser', component: ReportByUserComponent  },
       { path: 'summery', component: ReportSummaryComponent  },
     ]
   },
@@ -140,7 +136,6 @@ const routesConfigs: Routes = [
     DailyActivityComponent,
     AnimatedLoadingComponent,
     ReportByProjectComponent,
-    ReportByUserComponent,
 
 
     //pipes
@@ -150,7 +145,6 @@ const routesConfigs: Routes = [
     FilterUsers,
     FilterItem,
     SelectItemPipe,
-    ReportByCategoryComponent,
     ReportSummaryComponent,
 
     
