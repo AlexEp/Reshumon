@@ -15,10 +15,11 @@ using Resumon.BE.Models;
 namespace Resumon.BE.Controllers
 {
 
+    [RoutePrefix("api/v1/users")]
     public class UsersController : ApiController
     {
 
-        // GET: api/Users
+        [HttpGet, Route("")]
         public IEnumerable<User> GetUser()
         {
             try
@@ -34,8 +35,25 @@ namespace Resumon.BE.Controllers
            
         }
 
+        [HttpGet, Route("active")]
+        public IEnumerable<User> GetAcriveUsers()
+        {
+            try
+            {
+                var ans = ServiceProvider.EntityContext.Users.GetAll().Where(p => p.IsActive);
+                return ans.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         // GET: api/Users/5
         [ResponseType(typeof(User))]
+        [HttpGet, Route("{id:int}")]
         public IHttpActionResult GetUser(int id)
         {
             User User  = ServiceProvider.EntityContext.Users.Get(id);
@@ -49,7 +67,7 @@ namespace Resumon.BE.Controllers
 
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
-        [HttpPut]
+        [HttpPost, Route("{id:int}")]
         public IHttpActionResult PutUser(int id,[FromBody] User User)
         {
             if (!ModelState.IsValid)
@@ -84,7 +102,7 @@ namespace Resumon.BE.Controllers
 
         // POST: api/Users
 
-        [HttpPut]
+        [HttpPut, Route("")]
         public IHttpActionResult PostUser([FromBody]User User)
         {
             if (!ModelState.IsValid || User.Name == null)
@@ -113,6 +131,7 @@ namespace Resumon.BE.Controllers
 
         // DELETE: api/Users/5
         [ResponseType(typeof(User))]
+        [HttpDelete, Route("")]
         public IHttpActionResult DeleteUser(int id)
         {
             

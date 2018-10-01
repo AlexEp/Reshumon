@@ -24,9 +24,14 @@ namespace Reshumon.DAL.DTO
         [Column("Email")]
         public string Email { get; set; }
 
+        [Column("IsUseDiningRoom")]
+        public bool IsUseDiningRoom { get; set; }
 
         [Column("IsActive")]
         public bool IsActive { get; set; }
+
+   
+        
     }
 
 }
