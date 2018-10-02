@@ -10,6 +10,27 @@ using System.Web;
 
 namespace Resumon.BE.Models
 {
+    public class UserProfileModel {
+
+        [Required]
+        [MaxLength(100)]
+        public string FirstName { get; set; }
+
+
+        [Required]
+        [MaxLength(100)]
+        public string LastName { get; set; }
+
+
+        [Required]
+        public string Level { get; set; }
+
+        [Required]
+        public DateTime JoinDate { get; set; }
+        public string UserName { get; internal set; }
+        public string Email { get; internal set; }
+    }
+
     public class ApplicationUser : IdentityUser
     {
 
@@ -25,9 +46,13 @@ namespace Resumon.BE.Models
         [MaxLength(100)]
         public string FirstName { get; set; }
 
+
+
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
+
+       
 
         [Required]
         public byte Level { get; set; }
