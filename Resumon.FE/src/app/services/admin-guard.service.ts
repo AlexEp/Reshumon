@@ -12,7 +12,7 @@ export class AdminGuardService implements CanActivate,CanActivateChild {
     if(this.auth.isAuthenticated() && this.auth.isAdmin())
       return true;
       //
-      this.route.navigate(['\home'], {queryParams: {returnUrl : state.url}});
+      this.route.navigate(['/daily-activity'], {queryParams: {returnUrl : state.url}});
       return false;
     
   }

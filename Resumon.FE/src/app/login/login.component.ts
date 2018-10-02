@@ -2,6 +2,8 @@ import { Router, RouterLinkActive, ActivatedRoute } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { User } from '../shared/user.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +11,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
 
   isInvalidLogIn = false;
 
@@ -18,9 +21,6 @@ export class LoginComponent implements OnInit {
     let islogin = this.auth.isAuthenticated();
   }
 
-  showDialog(){
-    this.auth.showDialog();
-  }
 
   submit(credentials : {username : string ,password: string}){
   

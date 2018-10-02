@@ -139,7 +139,7 @@ export class ReportSummaryComponent implements OnInit {
         this.isDataReady = true;
 
       },
-      e => { this.messagesService.setMsg(e, 'Loading failed',MsgType.error); this.isDataReady = true; },
+      e => { this.messagesService.error(e, 'Loading failed'); this.isDataReady = true; },
       () => console.log('onCompleted')
     )
 
@@ -198,7 +198,7 @@ log(event){
         this.reloadReport();
 
       },
-      e => { this.messagesService.setMsg(e,'Loading failed' ,MsgType.error); this.isDataReady = true; },
+      e => { this.messagesService.error(e,'Loading failed' ); this.isDataReady = true; },
       () => console.log('onCompleted')
     )
 
@@ -242,7 +242,7 @@ log(event){
   }
 
   filtercoloredUsers(coloredProject: ColoredValue<User>, searchSelected: string) {
-    return coloredProject.value.Name.toLowerCase().includes(searchSelected) ||
+    return coloredProject.value.FirstName.toLowerCase().includes(searchSelected) ||
       coloredProject.value.LastName.toLowerCase().includes(searchSelected)
   }
 
@@ -275,7 +275,7 @@ log(event){
         let category = project ? _.find(this.categories, c => c.CategoryID == project.CategoryID) : null;
 
         reportRecored.date = Moment(a.StartDate).format('DD-MM-YYYY');
-        reportRecored.user = user ? user.Name : "";
+        reportRecored.user = user ? user.FirstName : "";
         reportRecored.project = project ? project.Name : "";
         reportRecored.category = category ? category.Name : "";
         reportRecored.hours = a.Hours;

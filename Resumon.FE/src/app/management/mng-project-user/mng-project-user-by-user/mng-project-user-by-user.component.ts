@@ -68,7 +68,7 @@ export class MngProjectUserByUserComponent implements OnInit {
              this.loadProjectUsers(this.selectedUser);
   
           },
-          e => {this.messagesService.setMsg(e,'Action ',MsgType.error);  this.isDataReady = true;},
+          e => {this.messagesService.error(e,'Action failed');  this.isDataReady = true;},
           () => console.log('onCompleted')
       )
 

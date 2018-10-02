@@ -58,7 +58,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
       this.categories = response;
       this.isDataReady = true;
     }, e => {
-      this.messagesService.setMsg(e, 'Loading failed',MsgType.error);
+      this.messagesService.error(e, 'Loading failed');
       this.isDataLodingFailed = true;
     });
   }
@@ -96,7 +96,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
 
     this.categoryService.updateRange(changedProjects).subscribe(
       r => {
-        this.messagesService.setMsg('The category was successfully saved','Action succeeded',MsgType.success);
+        this.messagesService.success('The category was successfully saved','Action succeeded');
         this.ReloadData();
       },
       e => { },
@@ -110,7 +110,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
       replay => {
         var index = this.categories.map(function (e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
         this.categories.splice(index, 1);
-        this.messagesService.setMsg('The category was successfully deleted','Action succeeded',MsgType.success);
+        this.messagesService.success('The category was successfully deleted','Action succeeded');
       }
     );
   }
@@ -121,7 +121,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
       replay => {
         //var index = this.categories.map(function(e) { return e.CategoryID; }).indexOf(this.categoryToEdit.CategoryID);
         this.categories.push(replay);
-        this.messagesService.setMsg('The category was successfully created','Action succeeded',MsgType.success);
+        this.messagesService.success('The category was successfully created','Action succeeded');
       }
     );
   }

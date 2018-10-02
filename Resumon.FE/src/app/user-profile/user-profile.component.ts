@@ -16,9 +16,7 @@ export class UserProfileComponent implements OnInit {
     if (this.auth.userProfile) {
       this.profile = this.auth.userProfile;
     } else {
-      this.auth.getProfile((err, profile) => {
-        this.profile = profile;
-      });
+      //this.auth.getProfile().then((r) => this.profile = r )
     }
   }
 

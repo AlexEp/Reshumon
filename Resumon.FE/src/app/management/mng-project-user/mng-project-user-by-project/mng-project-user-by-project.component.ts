@@ -68,7 +68,7 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
            this.loadProjectUsers(this.selectedProject );
 
         },
-        e => {this.messagesService.setMsg(e,'Action failed',MsgType.error);  this.isDataReady = true;},
+        e => {this.messagesService.error(e,'Action failed');  this.isDataReady = true;},
         () => console.log('onCompleted')
     )
     

@@ -14,7 +14,7 @@ export class FilterUsers  {
     searchText = searchText.toLowerCase();
 
      return users.filter(it => {
-      return it.Name.toLowerCase().includes(searchText) || it.LastName.toLowerCase().includes(searchText) ;
+      return it.FirstName.toLowerCase().includes(searchText) || it.LastName.toLowerCase().includes(searchText) ;
     });
    
   }

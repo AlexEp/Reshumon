@@ -56,7 +56,7 @@ export class DailyActivityComponent implements OnInit, OnDestroy {
       this.isDataReady = true;
       this.projectsAvailable = _.differenceWith(this.projects ,  this.dailyActivity, (p,a) => {return a.ProjectID == p.ProjectID });
     }, e => {
-      this.messagesService.setMsg(e, 'Loading failed',MsgType.error);
+      this.messagesService.error(e, 'Loading failed');
       this.isDataLodingFailed = true;
     });
   }

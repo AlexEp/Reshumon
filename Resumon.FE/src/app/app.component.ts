@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
   
 import { MessagesService } from './services/messages.service';
 import { TranslateService } from 'ng2-translate';
@@ -9,7 +9,8 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent  implements OnInit {
+
   posts = [];
 
   constructor(private  auth : AuthService, private messagesService : MessagesService,private translate: TranslateService) { 
@@ -18,8 +19,14 @@ export class AppComponent {
      translate.use( 'eng');
     // let browserLang = translate.getBrowserLang();
     // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
-    auth.handleAuthentication();
+    //auth.handleAuthentication();
   }
+
+  ngOnInit(): void {
+ 
+  }
+  
+
 
 
 

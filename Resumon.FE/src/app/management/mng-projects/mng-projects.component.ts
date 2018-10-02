@@ -65,7 +65,7 @@ export class MngProjectsComponent implements OnInit {
       this.categories = r[1];
       this.isDataReady = true;
     }, e => {
-      this.messagesService.setMsg(e,'Action failed' ,MsgType.error);
+      this.messagesService.error(e,'Action failed' );
       this.isDataLodingFailed = true;
     }, () => console.log('onCompleted'));
 
@@ -111,7 +111,7 @@ export class MngProjectsComponent implements OnInit {
     this.projectsService.create(this.projectToEdit).subscribe(
       replay => {
         this.projects.push(replay);
-        this.messagesService.setMsg('The projects was successfully created','Action succeeded',MsgType.success);
+        this.messagesService.error('The projects was successfully created','Action succeeded');
       }
     );
   }
@@ -122,7 +122,7 @@ export class MngProjectsComponent implements OnInit {
       replay => {
         var index = this.projects.map(function(e) { return e.ProjectID; }).indexOf(this.projectToEdit.ProjectID);
         this.projects.splice(index, 1); 
-        this.messagesService.setMsg('The projects was successfully deleted','Action succeeded',MsgType.success);
+        this.messagesService.error('The projects was successfully deleted','Action succeeded');
       }
     );
   }

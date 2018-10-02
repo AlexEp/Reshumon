@@ -94,7 +94,7 @@ export class ReportByProjectComponent implements OnInit {
         this.isDataReady = true;
 
       },
-      e => { this.messagesService.setMsg(e,'Loading failed' ,MsgType.error); this.isDataReady = true; },
+      e => { this.messagesService.error(e,'Loading failed' ); this.isDataReady = true; },
       () => console.log('onCompleted')
     )
 
@@ -131,7 +131,7 @@ export class ReportByProjectComponent implements OnInit {
         this.reloadChart();
 
       },
-      e => { this.messagesService.setMsg(e, 'Loading failed',MsgType.error); this.isDataReady = true; },
+      e => { this.messagesService.error(e, 'Loading failed'); this.isDataReady = true; },
       () => console.log('onCompleted')
     )
 

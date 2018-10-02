@@ -71,15 +71,16 @@ import { FilterItem } from './pipes/filter-item.pipe';
 import { ReportByProjectComponent } from './reports/report-by-project/report-by-project.component';
 import { ReportComponent } from './reports/report/report.component';
 import { ReportSummaryComponent } from './reports/report-summary/report-summary.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 
 
 
 const routesConfigs: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', redirectTo: '/login',pathMatch : "full"},
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: TimeRegistrationComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  // { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'daily-activity', component: DailyActivityComponent, canActivate: [AuthGuardService] },
   
   {
@@ -108,7 +109,7 @@ const routesConfigs: Routes = [
     ]
   },
   { path: 'page-not-found', component: PageNotFoundComponent },
-  { path: '**', redirectTo: 'page-not-found' }
+  // { path: '**', redirectTo: 'page-not-found' }
 ];
 
 @NgModule({
@@ -146,6 +147,7 @@ const routesConfigs: Routes = [
     FilterItem,
     SelectItemPipe,
     ReportSummaryComponent,
+    SignUpComponent,
 
     
   ],

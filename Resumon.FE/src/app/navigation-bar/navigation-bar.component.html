@@ -22,32 +22,41 @@
 
 
       <li class="nav-item ">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['reports/summery']"><i class="fa  fa-bar-chart"
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['reports/summery']"><i class="fa  fa-bar-chart"
             aria-hidden="true"></i>{{translateWorld('reports') | translate}} </a>
       </li>
 
 
 
-      <li class="nav-item dropdown"  routerLinkActive="active">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
+      <li class="nav-item dropdown" routerLinkActive="active">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
           <i class="fa fa-cogs" aria-hidden="true"></i> {{translateWorld('managment') | translate}}
         </a>
-        <ul  class="dropdown-menu"  aria-labelledby="navbarDropdown">
-          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']"> <i class="fa fa-user"
-              aria-hidden="true"></i>{{translateWorld('users') | translate}}</li >
-          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']"> <i class="fa fa-folder"
-              aria-hidden="true"></i>{{translateWorld('categories') | translate}}</li >
-          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']"> <i class="fa fa-flask"
-              aria-hidden="true"></i>{{translateWorld('projects') | translate}} </li >
-          <li  class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']"> <i class="fa fa-link"
-              aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </li >
-        </ul >
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']"> <i class="fa fa-user"
+              aria-hidden="true"></i>{{translateWorld('users') | translate}}</li>
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']"> <i class="fa fa-folder"
+              aria-hidden="true"></i>{{translateWorld('categories') | translate}}</li>
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']"> <i class="fa fa-flask"
+              aria-hidden="true"></i>{{translateWorld('projects') | translate}} </li>
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']"> <i class="fa fa-link"
+              aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <!-- <a class="nav-link"  *ngIf="!isLogedIn()"   (click)="login()" href="" >
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Login</a> -->
+
+        <a class="nav-link" *ngIf="isLogedIn()" (click)="logout()" href="">
+          <i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <a class="nav-link" routerLinkActive="active current" [routerLink]="['login']">
-        <i class="fa fa-sign-out" aria-hidden="true"></i>Login</a>
+
     </form>
   </div>
 </nav>

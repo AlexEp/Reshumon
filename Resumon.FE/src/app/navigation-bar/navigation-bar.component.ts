@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -8,13 +9,17 @@ import { AuthService } from '../services/auth.service';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor(private  auth : AuthService) { }
+  constructor(private  auth : AuthService,private router : Router) { }
 
   ngOnInit() {
   }
 
   isLogedIn(){
     return this.auth.isAuthenticated();
+  }
+
+  logout() {
+    this.auth.logOut();
   }
 
   translateWorld(world,path){
