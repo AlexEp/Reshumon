@@ -8,9 +8,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Resumon.BE.Models
+namespace Resumon.BE.Models.ViewModels
 {
     public class UserProfileModel {
+
+        public UserProfileModel()
+        {
+
+        }
+
 
         [Required]
         [MaxLength(100)]
@@ -22,19 +28,18 @@ namespace Resumon.BE.Models
         public string LastName { get; set; }
 
 
-        [Required]
-        public string Level { get; set; }
 
         [Required]
         public DateTime JoinDate { get; set; }
         public string UserName { get; internal set; }
         public string Email { get; internal set; }
+        public bool IsActive { get; }
     }
 
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUserIdentity : IdentityUser
     {
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUserIdentity> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -42,23 +47,8 @@ namespace Resumon.BE.Models
             return userIdentity;
         }
 
-        [Required]
-        [MaxLength(100)]
-        public string FirstName { get; set; }
 
-
-
-        [Required]
-        [MaxLength(100)]
-        public string LastName { get; set; }
-
-       
-
-        [Required]
-        public byte Level { get; set; }
-
-        [Required]
-        public DateTime JoinDate { get; set; }
+        public int UserRefID { get; set; }
 
     }
 }

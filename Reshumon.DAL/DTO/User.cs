@@ -14,15 +14,13 @@ namespace Reshumon.DAL.DTO
         [Key, Column("UserID")]
         public int UserID { get; set; }
 
-        [Column("Name")]
-        public string Name { get; set; }
+        [Column("FirstName")]
+        public string FirstName { get; set; }
 
         [Column("LastName")]
         public string LastName { get; set; }
 
 
-        [Column("Email")]
-        public string Email { get; set; }
 
         [Column("IsUseDiningRoom")]
         public bool IsUseDiningRoom { get; set; }
@@ -30,8 +28,8 @@ namespace Reshumon.DAL.DTO
         [Column("IsActive")]
         public bool IsActive { get; set; }
 
-   
-        
+        [Column("JoinDate")]
+        public DateTime JoinDate { get; set; }
     }
 
 }

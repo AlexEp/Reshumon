@@ -31,6 +31,8 @@ namespace MvcApplication
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
                 AllowInsecureHttp = true
             };
+
+            // Token Generation
             app.UseOAuthAuthorizationServer(option);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }

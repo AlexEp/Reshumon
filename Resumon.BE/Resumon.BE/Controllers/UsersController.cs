@@ -6,11 +6,15 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Reshumon.DAL.DTO;
 using Resumon.BE.Models;
+using Resumon.BE.Models.ViewModels;
 
 namespace Resumon.BE.Controllers
 {
@@ -18,14 +22,32 @@ namespace Resumon.BE.Controllers
     [RoutePrefix("api/v1/users")]
     public class UsersController : ApiController
     {
-
+     
         [HttpGet, Route("")]
         public IEnumerable<User> GetUser()
         {
+
+            var userStore = new UserStore<ApplicationUserIdentity>(new AuthenticationDbContext());
+            var userManager = new UserManager<ApplicationUserIdentity>(userStore);
+
+           
+
             try
             {
-                var ans = ServiceProvider.EntityContext.Users.GetAll(); 
-                return ans.ToList();
+                var identityClaims = (ClaimsIdentity)User.Identity;
+                IEnumerable<Claim> claims = identityClaims.Claims;
+
+                var uerRefID = int.Parse( identityClaims.FindFirst("UserRefID").Value);
+                var Role = identityClaims.FindFirst(ClaimTypes.Role).Value;
+
+                var ans = ServiceProvider.EntityContext.Users.GetAll();
+
+                if (!User.IsInRole("AppAdmin"))
+                {
+                    ans = ans.Where(u => u.UserID == uerRefID);
+                }
+
+                return ans;
             }
             catch (Exception)
             {
@@ -41,6 +63,7 @@ namespace Resumon.BE.Controllers
             try
             {
                 var ans = ServiceProvider.EntityContext.Users.GetAll().Where(p => p.IsActive);
+
                 return ans.ToList();
             }
             catch (Exception)
@@ -105,7 +128,7 @@ namespace Resumon.BE.Controllers
         [HttpPut, Route("")]
         public IHttpActionResult PostUser([FromBody]User User)
         {
-            if (!ModelState.IsValid || User.Name == null)
+            if (!ModelState.IsValid || User.FirstName == null)
             {
                 return BadRequest(ModelState);
             }

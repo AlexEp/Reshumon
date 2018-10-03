@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Resumon.BE.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace Resumon.BE.Models
+namespace Resumon.BE.Models.Authentication
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class AuthenticationDbContext : IdentityDbContext<ApplicationUserIdentity>
     {
-        public ApplicationDbContext()
+        public AuthenticationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
             Configuration.ProxyCreationEnabled = false;
@@ -20,7 +21,7 @@ namespace Resumon.BE.Models
         {
             base.OnModelCreating(modelBuilder);
             //AspNetUsers -> User
-            modelBuilder.Entity<ApplicationUser>()
+            modelBuilder.Entity<ApplicationUserIdentity>()
                 .ToTable("AspNetUser");
             //AspNetRoles -> Role
             modelBuilder.Entity<IdentityRole>()
@@ -36,9 +37,11 @@ namespace Resumon.BE.Models
                 .ToTable("AspNetUserLogin");
         }
 
-        public static ApplicationDbContext Create()
+
+
+        public static AuthenticationDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new AuthenticationDbContext();
         }
 
     }

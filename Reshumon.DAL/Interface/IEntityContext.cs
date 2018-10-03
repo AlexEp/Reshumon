@@ -13,6 +13,6 @@ namespace Reshumon.DAL
         ICategoryRepository Categories { get; }
         IDailyActivityRepository DailyActivity { get; }
         IUserProjectRepository UserProject { get; }
-         IUserFavoriteRepository UserFavorites { get; }
+        IUserFavoriteRepository UserFavorites { get; }
     }
 }

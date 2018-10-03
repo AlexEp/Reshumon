@@ -14,6 +14,7 @@ using Resumon.BE.Models;
 
 namespace Resumon.BE.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/v1/categories")]
 
     public class CategoriesController : ApiController
