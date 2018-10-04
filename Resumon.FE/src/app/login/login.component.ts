@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { User } from '../shared/user.model';
 import { NgForm } from '@angular/forms';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
   selector: 'app-login',
@@ -15,30 +16,35 @@ export class LoginComponent implements OnInit {
 
   isInvalidLogIn = false;
 
-  constructor(private  auth : AuthService,private router : Router, private activatedRoute : ActivatedRoute) { }
+  constructor(private  authService : AuthService,
+    private router : Router, 
+    private activatedRoute : ActivatedRoute,
+    private messagesService: MessagesService) { }
 
   ngOnInit() {
-    let islogin = this.auth.isAuthenticated();
+    let islogin = this.authService.isAuthenticated();
   }
 
 
-  submit(credentials : {username : string ,password: string}){
-  
-    // this.auth.logIn(credentials.username,credentials.password).subscribe(
-    //   result =>{
-    //     if(result){
-    //         let returnUrl = this.activatedRoute.snapshot.queryParamMap.get("returnUrl");
+  onLogIn(form: NgForm) {
 
-    //         this.router.navigate([returnUrl || "/"]); //redirect to the attempted url or the home page
-    //     }
-    //     else{
-    //         this.isInvalidLogIn = true; //show isInvalidLogIn msg
-    //     }
-    //   } 
-    // )
+    this.authService.logIn(form.value.userName,form.value.password)
+    .subscribe((replay) => {
+      if (replay == true) {
+        this.router.navigate(['/daily-activity']);
+      }
+      else{
+        this.messagesService.error('User singin failed',  'Action failed');
+      }
+    },
+    e => {
+      this.messagesService.error('User singin failed',  'Action failed');
+    });
   }
+
+
   logOut(){
-    this.auth.logOut();
+    this.authService.logOut();
   }
   
 

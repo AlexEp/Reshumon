@@ -1,66 +1,26 @@
-<!-- <div class="middlePage">
-  <div class="page-header">
-    <h1 class="logo">
-      <small>Welcome to </small> Reshumon</h1>
-  </div>
+<div class="wrapper fadeInDown zero-raduis">
+    <div id="formContent">
+      <!-- Tabs Titles -->
 
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">Please Sign In</h3>
-    </div>
-    <div class="panel-body">
-
-      <div class="row">
-
-        <div class="col-md-5">
-          <a href="#">
-            <img src="http://techulus.com/buttons/fb.png" />
-          </a>
-          <br/>
-          <a href="#">
-            <img src="http://techulus.com/buttons/tw.png" />
-          </a>
-          <br/>
-          <a href="#">
-            <img src="http://techulus.com/buttons/gplus.png" />
-          </a>
-        </div>
-
-        <div class="col-md-7" style="border-left:1px solid #ccc;height:160px">
-          <form class="form-horizontal" #frm="ngForm" (ngSubmit)="submit(ngForm.value)">
-            <fieldset>
-
-              <input id="textinput" name="textinput" type="text" placeholder="Enter User Name" class="form-control input-md">
-              <div class="spacing">
-                <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                <small> Remember me</small>
-              </div>
-              <input id="textinput" name="textinput" type="text" placeholder="Enter Password" class="form-control input-md">
-              <div class="spacing">
-                <a href="#">
-                  <small> Forgot Password?</small>
-                </a>
-                <br/>
-              </div>
-              <button id="singlebutton" name="singlebutton" class="btn btn-info btn-sm pull-right">Sign In</button>
-
-
-            </fieldset>
-          </form>
-        </div>
-          
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <h2 class="my-5">Sign In</h2>
       </div>
 
+      <!-- Login Form -->
+      <form  #userSingIn="ngForm" (ngSubmit)="onLogIn(userSingIn)" novalidate>
+
+        <input class="fadeIn third zero-raduis" type="text" name="userName" #userName="ngModel" placeholder="Username" ngModel required>
+        <input class="fadeIn third zero-raduis" type="Password" name="password" #LastName="ngModel" placeholder="Password" required
+        ngModel >
+        <div id="formFooter">
+          <a class="underlineHover" href="#">Forgot Password?</a>
+        </div>
+        <input type="submit"   class="fadeIn fourth zero-raduis" value="login">
+         <!--  <h2>You don't have a account ?</h2>
+      <input type="button" class="fadeIn fourth zero-raduis pc" value="register"> -->
+      </form>
+      
+
     </div>
-  </div>
-
-  <div>Invalid username and/or password</div>
-  <p>
-    <a href="https://github.com/arjunkomath">About</a> · Arjun</p>
-
-</div> -->
-<!-- <app-user-profile></app-user-profile>
-<button  *ngIf="!auth.isAuthenticated()" (click)="showDialog()">login</button>
-<button  *ngIf="auth.isAuthenticated()"  (click)="logOut()">logOut</button> -->
-
-<app-sign-up></app-sign-up>
+</div>

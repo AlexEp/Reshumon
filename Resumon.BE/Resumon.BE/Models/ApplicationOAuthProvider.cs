@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using Resumon.BE.Models.Authentication;
 using Resumon.BE.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,15 @@ namespace Resumon.BE.Models
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();
+        }
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
+            return Task.FromResult<object>(null);
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
@@ -49,8 +59,10 @@ namespace Resumon.BE.Models
                              "userName", context.UserName
                          }
                     });
-                    var token = new AuthenticationTicket(identity, additionalData);
-                    context.Validated(token);
+
+                    AuthenticationProperties properties = CreateProperties(context.UserName);
+                    AuthenticationTicket ticket =new AuthenticationTicket(identity, additionalData);
+                    context.Validated(ticket);
                 }
                 else
                 {
@@ -63,6 +75,16 @@ namespace Resumon.BE.Models
 
                 throw;
             }
+        }
+
+        public static AuthenticationProperties CreateProperties(string userName)
+        {
+            IDictionary<string, string>
+            data = new Dictionary<string, string>
+            {
+                { "userName", userName }
+            };
+            return new AuthenticationProperties(data);
         }
     }
 }

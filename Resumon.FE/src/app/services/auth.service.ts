@@ -19,27 +19,20 @@ export class AuthService {
 
 
   private url = ""
-  //private jwtHelperService = null;
-  private isUserLogedin : boolean = false;
-  public userProfile: any;
+
+  public userProfile: { 'userName' : string, 'roles' : string[] };;
 
   constructor(protected http: HttpClient ,
     private appConfig : AppConfigService,
      private errorHandle : AppErrorHandleService,
      private router : Router)
   { 
-    //this.jwtHelperService = new JwtHelper();
-    this.url = appConfig.getSiteURL(); // + "/authentication";
 
+    this.url = appConfig.getSiteURL(); 
 
-    // let token =  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';//this.getToken();
-    // //debugger
-    // if (token) {
-    //   const decodedToken = this.jwtHelperService.decodeToken(token);
-    //   const expirationDate = this.jwtHelperService.getTokenExpirationDate(token);
-    //   const isExpired = this.jwtHelperService.isTokenExpired(token);
-    // }
-    // localStorage.setItem("authToken",token);
+    if(!this.userProfile && localStorage.getItem("token")){ //recreate userProfile from token
+      this.recreateUserProfile();
+    }
   }
 
   public logIn(userName : string, password :string) : Observable<boolean>{
@@ -52,9 +45,6 @@ export class AuthService {
 
       if(authResult && authResult.access_token) {
         this.setSession(authResult);
-
-        this.getUserClaims().subscribe(r =>  
-          this.userProfile  = r);
 
         return true;
       } 
@@ -85,25 +75,39 @@ export class AuthService {
   }
 
   getUserClaims(){
-
     
-    var reqHeader = new HttpHeaders({
-   'Content-Type': 'application/x-www-urlencoded',
-    'authorization':`bearer ${localStorage.getItem('access_token')}` });
-    return  this.http.get(this.url +'/api/v1/account/GetUserClaims',{ headers: reqHeader });
+      var reqHeader = new HttpHeaders({
+    'Content-Type': 'application/x-www-urlencoded',
+      'authorization':`bearer ${localStorage.getItem('access_token')}` });
+      return  this.http.get(this.url +'/api/v1/account/GetUserClaims',{ headers: reqHeader });
    }
 
 
-  private setSession(authResult): void {
+  private setSession(authResult : AuthToken): void {
     // Set the time that the Access Token will expire at
     const expiresAt = JSON.stringify((authResult.expires_in * 1000) + new Date().getTime());
+
+
+    localStorage.setItem("token",JSON.stringify(authResult))
     localStorage.setItem("access_token",authResult.access_token)
     localStorage.setItem('expires_at', expiresAt);
+
+    this.recreateUserProfile();
+  
   }
 
+  recreateUserProfile(){
+    let token =  localStorage.getItem("token");
+
+    if(token){
+      let authResult = JSON.parse(token);
+      this.userProfile =  { 'userName' : authResult.userName, 'roles' : JSON.parse( authResult.role) };
+    }
+  }
 
   public logOut(){
         // Remove tokens and expiry time from localStorage
+    localStorage.removeItem('token');
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_at');
 
@@ -111,9 +115,6 @@ export class AuthService {
     // Go back to the home route
     this.router.navigate(['/']);
   }
-
-
-  
 
 
   public isAuthenticated(): boolean {
@@ -126,25 +127,32 @@ export class AuthService {
 
   public isAdmin(): boolean {
     // Check whether the current time is past the
-    return this.getUserRols().indexOf('admin') >= 0;
+    return this.getUserRols().indexOf('AppAdmin') >= 0;
   }
   
-  // public getUserProfile(): boolean {
-  //   var token = localStorage.getItem('id_token');
-  //   var decodedToken = this.jwtHelperService.decodeToken(token);
 
-  //   var url = "https://" + "alexepp.auth0.com" + "api/v2/users/" + decodedToken.sub;
-  //   this.authHttp.get(url).subscribe(r => console.log(r));
-  //   // Check whether the current time is past the
-  //   return 
-  // }
-
-/* OLd */
   public getUserRols()  : string[] {
-    if(!this.userProfile || !this.userProfile.app_metadata.roles){
+    if(!this.userProfile || !this.userProfile.roles){
       return []
     }  
-    return this.userProfile.app_metadata.roles;
+    return this.userProfile.roles;
   }
+
+  public getToken(): string{
+    if  (localStorage.getItem('access_token'))
+      return  localStorage.getItem('access_token');
+
+    return null;
+  }
+
+}
+
+
+export class AuthToken {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  role: string;
+  userName: string;
 
 }

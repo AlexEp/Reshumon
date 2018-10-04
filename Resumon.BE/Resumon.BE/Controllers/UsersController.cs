@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Reshumon.DAL.DTO;
 using Resumon.BE.Models;
+using Resumon.BE.Models.Authentication;
 using Resumon.BE.Models.ViewModels;
 
 namespace Resumon.BE.Controllers

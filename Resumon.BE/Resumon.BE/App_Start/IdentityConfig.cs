@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Resumon.BE.Models;
+using Resumon.BE.Models.Authentication;
 using Resumon.BE.Models.ViewModels;
 using System;
 using System.Security.Claims;

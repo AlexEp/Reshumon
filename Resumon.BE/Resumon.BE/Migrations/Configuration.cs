@@ -6,6 +6,7 @@ namespace Resumon.BE.Migrations
     using Reshumon.DAL.DTO;
     using Reshumon.DAL.Repositories;
     using Resumon.BE.Models;
+    using Resumon.BE.Models.Authentication;
     using Resumon.BE.Models.ViewModels;
     using System;
     using System.Data.Entity;
@@ -13,14 +14,14 @@ namespace Resumon.BE.Migrations
     using System.IO;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Resumon.BE.Models.AuthenticationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AuthenticationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Resumon.BE.Models.AuthenticationDbContext context)
+        protected override void Seed(AuthenticationDbContext context)
         {
             ///////////////////////////
             //Create Init DATA

@@ -1,3 +1,4 @@
+import { HTTPErrorHandleService } from './services/error-handle.service';
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 
 
@@ -7,7 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MessagesService } from './services/messages.service';
@@ -37,7 +38,7 @@ import { HomeComponent } from './home/home.component';
 
 
 import { LoginComponent } from './login/login.component';
-import { TimeRegistrationComponent } from './time-registration/time-registration.component';
+
 
 import { AppServicesModule } from './modules/app-services.module';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -72,6 +73,8 @@ import { ReportByProjectComponent } from './reports/report-by-project/report-by-
 import { ReportComponent } from './reports/report/report.component';
 import { ReportSummaryComponent } from './reports/report-summary/report-summary.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { AuthInterceptor } from './services/auth.Interceptor';
+import { truncate } from 'fs';
 
 
 
@@ -79,7 +82,6 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 const routesConfigs: Routes = [
   { path: '', redirectTo: '/login',pathMatch : "full"},
   { path: 'login', component: LoginComponent },
-  { path: 'registration', component: TimeRegistrationComponent },
   // { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'daily-activity', component: DailyActivityComponent, canActivate: [AuthGuardService] },
   
@@ -93,17 +95,17 @@ const routesConfigs: Routes = [
   {
     path: 'mng', component: MngComponent, canActivate: [AuthGuardService, AdminGuardService],
     children: [
-      { path: 'users', component: MngUsersComponent, canActivate: [AuthGuardService, AdminGuardService] },
-      { path: 'categories', component: MngCategoriesComponent, canActivate: [AuthGuardService, AdminGuardService] },
-      { path: 'projects', component: MngProjectsComponent, canActivate: [AuthGuardService, AdminGuardService] },
+      { path: 'users', component: MngUsersComponent, canActivate: [AdminGuardService] },
+      { path: 'categories', component: MngCategoriesComponent, canActivate: [ AdminGuardService] },
+      { path: 'projects', component: MngProjectsComponent, canActivate: [AdminGuardService] },
       {
         path: 'projectsUsers', 
         component: MngProjectUserComponent, 
         canActivate: [AuthGuardService, AdminGuardService],
 
         children: [
-          { path: 'user', component: MngProjectUserByUserComponent, canActivate: [AuthGuardService, AdminGuardService] , canDeactivate: [CanDeactivateGuard]},
-          { path: 'project', component: MngProjectUserByProjectComponent, canActivate: [AuthGuardService, AdminGuardService], canDeactivate: [CanDeactivateGuard]}
+          { path: 'user', component: MngProjectUserByUserComponent, canActivate: [AuthGuardService] , canDeactivate: [CanDeactivateGuard]},
+          { path: 'project', component: MngProjectUserByProjectComponent, canActivate: [AuthGuardService], canDeactivate: [CanDeactivateGuard]}
         ]
       },
     ]
@@ -119,7 +121,6 @@ const routesConfigs: Routes = [
     HomeComponent,
     ReportComponent,
     LoginComponent,
-    TimeRegistrationComponent,
 
 
     MngProjectsComponent,
@@ -192,9 +193,13 @@ const routesConfigs: Routes = [
     ToasMessageService,
     //App Services
     MessagesService,
-    AUTH_PROVIDERS
+    AUTH_PROVIDERS,
 
-
+    {
+      provide : HTTP_INTERCEPTORS ,
+      useClass :AuthInterceptor,
+      multi:true
+    }
 
   ],
   bootstrap: [AppComponent]

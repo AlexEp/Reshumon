@@ -59,22 +59,6 @@ export class SignUpComponent implements OnInit {
   }
 
 
-  OnSigIn(form: NgForm) {
 
-    this.authService.logIn(form.value.userName,form.value.password)
-    .subscribe((replay) => {
-      if (replay == true) {
-        this.router.navigate(['/daily-activity']);
-      }
-      else{
-        this.messagesService.error('User singin failed',  'Action failed');
-      }
-    },
-    e => {
-      this.messagesService.error('User singin failed',  'Action failed');
-    });
- 
-
-  }
 
 }

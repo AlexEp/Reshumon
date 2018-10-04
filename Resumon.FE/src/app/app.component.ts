@@ -26,6 +26,9 @@ export class AppComponent  implements OnInit {
  
   }
   
+  private isLogedId(){
+    return this.auth.isAuthenticated();
+  }
 
 
 

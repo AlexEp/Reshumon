@@ -7,6 +7,9 @@ export class User {
       Password: string;
       Email?: any;
       IsActive: boolean;
+      JoinDate: Date;
+      IsUseDiningRoom: boolean;
+
 
       constructor(){
             this.UserID = 0;
@@ -16,6 +19,7 @@ export class User {
             this.Password = "";
             this.Email = "";
             this.IsActive = true;
+            this.IsUseDiningRoom = false;
       }
 }
 
