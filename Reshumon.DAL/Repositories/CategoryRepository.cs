@@ -10,7 +10,7 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    internal class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
 
         string ConnectionString = "";
@@ -19,7 +19,7 @@ namespace Reshumon.DAL.Repositories
             this.ConnectionString = connectionString;
         }
 
-        private DataBaseContext GetContext()
+        protected DataBaseContext GetContext()
         {
             return new DataBaseContext(this.ConnectionString);
         }

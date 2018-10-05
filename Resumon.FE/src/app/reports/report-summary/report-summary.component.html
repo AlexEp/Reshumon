@@ -121,7 +121,7 @@
 <p-sidebar [(visible)]="visibleSidebarUser" [baseZIndex]="10000" [blockScroll]="true">
     <h1 style="font-weight:normal"> Users</h1>
 
-    <p-table #dtUsers [value]="getFilteredUsers()" [globalFilterFields]="['value.Name','value.LastName']" [paginator]="true"
+    <p-table #dtUsers [value]="getFilteredUsers()" [globalFilterFields]="['value.FirstName','value.LastName']" [paginator]="true"
         [rows]="7">
         <ng-template pTemplate="caption">
             <div style="text-align: right">
@@ -139,7 +139,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-user>
             <tr>
-                <td class="ui-p-1">{{user.value.Name}} </td>
+                <td class="ui-p-1">{{user.value.FirstName}} </td>
                 <td class="ui-p-1">{{user.value.LastName}} </td>
                 <td class="ui-p-1">  <input type="checkbox" name="" id="" [(ngModel)]="user.isChecked"></td>
             </tr>

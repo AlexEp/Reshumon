@@ -10,7 +10,7 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    internal class UserFavoriteRepository : IUserFavoriteRepository
+    public class UserFavoriteRepository : IUserFavoriteRepository
     {
         string ConnectionString = "";
         public UserFavoriteRepository(string connectionString)
@@ -18,7 +18,7 @@ namespace Reshumon.DAL.Repositories
             this.ConnectionString = connectionString;
         }
 
-        private DataBaseContext GetContext()
+        protected DataBaseContext GetContext()
         {
             return new DataBaseContext(this.ConnectionString);
         }

@@ -58,6 +58,14 @@
                 "name" : "Name",
                 "last name" : "Last Name",
                 "is checked" : "checked"
+            },
+            "mng-users":{
+                "users managment" : "Users Managment",
+                "edit" : "Edit",
+                "new" : "New",
+                "save" : "Save",
+                "revert":"Revert"
+   
             }
             
         }

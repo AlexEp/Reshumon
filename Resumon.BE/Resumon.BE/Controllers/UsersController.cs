@@ -25,37 +25,58 @@ namespace Resumon.BE.Controllers
     {
      
         [HttpGet, Route("")]
-        public IEnumerable<User> GetUser()
+        public IEnumerable<User> GetAllUsers()
         {
-
-            var userStore = new UserStore<ApplicationUserIdentity>(new AuthenticationDbContext());
-            var userManager = new UserManager<ApplicationUserIdentity>(userStore);
-
-           
+            IList<User> usersList = new List<User>();
 
             try
             {
+                //user Identity
                 var identityClaims = (ClaimsIdentity)User.Identity;
                 IEnumerable<Claim> claims = identityClaims.Claims;
 
                 var uerRefID = int.Parse( identityClaims.FindFirst("UserRefID").Value);
                 var Role = identityClaims.FindFirst(ClaimTypes.Role).Value;
 
-                var ans = ServiceProvider.EntityContext.Users.GetAll();
+       
+                var userStore = new UserStore<ApplicationUserIdentity>(new AuthenticationDbContext());
+                var manager = new UserManager<ApplicationUserIdentity>(userStore);
+                var usersAuth = userStore.Users.ToList();
 
-                if (!User.IsInRole("AppAdmin"))
+                if (User.IsInRole("Admin")) //filter in case of non Admin
                 {
-                    ans = ans.Where(u => u.UserID == uerRefID);
+                    //load user list
+                    var users = ServiceProvider.EntityContext.Users.GetAll();
+                    usersList = users.Select(u => FillWithIdntetyData(u, usersAuth)).ToList();
+
+                }
+                else
+                {
+                    var user = ServiceProvider.EntityContext.Users.Get(uerRefID);
+                    user = FillWithIdntetyData(user, usersAuth);
+
+                    usersList.Add(user);
                 }
 
-                return ans;
+                return usersList;
             }
             catch (Exception)
             {
-
                 throw;
             }
            
+        }
+
+        private User FillWithIdntetyData(User user,List<ApplicationUserIdentity> usersAuth)
+        { 
+            var userAuth = usersAuth.FirstOrDefault(ua => ua.UserRefID == user.UserID);
+
+            if (userAuth != null)
+            {
+                user = user.CreateFrom(userAuth);
+            }
+
+            return user;
         }
 
         [HttpGet, Route("active")]

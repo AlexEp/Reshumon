@@ -2,6 +2,7 @@
 using Reshumon.DAL.DTO;
 using Reshumon.DAL.Repositories;
 using Resumon.BE.Models;
+using Resumon.BE.Models.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;

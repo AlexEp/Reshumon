@@ -28,7 +28,7 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
   users: User[];
   isDataChanged : boolean = false;
   isDataReady : boolean = false;
-
+  isDataLodingFailed: boolean = false;
 
   draggedEUser: User;
   availableUsers: User[] = [];
@@ -46,32 +46,40 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
 
 
   ngOnInit() {
-    //Load  data
-    Observable.forkJoin(
-      this.projectsService.getAll(),
-      this.categoryService.getAll(),
-      this.usersService.getAll(),
-      this.usersProjectService.getAll()
-    ).subscribe( 
-        r => {
+  
+    this.reloadData() ;
+  }
 
-          //load from replay
-          this.projects = r[0]; 
-          this.categories = r[1]; 
-          this.users = r[2]; 
-          this.userProject = r[3]; 
+  private reloadData() {
 
-          this.selectedProject = this.projects[0];
+    this.isDataReady = false;
+    this.isDataChanged= false;
 
-          this.isDataReady = true;
+  //Load  data
+  Observable.forkJoin(
+    this.projectsService.getAll(),
+    this.categoryService.getAll(),
+    this.usersService.getAll(),
+    this.usersProjectService.getAll()
+  ).subscribe( 
+      r => {
 
-           this.loadProjectUsers(this.selectedProject );
+        //load from replay
+        this.projects = r[0]; 
+        this.categories = r[1]; 
+        this.users = r[2]; 
+        this.userProject = r[3]; 
 
-        },
-        e => {this.messagesService.error(e,'Action failed');  this.isDataReady = true;},
-        () => console.log('onCompleted')
-    )
-    
+        this.selectedProject = this.projects[0];
+
+        this.isDataReady = true;
+
+         this.loadProjectUsers(this.selectedProject );
+
+      },
+      e => { this.isDataLodingFailed = true;},
+      () => console.log('onCompleted')
+  )
   }
 
   private loadProjectUsers(project:Project) {

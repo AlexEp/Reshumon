@@ -34,13 +34,13 @@
           <i class="fa fa-cogs" aria-hidden="true"></i> {{translateWorld('managment') | translate}}
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/users']"> <i class="fa fa-user"
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['/mng/users']"> <i class="fa fa-user"
               aria-hidden="true"></i>{{translateWorld('users') | translate}}</li>
-          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/categories']"> <i class="fa fa-folder"
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['/mng/categories']"> <i class="fa fa-folder"
               aria-hidden="true"></i>{{translateWorld('categories') | translate}}</li>
-          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projects']"> <i class="fa fa-flask"
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['/mng/projects']"> <i class="fa fa-flask"
               aria-hidden="true"></i>{{translateWorld('projects') | translate}} </li>
-          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['mng/projectsUsers/user']"> <i class="fa fa-link"
+          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['/mng/projectsUsers/user']"> <i class="fa fa-link"
               aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </li>
         </ul>
       </li>

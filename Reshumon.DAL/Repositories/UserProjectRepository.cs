@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Reshumon.DAL.Repositories
 {
 
-   
 
-    internal class UserProjectRepository : IUserProjectRepository
+
+    public class UserProjectRepository : IUserProjectRepository
     {
         string ConnectionString = "";
         public UserProjectRepository(string connectionString)
@@ -19,7 +19,7 @@ namespace Reshumon.DAL.Repositories
             this.ConnectionString = connectionString;
         }
 
-        private DataBaseContext GetContext()
+        protected DataBaseContext GetContext()
         {
             return new DataBaseContext(this.ConnectionString);
         }

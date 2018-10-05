@@ -20,24 +20,24 @@ import { Observable } from 'rxjs';
 })
 export class MngProjectUserByUserComponent implements OnInit {
 
- 
+
   //global lists
   categories: Category[];
   projects: Project[];
   users: User[];
-  isDataChanged : boolean = false;
-  isDataReady : boolean = false;
+  isDataChanged: boolean = false;
+  isDataReady: boolean = false;
+  isDataLodingFailed: boolean = false;
 
-
-  draggedProject : Project;
+  draggedProject: Project;
   availableProject: Project[] = [];
   selectedProject: Project[] = [];
   userProject: UserProject[] = [];
-  selectedUser : User;
+  selectedUser: User;
 
 
   constructor(
-    private usersProjectService : UsersProjectService,
+    private usersProjectService: UsersProjectService,
     private projectsService: ProjectsService,
     private usersService: UsersService,
     private categoryService: CategoryService,
@@ -45,34 +45,41 @@ export class MngProjectUserByUserComponent implements OnInit {
     private translate: TranslateService) { }
 
 
-    ngOnInit() {
-      //Load  data
-      Observable.forkJoin(
-        this.projectsService.getAll(),
-        this.categoryService.getAll(),
-        this.usersService.getAll(),
-        this.usersProjectService.getAll()
-      ).subscribe( 
-          r => {
-  
-            //load from replay
-            this.projects = r[0]; 
-            this.categories = r[1]; 
-            this.users = r[2]; 
-            this.userProject = r[3]; 
-  
-            this.selectedUser = this.users[0];
-  
-            this.isDataReady = true;
-  
-             this.loadProjectUsers(this.selectedUser);
-  
-          },
-          e => {this.messagesService.error(e,'Action failed');  this.isDataReady = true;},
-          () => console.log('onCompleted')
-      )
+  ngOnInit() {
+    //Load  data
+     this.reloadData();
+  }
 
-      }
+  private reloadData() {
+
+    this.isDataReady = false;
+    this.isDataChanged= false;
+    
+    Observable.forkJoin(
+      this.projectsService.getAll(),
+      this.categoryService.getAll(),
+      this.usersService.getAll(),
+      this.usersProjectService.getAll()
+    ).subscribe(
+      r => {
+
+        //load from replay
+        this.projects = r[0];
+        this.categories = r[1];
+        this.users = r[2];
+        this.userProject = r[3];
+
+        this.selectedUser = this.users[0];
+
+        this.isDataReady = true;
+
+        this.loadProjectUsers(this.selectedUser);
+
+      },
+      e => { this.isDataLodingFailed = true; },
+      () => console.log('onCompleted')
+    )
+  }
 
 
   projectDragStart(event, project: Project) {
@@ -98,41 +105,41 @@ export class MngProjectUserByUserComponent implements OnInit {
     this.draggedProject = null;
   }
 
-  userSelected(project : Project) {
+  userSelected(project: Project) {
     this.selectedProject.push(project);
     this.availableProject = this.availableProject.filter((val, i) => val.ProjectID != project.ProjectID);
     this.isDataChanged = true;
   }
 
-  userRemoved(project : Project) {
+  userRemoved(project: Project) {
     this.availableProject.push(project);
     this.selectedProject = this.selectedProject.filter((val, i) => val.ProjectID != project.ProjectID);
     this.isDataChanged = true;
   }
 
-  onSelectionChanged(user:User){
+  onSelectionChanged(user: User) {
 
     this.selectedUser = user;
-    this.loadProjectUsers(user) ;
+    this.loadProjectUsers(user);
 
   }
 
-  onRevert(){
-    this.loadProjectUsers(this.selectedUser );
+  onRevert() {
+    this.loadProjectUsers(this.selectedUser);
     this.isDataChanged = false;
   }
 
-  onSave(){
-    this.usersProjectService.updateUser(this.selectedUser.UserID,this.selectedProject)
-        .subscribe( r => {
-          this.userProject = this.userProject.filter( up => up.UserID !== r.UserID);
-          this.userProject.push(...r.UserProjectList);
-          this.isDataChanged = false;
-        });
-  
+  onSave() {
+    this.usersProjectService.updateUser(this.selectedUser.UserID, this.selectedProject)
+      .subscribe(r => {
+        this.userProject = this.userProject.filter(up => up.UserID !== r.UserID);
+        this.userProject.push(...r.UserProjectList);
+        this.isDataChanged = false;
+      });
+
   }
 
-  private loadProjectUsers(user:User) {
+  private loadProjectUsers(user: User) {
 
     let group = _.groupBy(this.projects, (p) => {
       return _.findIndex(this.userProject, (up) => {
@@ -144,10 +151,10 @@ export class MngProjectUserByUserComponent implements OnInit {
     this.selectedProject = group['true'] || [];
   }
 
-  canDeactivate(){
+  canDeactivate() {
     let confirmmsg = this.translate.instant("dictionery.global." + "confirm data lost");
 
-    if(this.isDataChanged)    {
+    if (this.isDataChanged) {
       return confirm(confirmmsg)
     }
     return true;

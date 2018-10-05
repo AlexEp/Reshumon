@@ -36,10 +36,10 @@ export class DailyActivityComponent implements OnInit, OnDestroy {
     private messagesService  : MessagesService) { }
 
   ngOnInit() {
-    this.ReloadData();
+    this.reloadData();
   }
 
-  private ReloadData() {
+  private reloadData() {
     this.isDataReady = false;
     this.isDataLodingFailed = false;
 
@@ -56,7 +56,7 @@ export class DailyActivityComponent implements OnInit, OnDestroy {
       this.isDataReady = true;
       this.projectsAvailable = _.differenceWith(this.projects ,  this.dailyActivity, (p,a) => {return a.ProjectID == p.ProjectID });
     }, e => {
-      this.messagesService.error(e, 'Loading failed');
+
       this.isDataLodingFailed = true;
     });
   }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Reshumon.DAL.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,31 +11,33 @@ using System.Web;
 
 namespace Resumon.BE.Models.ViewModels
 {
-    public class UserProfileModel {
+    //public class UserAuth : User
+    //{
 
-        public UserProfileModel()
-        {
+    //    public UserAuth()
+    //    {
 
-        }
+    //    }
 
+    //    public UserAuth(User user, ApplicationUserIdentity userIdentity)
+    //    {
+            
+    //        this.UserID = user.UserID;
+    //        this.FirstName = user.FirstName;
+    //        this.LastName = user.LastName;
+    //        this.JoinDate = user.JoinDate;
+    //        this.IsUseDiningRoom = user.IsUseDiningRoom;
+    //        this.IsActive = user.IsActive;
 
-        [Required]
-        [MaxLength(100)]
-        public string FirstName { get; set; }
+    //        this.UserName = userIdentity.UserName;
+    //        this.Email = userIdentity.Email;
+    //    }
 
+    //    public string UserName { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public string LastName { get; set; }
+    //    public string Email { get; internal set; }
 
-
-
-        [Required]
-        public DateTime JoinDate { get; set; }
-        public string UserName { get; internal set; }
-        public string Email { get; internal set; }
-        public bool IsActive { get; }
-    }
+    //}
 
     public class ApplicationUserIdentity : IdentityUser
     {

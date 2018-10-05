@@ -34,11 +34,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/daily-activity']);
       }
       else{
-        this.messagesService.error('User singin failed',  'Action failed');
+        this.messagesService.error('Incorrect username or password',  'Action failed');
       }
     },
     e => {
-      this.messagesService.error('User singin failed',  'Action failed');
+      this.messagesService.error('Incorrect username or password',  'Action failed');
     });
   }
 

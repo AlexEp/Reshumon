@@ -114,8 +114,13 @@ export class ReportSummaryComponent implements OnInit {
       { field: 'isChecked', header: 'is checked' },
     ];
 
-    this.isDataReady = false;
+    this.reloadData();
 
+  }
+
+  reloadData(){
+    this.isDataReady = false;
+    
     //load projects & categories
     Observable.forkJoin(
       this.projectsService.getAllActive(),
@@ -131,7 +136,6 @@ export class ReportSummaryComponent implements OnInit {
 
           this.users.forEach(x => this.users.push(x));
 
-
         }
 
         this.coloredProjects = this.projects.map(p => new ColoredValue(this.generateRandomColor(), p));
@@ -139,10 +143,9 @@ export class ReportSummaryComponent implements OnInit {
         this.isDataReady = true;
 
       },
-      e => { this.messagesService.error(e, 'Loading failed'); this.isDataReady = true; },
+      e => { this.isDataLodingFailed = true; },
       () => console.log('onCompleted')
     )
-
   }
 
   paginateUsers(event) {
@@ -171,7 +174,7 @@ log(event){
     this.onPeriodChange(Period.Custom);
   }
 
-  private reloadData() {
+  private reloadDailyActivityData() {
 
 
     this.loadingDataSubscription = Observable.forkJoin(
@@ -179,7 +182,6 @@ log(event){
 
     ).subscribe(
       r => {
-
 
         this.dailyActivity = r[0];
 
@@ -233,8 +235,7 @@ log(event){
   }
 
   onReloadData() {
-    this.reloadData();
-
+    this.reloadDailyActivityData();
   }
 
   filtercoloredProjects(coloredProject: ColoredValue<Project>, searchSelected: string) {

@@ -27,11 +27,11 @@ namespace Resumon.BE.Migrations
             //Create Init DATA
 
 
-            if (!context.Roles.Any(r => r.Name == "AppAdmin"))
+            if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var role = new IdentityRole { Name = "AppAdmin" };
+                var role = new IdentityRole { Name = "Admin" };
 
                 manager.Create(role);
             }
@@ -78,7 +78,7 @@ namespace Resumon.BE.Migrations
                 };
 
                 manager.Create(userIdentity, "Admin12345");
-                manager.AddToRole(userIdentity.Id, "AppAdmin");
+                manager.AddToRole(userIdentity.Id, "Admin");
             }
         }
     }

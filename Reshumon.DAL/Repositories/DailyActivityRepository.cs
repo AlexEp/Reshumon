@@ -10,7 +10,7 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    internal class DailyActivityRepository : IDailyActivityRepository
+    public class DailyActivityRepository : IDailyActivityRepository
     {
         string ConnectionString = "";
         public DailyActivityRepository(string connectionString)
@@ -18,7 +18,7 @@ namespace Reshumon.DAL.Repositories
             this.ConnectionString = connectionString;
         }
 
-        private DataBaseContext GetContext()
+        protected DataBaseContext GetContext()
         {
             return new DataBaseContext(this.ConnectionString);
         }

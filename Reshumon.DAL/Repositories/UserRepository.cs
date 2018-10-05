@@ -10,7 +10,7 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    internal class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         string ConnectionString = "";
         public UserRepository(string connectionString)
@@ -18,12 +18,12 @@ namespace Reshumon.DAL.Repositories
             this.ConnectionString = connectionString;
         }
 
-        private DataBaseContext GetContext()
+        protected DataBaseContext GetContext()
         {
             return new DataBaseContext(this.ConnectionString);
         }
 
-        public void Add(User entity)
+        public virtual void Add(User entity)
         {
             using (var Context = GetContext())
             {
@@ -33,7 +33,7 @@ namespace Reshumon.DAL.Repositories
 
         }
 
-        public void Edit(User entity)
+        public virtual void Edit(User entity)
         {
             using (var Context = GetContext())
             {
@@ -42,7 +42,7 @@ namespace Reshumon.DAL.Repositories
             }
         }
 
-        public User Get(int Id)
+        public virtual User Get(int Id)
         {
             User results;
             using (var Context = GetContext())
@@ -53,7 +53,7 @@ namespace Reshumon.DAL.Repositories
             return results;
         }
 
-        public IEnumerable<User> GetAll()
+        public virtual IEnumerable<User> GetAll()
         {
             IEnumerable<User> results;
             using (var Context = GetContext())
@@ -64,7 +64,7 @@ namespace Reshumon.DAL.Repositories
             return results;
         }
 
-        public void Remove(int Id)
+        public virtual void Remove(int Id)
         {
             using (var Context = GetContext())
             {
@@ -79,12 +79,12 @@ namespace Reshumon.DAL.Repositories
          
         }
 
-        public void Remove(User entit)
+        public virtual void Remove(User entit)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveRange(IEnumerable<User> entitList)
+        public virtual void RemoveRange(IEnumerable<User> entitList)
         {
             throw new NotImplementedException();
         }

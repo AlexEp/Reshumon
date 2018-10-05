@@ -41,7 +41,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //Load  data
-    this.ReloadData();
+    this.reloadData();
 
     this.columns  = [
       { field: 'Name', header: 'Name' },
@@ -49,7 +49,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
     ];
   }
 
-  private ReloadData() {
+  private reloadData() {
     this.isDataReady = false;
     this.changedCategories = {};
     this.isDataChanged = false;
@@ -58,13 +58,13 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
       this.categories = response;
       this.isDataReady = true;
     }, e => {
-      this.messagesService.error(e, 'Loading failed');
+  
       this.isDataLodingFailed = true;
     });
   }
 
   onRevert() {
-    this.ReloadData();
+    this.reloadData();
   }
 
   onChange(category: Category) {
@@ -97,7 +97,7 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
     this.categoryService.updateRange(changedProjects).subscribe(
       r => {
         this.messagesService.success('The category was successfully saved','Action succeeded');
-        this.ReloadData();
+        this.reloadData();
       },
       e => { },
     )

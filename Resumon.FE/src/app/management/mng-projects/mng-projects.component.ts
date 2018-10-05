@@ -30,7 +30,7 @@ export class MngProjectsComponent implements OnInit {
 
   isDataReady = false;
   isDataLodingFailed = false;
-  failedLoadingMsg = "";
+
   changedProjects : any = {};
   isDataChanged = false;
 
@@ -44,7 +44,7 @@ export class MngProjectsComponent implements OnInit {
 
   ngOnInit() {
         //Load  data
-        this.ReloadData();
+        this.reloadData();
 
         this.columns  = [
           { field: 'Name', header: 'Name' },
@@ -53,7 +53,7 @@ export class MngProjectsComponent implements OnInit {
         ];
   }
 
-  private ReloadData() {
+  private reloadData() {
 
     this.isDataReady = false;
     this.changedProjects  = {};
@@ -68,7 +68,6 @@ export class MngProjectsComponent implements OnInit {
       this.messagesService.error(e,'Action failed' );
       this.isDataLodingFailed = true;
     }, () => console.log('onCompleted'));
-
   }
 
   onRevert(){
@@ -76,7 +75,7 @@ export class MngProjectsComponent implements OnInit {
     var confirmmsg = this.translate.instant("dictionery.global." + "confirm data lost");
 
     if(this.isDataChanged && confirm(confirmmsg)){
-      this.ReloadData();
+      this.reloadData();
     }
 
   }
@@ -160,15 +159,12 @@ export class MngProjectsComponent implements OnInit {
 
     this.projectsService.updateRange(changedProjects).subscribe(
       r => {
-        this.ReloadData();
+        this.reloadData();
       },
       e => {},
     )
 
   }
-
-  
-
 
   translateWorld(world,path){
     let wordpath = path ? path + world : 'dictionery.pages.mng-projects.' + world;

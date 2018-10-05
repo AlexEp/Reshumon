@@ -1,10 +1,11 @@
+import { basename } from "path";
 
 export class User {
       UserID: number;
       UserName: string;
       FirstName: string;
       LastName: string;
-      Password: string;
+
       Email?: any;
       IsActive: boolean;
       JoinDate: Date;
@@ -16,10 +17,19 @@ export class User {
             this.UserName = "";
             this.FirstName = "";
             this.LastName = "";
-            this.Password = "";
             this.Email = "";
             this.IsActive = true;
             this.IsUseDiningRoom = false;
       }
 }
 
+export class RegistrationModel extends User {
+      Password: string;
+      
+      constructor(){
+            super();
+            this.Password = "";
+      }
+
+  
+}

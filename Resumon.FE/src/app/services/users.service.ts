@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 
 import { Injectable } from '@angular/core';
 
@@ -13,7 +14,7 @@ import  'rxjs/add/observable/throw';
 import { AppError } from '../errors/app-error';
 import { AppConfigService } from './app-config.service';
 import { AppErrorHandleService } from './error-handle.service';
-import { User } from '../shared/user.model';
+import { User, RegistrationModel } from '../shared/user.model';
 
 
 
@@ -21,7 +22,10 @@ import { User } from '../shared/user.model';
 export class UsersService  {
 
   protected url : string
-  constructor( protected http : HttpClient ,private appConfig : AppConfigService, private errorHandle : AppErrorHandleService) {
+  constructor( protected http : HttpClient ,
+    private appConfig : AppConfigService, 
+    private errorHandle : AppErrorHandleService,
+    private authService : AuthService) {
     this.url = appConfig.getSiteURL() + "/api/v1/users";
   }
 
@@ -68,16 +72,8 @@ export class UsersService  {
           })
     }
 
-    create(user : User) : Observable<User> {
-    
-      return this.http.put<User>(this.url,user)
-          .map(
-            response => {
-              return response
-            }
-          )
-          .catch((error : Response) => {
-            return  Observable.throw(new AppError(error));
-          })
+    create(registrationModel : RegistrationModel) : Observable<User> {
+
+      return this.authService.registerUser(registrationModel);
     }
 }

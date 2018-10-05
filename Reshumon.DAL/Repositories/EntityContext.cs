@@ -11,20 +11,8 @@ namespace Reshumon.DAL.Repositories
 {
     public class EntityContext : IEntityContext
     {
-        private DataBaseContext EntitiesContext = null;
         public EntityContext(string connectionString)
         {
-
-            //Build an Entity Framework connection string
-
-            EntityConnectionStringBuilder entityString = new EntityConnectionStringBuilder()
-            {
-                Provider = "System.Data.SqlClient",
-                ProviderConnectionString = connectionString //sqlString.ToString()
-            };
-
-
-            //this.EntitiesContext = new DataBaseContext(entityString.ToString());//new ReshumonEntities(entityString.ToString());
 
             this.Users = new UserRepository(connectionString);
             this.Categories = new CategoryRepository(connectionString);
@@ -32,7 +20,6 @@ namespace Reshumon.DAL.Repositories
             this.DailyActivity = new DailyActivityRepository(connectionString);
             this.UserProject = new UserProjectRepository(connectionString);
             this.UserFavorites = new UserFavoriteRepository(connectionString);
-
         }
 
         public IUserRepository Users { get; set; }

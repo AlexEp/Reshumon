@@ -20,7 +20,7 @@
           </select> -->
 
           <p-dropdown [options]="projects |selectItemPipe:'Name'" [(ngModel)]="selectedProject" (onChange)="onProjectChanged($event.value)"
-          placeholder="Select a City" [showClear]="false" filter="true" filterBy="label,value.Name" [style]="{'width':'300px'}">
+          placeholder="Select a project" [showClear]="false" filter="true" filterBy="label,value.Name" [style]="{'width':'300px'}">
           <ng-template let-project pTemplate="selectedItem">
 
             <span style="vertical-align:middle; margin-left: .5em">{{project.value.Name}}</span>
@@ -58,7 +58,7 @@
           <div *ngFor="let user of availableUsers  | filterUsers:searchAvailable" class="available-user" pDraggable="users" (onDragStart)="userDragStart($event,user) "
             (onDragEnd)="userDragEnd($event) " (click)="userSelected(user) ">
             <!-- <app-select-user-card [profile]='user' [selected]="false "></app-select-user-card> -->
-            {{user.Name}} - {{ user.LastName}}
+            {{user.FirstName}} - {{ user.LastName}}
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
           <div *ngFor="let user of selectedUsers | filterUsers:searchSelected" class="selected-user" (onDragStart)="userDragStart($event,user)"
             (onDragEnd)="userDragEnd($event) " pDraggable="usersBack" (click)="userRemoved(user) ">
             <!-- <app-select-user-card [profile]='user' [selected]="true "></app-select-user-card> -->
-            {{user.Name}} - {{ user.LastName}}
+            {{user.FirstName}} - {{ user.LastName}}
           </div>
 
         </div>
@@ -94,8 +94,11 @@
 </div>
 
 
-
-
 <ng-template #elseBlock>
-  <app-animated-loading></app-animated-loading>
-</ng-template>
+    <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
+    <div *ngIf="isDataLodingFailed" class="">
+      <div class="alert alert-danger" role="alert">
+        <strong>{{'Loading Data Failed'}}</strong>
+      </div>
+    </div>
+  </ng-template>

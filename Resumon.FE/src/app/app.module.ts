@@ -72,7 +72,6 @@ import { FilterItem } from './pipes/filter-item.pipe';
 import { ReportByProjectComponent } from './reports/report-by-project/report-by-project.component';
 import { ReportComponent } from './reports/report/report.component';
 import { ReportSummaryComponent } from './reports/report-summary/report-summary.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthInterceptor } from './services/auth.Interceptor';
 import { truncate } from 'fs';
 
@@ -93,15 +92,15 @@ const routesConfigs: Routes = [
     ]
   },
   {
-    path: 'mng', component: MngComponent, canActivate: [AuthGuardService, AdminGuardService],
+    path: 'mng', component: MngComponent, canActivate: [AuthGuardService],
     children: [
-      { path: 'users', component: MngUsersComponent, canActivate: [AdminGuardService] },
+      { path: 'users', component: MngUsersComponent, canActivate: [AuthGuardService] },
       { path: 'categories', component: MngCategoriesComponent, canActivate: [ AdminGuardService] },
       { path: 'projects', component: MngProjectsComponent, canActivate: [AdminGuardService] },
       {
         path: 'projectsUsers', 
         component: MngProjectUserComponent, 
-        canActivate: [AuthGuardService, AdminGuardService],
+        canActivate: [ AdminGuardService],
 
         children: [
           { path: 'user', component: MngProjectUserByUserComponent, canActivate: [AuthGuardService] , canDeactivate: [CanDeactivateGuard]},
@@ -148,8 +147,6 @@ const routesConfigs: Routes = [
     FilterItem,
     SelectItemPipe,
     ReportSummaryComponent,
-    SignUpComponent,
-
     
   ],
   imports: [

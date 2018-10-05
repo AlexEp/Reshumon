@@ -20,8 +20,23 @@ namespace Resumon.BE.Controllers
         [AllowAnonymous]
         [Route("register")]
         [HttpPost]
-        public IdentityResult Register(RegisterViewModel model)
+        public IHttpActionResult Register(RegisterViewModel model)
         {
+
+            if (!ModelState.IsValid)
+            {
+              
+                // do something to display errors .  
+                //foreach (ModelState modelState in ViewData.ModelState.Values)
+                //{
+                //    foreach (ModelError error in modelState.Errors)
+                //    {
+                //        DoSomethingWith(error);
+                //    }
+                //}
+            }
+            return BadRequest();
+
             var userStore = new UserStore<ApplicationUserIdentity>(new AuthenticationDbContext());
             var userManager = new UserManager<ApplicationUserIdentity>(userStore);
             IdentityResult result;
@@ -88,7 +103,7 @@ namespace Resumon.BE.Controllers
         [Authorize]
         [HttpGet]
         [Route("GetUserClaims")]
-        public UserProfileModel GetUserClaims()
+        public User GetUserClaims()
         {
             var identityClaims = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identityClaims.Claims;
@@ -103,7 +118,7 @@ namespace Resumon.BE.Controllers
             var LastName = user.LastName;//identityClaims.FindFirst("LastName").Value;
 
 
-            UserProfileModel model = new UserProfileModel()
+            User model = new User()
             {
                 UserName = UserName,
                 Email = Email,

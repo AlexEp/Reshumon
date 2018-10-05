@@ -19,16 +19,16 @@
             <option *ngFor="let user of users" [ngValue]="user">{{user.Name}}</option>
           </select> -->
 
-          <p-dropdown [options]="users|selectItemPipe:'Name'" [(ngModel)]="selectedUser" (onChange)="onSelectionChanged($event.value)"
-            placeholder="Select a City" [showClear]="false" filter="true" filterBy="label,value.LastName" [style]="{'width':'300px'}">
+          <p-dropdown [options]="users|selectItemPipe:'FirstName'" [(ngModel)]="selectedUser" (onChange)="onSelectionChanged($event.value)"
+            placeholder="Select a User" [showClear]="false" filter="true" filterBy="label,value.LastName" [style]="{'width':'300px'}">
             <ng-template let-user pTemplate="selectedItem">
 
-              <span style="vertical-align:middle; margin-left: .5em">{{user.value.Name}} - {{user.value.LastName}}</span>
+              <span style="vertical-align:middle; margin-left: .5em">{{user.value.FirstName}} - {{user.value.LastName}}</span>
             </ng-template>
             <ng-template let-user pTemplate="item">
               <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
 
-                <div style="font-size:14px;float:right;margin-top:4px">{{user.value.Name}} - {{user.value.LastName}}</div>
+                <div style="font-size:14px;float:right;margin-top:4px">{{user.value.FirstName}} - {{user.value.LastName}}</div>
               </div>
             </ng-template>
           </p-dropdown>
@@ -98,5 +98,10 @@
 
 </div>
 <ng-template #elseBlock>
-  <app-animated-loading></app-animated-loading>
-</ng-template>
+    <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
+    <div *ngIf="isDataLodingFailed" class="">
+      <div class="alert alert-danger" role="alert">
+        <strong>{{'Loading Data Failed'}}</strong>
+      </div>
+    </div>
+  </ng-template>

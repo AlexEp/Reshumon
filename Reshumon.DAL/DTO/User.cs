@@ -20,7 +20,11 @@ namespace Reshumon.DAL.DTO
         [Column("LastName")]
         public string LastName { get; set; }
 
+        [Column("UserName")]
+        public string UserName { get; set; }
 
+        [Column("Email")]
+        public string Email { get; set; }
 
         [Column("IsUseDiningRoom")]
         public bool IsUseDiningRoom { get; set; }

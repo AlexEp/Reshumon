@@ -1,4 +1,4 @@
-import { User } from './../shared/user.model';
+import { User, RegistrationModel } from './../shared/user.model';
 import { Injectable } from '@angular/core';
 
 import { AppConfigService } from './app-config.service';
@@ -53,17 +53,9 @@ export class AuthService {
     })
   }
 
-  registerUser(user : User){
+  registerUser(user : RegistrationModel){
 
-    let body: User = new User() ;
-
-      body.UserName= user.UserName;
-      body.Password= user.Password;
-      body.Email= user.Email;
-      body.FirstName= user.FirstName;
-      body.LastName= user.LastName;
-    
-    return this.http.post<User>(this.url + '/api/v1/account/register', body)
+    return this.http.post<User>(this.url + '/api/v1/account/register', user)
       .map(
         response => {
           return response
@@ -107,27 +99,39 @@ export class AuthService {
 
   public logOut(){
         // Remove tokens and expiry time from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('expires_at');
-
-    this.userProfile = null;
+    this.cleanData();
     // Go back to the home route
     this.router.navigate(['/']);
   }
 
 
+  private cleanData() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('expires_at');
+    this.userProfile = null;
+  }
+
   public isAuthenticated(): boolean {
     // Check whether the current time is past the
     // Access Token's expiry time
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
-    return new Date().getTime() < expiresAt;
+    if  (!localStorage.getItem('expires_at')){
+      return false
+    }
+
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    let isAuthValid = new Date().getTime() < expiresAt;
+
+    if  (!isAuthValid)
+    
+        this.cleanData();
+    return isAuthValid;
   }
 
 
   public isAdmin(): boolean {
     // Check whether the current time is past the
-    return this.getUserRols().indexOf('AppAdmin') >= 0;
+    return this.getUserRols().indexOf('Admin') >= 0;
   }
   
 

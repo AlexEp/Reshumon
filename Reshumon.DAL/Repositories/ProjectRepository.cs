@@ -7,7 +7,7 @@ using System.Linq;
 namespace Reshumon.DAL.Repositories
 {
 
-    class ProjectRepository : IProjectRepository
+    public class ProjectRepository : IProjectRepository
     {
         string ConnectionString = "";
 
@@ -16,7 +16,7 @@ namespace Reshumon.DAL.Repositories
             this.ConnectionString = connectionString;
         }
 
-        private DataBaseContext GetContext() {
+        protected DataBaseContext GetContext() {
             return new DataBaseContext(this.ConnectionString);
         }
 
