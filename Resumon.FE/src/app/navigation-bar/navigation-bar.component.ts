@@ -18,6 +18,10 @@ export class NavigationBarComponent implements OnInit {
     return this.auth.isAuthenticated();
   }
 
+  isAdmin(){
+    return this.auth.isAdmin();
+  }
+
   logout() {
     this.auth.logOut();
   }

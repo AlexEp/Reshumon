@@ -6,11 +6,16 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Reshumon.DAL;
 using Reshumon.DAL.DTO;
 using Resumon.BE.Models;
+using Resumon.BE.Models.Authentication;
+using Resumon.BE.Models.ViewModels;
 
 namespace Resumon.BE.Controllers
 {
@@ -21,12 +26,29 @@ namespace Resumon.BE.Controllers
     {
         // GET: api/Categories
         [HttpGet, Route("")]
-        public IEnumerable<Project> GetProjects()
+        public IEnumerable<Project> GetAllProjects()
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.Projects.GetAll();
-                return ans.ToList();
+
+                //user Identity
+                var identityClaims = (ClaimsIdentity)User.Identity;
+                IEnumerable<Claim> claims = identityClaims.Claims;
+
+                var uerRefID = int.Parse(identityClaims.FindFirst("UserRefID").Value);
+                var Role = identityClaims.FindFirst(ClaimTypes.Role).Value;
+
+
+                if (User.IsInRole("Admin")) //filter in case of non Admin
+                {
+                    var ans = ServiceProvider.EntityContext.Projects.GetAll();
+                    return ans.ToList();
+                }
+                else
+                {
+                    return GetRelevantProjects().ToList();
+                }
+             
             }
             catch (Exception)
             {
@@ -36,12 +58,37 @@ namespace Resumon.BE.Controllers
 
         }
 
+
+        public IEnumerable<Project> GetRelevantProjects()
+        {
+            //user Identity
+            var identityClaims = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identityClaims.Claims;
+
+            var uerRefID = int.Parse(identityClaims.FindFirst("UserRefID").Value);
+
+            try
+            {
+                var user = ServiceProvider.EntityContext.Users.Get(uerRefID);
+                //TODO : better getby user / project function
+                var userProjects = ServiceProvider.EntityContext.UserProject.GetAll().Where(p => p.UserID == user.UserID);
+
+                var relevantProjects = ServiceProvider.EntityContext.Projects.GetAll().Where(p => userProjects.Count(up => up.ProjectID == p.ProjectID) > 0);
+                return relevantProjects;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpGet, Route("active")]
         public IEnumerable<Project> GetAcriveProjects()
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.Projects.GetAll().Where(p => p.IsActive);
+                var ans = GetAllProjects().Where(p => p.IsActive);
                 return ans.ToList();
             }
             catch (Exception)

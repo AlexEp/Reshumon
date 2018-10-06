@@ -4,6 +4,7 @@ using Reshumon.DAL.DTO;
 using Resumon.BE.Models;
 using Resumon.BE.Models.Authentication;
 using Resumon.BE.Models.ViewModels;
+using Resumon.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Resumon.BE.Controllers
 
             if (!ModelState.IsValid)
             {
-              
+                return BadRequest();
                 // do something to display errors .  
                 //foreach (ModelState modelState in ViewData.ModelState.Values)
                 //{
@@ -35,7 +36,7 @@ namespace Resumon.BE.Controllers
                 //    }
                 //}
             }
-            return BadRequest();
+        
 
             var userStore = new UserStore<ApplicationUserIdentity>(new AuthenticationDbContext());
             var userManager = new UserManager<ApplicationUserIdentity>(userStore);
@@ -43,11 +44,14 @@ namespace Resumon.BE.Controllers
 
             var user = new User()
             {
+                UserName = model.Email,
                 LastName = model.LastName,
                 FirstName = model.FirstName,
+                Email = model.Email,
                 JoinDate = DateTime.Now,
                 IsActive = true,
-                IsUseDiningRoom = model.IsUseDiningRoom
+                IsUseDiningRoom = model.IsUseDiningRoom,
+                Role = model.Role,
             };
 
             ServiceProvider.EntityContext.Users.Add(user);
@@ -71,7 +75,7 @@ namespace Resumon.BE.Controllers
                 try
                 {
                     result = userManager.Create(userIdentity, model.Password);
-                    userManager.AddToRole(userIdentity.Id, "Employee");
+                    userManager.AddToRole(userIdentity.Id, model.Role.ToString());
                 }
                 catch (Exception)
                 {
@@ -83,7 +87,7 @@ namespace Resumon.BE.Controllers
                 }
            
 
-            return result;
+            return Ok(user);
         }
 
         [HttpGet]
@@ -94,10 +98,14 @@ namespace Resumon.BE.Controllers
             var roleStore = new RoleStore<IdentityRole>(new AuthenticationDbContext());
             var roleMngr = new RoleManager<IdentityRole>(roleStore);
 
-            var roles = roleMngr.Roles
-                .Select(x => new { x.Id, x.Name })
-                .ToList();
-            return this.Request.CreateResponse(HttpStatusCode.OK, roles);
+            var dict = new Dictionary<int, string>();
+            foreach (var name in Enum.GetNames(typeof(RolesEnum)))
+            {
+                dict.Add((int)Enum.Parse(typeof(RolesEnum), name), name);
+            }
+
+            var roleList = dict.Select(i => new { RoleID = i.Key, Name = i.Value }).ToList();
+            return this.Request.CreateResponse(HttpStatusCode.OK, roleList);
         }
 
         [Authorize]

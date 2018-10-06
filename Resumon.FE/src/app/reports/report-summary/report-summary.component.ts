@@ -132,11 +132,6 @@ export class ReportSummaryComponent implements OnInit {
         this.projects = r[0];
         this.categories = r[1];
         this.users = r[2];
-        for (let index = 0; index < 2; index++) {
-
-          this.users.forEach(x => this.users.push(x));
-
-        }
 
         this.coloredProjects = this.projects.map(p => new ColoredValue(this.generateRandomColor(), p));
         this.coloredUsers = this.users.map(u => new ColoredValue(this.generateRandomColor(), u));

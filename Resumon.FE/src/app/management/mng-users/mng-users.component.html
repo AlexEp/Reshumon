@@ -4,37 +4,29 @@
     <div class="card toolbar-card">
       <div class="card-body row float-none">
 
-        <div class="col-4 col-sm-4 col-md-2 ">
+        <div class="col-4 ">
           <button id="list " [ngClass]="{ 'btn-warning' : isDataChanged , 'btn-secondary' : !isDataChanged }" class="btn btn-warning "
             [disabled]="!isDataChanged" (click)="onRevert() ">
             <i class="fa fa-undo" aria-hidden="true "></i><span class="d-none d-sm-inline">{{ translateWorld('revert')
               | translate}}</span></button>
         </div>
-        <div class="col-4 col-sm-4 col-md-2">
+        <div class="col-4">
           <button id="list " class="btn " [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }"
             [disabled]="!isDataChanged" (click)="onSave() ">
             <i class="fa fa-floppy-o " aria-hidden="true "></i><span class="d-none d-sm-inline">{{
               translateWorld('save') | translate}}</span></button>
         </div>
-        <div class="col-4 col-sm-4 col-md-2">
+        <div class="col-4 ">
           <button id="list " class="btn btn-primary" (click)="onCreateClicked()">
             <i class="fa fa-plus-circle" aria-hidden="true "></i><span class="d-none d-sm-inline">{{
               translateWorld('new') | translate}}</span></button>
-        </div>
-        <div class="col-12 col-sm-12 col-md-6">
-
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
-            </div>
-            <input type="text" class="form-control" id="search" placeholder="Search users name" [(ngModel)]="search"
-              autocomplete="off">
-          </div>
         </div>
 
       </div>
     </div>
   </div>
+
+
   <!-- Data Table -->
   <div class="row">
     <div class="card">
@@ -43,13 +35,25 @@
 
       </div>
 
-
       <div class="card-body mw-100">
-        <p-table [value]="users" [responsive]="true">
+        <p-table #dtUsers  [value]="users" [responsive]="true"  
+        [globalFilterFields]="['FirstName','LastName','Username','Email']" [paginator]="true"  [rows]="5">
+        <ng-template pTemplate="caption">
+            <div style="text-align: right">
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="search" placeholder="Search First/Last name, Username, Email" [(ngModel)]="search"
+                      autocomplete="off"  (input)="dtUsers.filterGlobal($event.target.value, 'contains')">
+                  </div>
+        
+            </div>
+        </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th class="ui-p-2" style="width: 15%">{{translateWorld('edit') | translate}}
-              </th>
+
               <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="th-{{col.field}}">
                 {{col.header}}
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
@@ -57,23 +61,23 @@
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-users>
+          <ng-template pTemplate="body" let-user>
             <tr>
-              <td class="ui-p-2">
-                <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true" (click)="onDeleteClicked(users)"></i>
-              </td>
+              <!-- <td class="ui-p-2">
+                <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true" (click)="onDeleteClicked(user)"></i>
+              </td> -->
 
               <!-- UserName -->
               <td class="ui-p-3">
-                {{users.UserName}}
+                {{user.UserName}}
               </td>
 
 
               <!-- FirstName -->
               <td class="ui-p-3">
-                <input class="form-control is-invalid" #inputFirstName="ngModel" autocomplete="off" (change)="onChange(users)"
+                <input class="form-control is-invalid" #inputFirstName="ngModel" autocomplete="off" (change)="onChange(user)"
                   [ngClass]="{'is-invalid': !(inputFirstName.valid), 'is-valid': inputFirstName.valid }" id="FirstName"
-                  name="FirstName" [(ngModel)]="users.FirstName" required />
+                  name="FirstName" [(ngModel)]="user.FirstName" required />
 
                 <small id="passwordHelpBlock" class="invalid-feedback" [ngClass]="{'d-invalid':!inputFirstName.valid}">
                   This filed is requred
@@ -82,9 +86,9 @@
 
               <!-- LastName -->
               <td class="ui-p-3">
-                <input class="form-control is-invalid" #inputLastName="ngModel" autocomplete="off" (change)="onChange(users)"
+                <input class="form-control is-invalid" #inputLastName="ngModel" autocomplete="off" (change)="onChange(user)"
                   [ngClass]="{'is-invalid': !(inputLastName.valid), 'is-valid': inputLastName.valid }" id="LastName"
-                  name="LastName" [(ngModel)]="users.LastName" required />
+                  name="LastName" [(ngModel)]="user.LastName" required />
 
                 <small id="passwordHelpBlock" class="invalid-feedback" [ngClass]="{'d-invalid':!inputLastName.valid}">
                   This filed is requred
@@ -93,31 +97,36 @@
 
               <!-- Email -->
               <td class="ui-p-3">
-                <input class="form-control is-invalid" #inputEmail="ngModel" autocomplete="off" (change)="onChange(users)"
-                  [ngClass]="{'is-invalid': !(inputEmail.valid), 'is-valid': inputEmail.valid }" id="Email"
-                  name="Email" [(ngModel)]="users.Email" required />
+                <input class="form-control is-invalid" #inputEmail="ngModel" autocomplete="off" (change)="onChange(user)"
+                  [ngClass]="{'is-invalid': !(inputEmail.valid), 'is-valid': inputEmail.valid }" id="Email" name="Email"
+                  [(ngModel)]="user.Email" required email />
 
-                <small id="passwordHelpBlock" class="invalid-feedback" [ngClass]="{'d-invalid':!inputEmail.valid}">
-                  This filed is requred
-                </small>
               </td>
 
+              <!-- Role -->
+              <td class="ui-p-3">
+                <select class="custom-select" [(ngModel)]="user.Role" name="role" (change)="onChange(user)" [disabled]="isCurrentUserRow(user)">
+                  <option *ngFor="let role of roles" [ngValue]="role.RoleID">
+                    {{role.Name}}
+                  </option>
+                </select>
+              </td>
 
-                    <!-- JoinDate -->
-                    <td class="ui-p-3">
-                       {{users.JoinDate | date:'yyyy-MM-dd'}}
-                      </td>
+              <!-- JoinDate -->
+              <td class="ui-p-3">
+                {{user.JoinDate | date:'yyyy-MM-dd'}}
+              </td>
 
               <!-- IsUseDiningRoom -->
               <td class="ui-p-3">
-                  <input type="checkbox" name="IsUseDiningRoom" class="form-control" id="IsUseDiningRoom" [(ngModel)]="users.IsUseDiningRoom"
-                    (change)="onChange(users)" />
-                </td>
+                <input type="checkbox" name="IsUseDiningRoom" class="form-control" id="IsUseDiningRoom" [(ngModel)]="user.IsUseDiningRoom"
+                  (change)="onChange(user)" />
+              </td>
 
-                
+
               <td class="ui-p-3">
-                <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="users.IsActive"
-                  (change)="onChange(users)" />
+                <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="user.IsActive"
+                  (change)="onChange(user)" [disabled]="isCurrentUserRow(user)" />
               </td>
             </tr>
           </ng-template>
@@ -142,66 +151,140 @@
 </ng-template>
 
 <!-- ------------- [Dialog - Edit] -------------- -->
-<p-dialog header="User Details" [(visible)]="displayEditDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
-    <div class="ui-g ui-fluid" *ngIf="userToCreate">
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">First Name</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText id="FirstName" [(ngModel)]="userToCreate.FirstName" required minlength="2" maxlength="50" />
-            </div>
+<p-dialog header="User Details" [(visible)]="displayEditDialog" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="300">
+  <form #userForm="ngForm" novalidate>
+    <div class="" *ngIf="userToCreate">
+
+
+      <!-- FirstName -->
+      <div class="form-group row">
+        <div class="input-group col-12">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></div>
+          </div>
+          <input pInputText id="FirstName" name="FirstName" class=" form-control" [(ngModel)]="userToCreate.FirstName"
+            #inputFirstName="ngModel" required minlength="2" maxlength="50" placeholder="First Name" />
+          <div class="input-group-prepend">
+            <div *ngIf="inputFirstName.invalid" class="input-group-text text-danger">
+              <i class="fa fa-exclamation-triangle align-middle" [pTooltip]="FirstNameErrorMsg()" tooltipPosition="top"
+                aria-hidden="true"></i></div>
+          </div>
         </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Last Name</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText id="LastName" [(ngModel)]="userToCreate.LastName" required minlength="2" maxlength="50"/>
-            </div>
+      </div>
+
+
+      <!-- LastName -->
+      <div class="form-group row">
+        <div class="input-group col-12">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></div>
+          </div>
+          <input pInputText id="LastName" name="LastName" class=" form-control" [(ngModel)]="userToCreate.LastName"
+            #inputLastName="ngModel" required minlength="2" maxlength="50" placeholder="Last Name" />
+          <div class="input-group-prepend">
+            <div *ngIf="inputLastName.invalid" class="input-group-text text-danger">
+              <i class="fa fa-exclamation-triangle align-middle" [pTooltip]="LastNameErrorMsg()" tooltipPosition="top"
+                aria-hidden="true"></i></div>
+
+          </div>
+
         </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Email</label>
+      </div>
+
+
+      <!-- Email -->
+      <div class="form-group row">
+        <div class="input-group col-12">
+          <div class="input-group-prepend">
+            <div class="input-group-text">@</div>
+          </div>
+          <input pInputText id="Email" type="email" name="Email" class=" form-control" [(ngModel)]="userToCreate.Email"
+            #inputEmail="ngModel" placeholder="Email" required email />
+
+          <div class="input-group-prepend">
+            <div *ngIf="inputEmail.invalid" class="input-group-text text-danger">
+              <i class="fa fa-exclamation-triangle align-middle" [pTooltip]="EmailErrorMsg()" tooltipPosition="top"
+                aria-hidden="true"></i>
             </div>
-            <div class="ui-g-8">
-                <input type="email" pInputText  id="Email" [(ngModel)]="userToCreate.Email" required />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Password</label>
-            </div>
-            <div class="ui-g-8">
-                <input type="password" pInputText id="Password" [(ngModel)]="userToCreate.Password" required minlength="6" />
-            </div>
+          </div>
         </div>
 
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Password Confirm</label>
+      </div>
+
+      <!-- Role -->
+      <div class="form-group row">
+          <label for="example-text-input" class="col-2 col-form-label">Role</label>
+          <div class="col-10">
+          
+             <select class="custom-select" style="width:100% " [(ngModel)]="userToCreate.Role" name="role">
+                  <option *ngFor="let role of roles" [ngValue]="role.RoleID">
+                    {{role.Name}}
+                  </option>
+                </select> 
+          </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group row">
+        <div class="input-group col-12">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></div>
+          </div>
+          <input pInputText type="password" id="Password" name="Password" class=" form-control" [(ngModel)]="userToCreate.Password"
+            #inputPassword="ngModel" placeholder="Password" required />
+
+          <div class="input-group-prepend">
+            <div *ngIf="inputPassword.invalid" class="input-group-text text-danger">
+              <i class="fa fa-exclamation-triangle align-middle" [pTooltip]="PasswordErrorMsg()" tooltipPosition="top"
+                aria-hidden="true"></i>
             </div>
-            <div class="ui-g-8">
-                <input type="password" pInputText id="PasswordConfirm" [(ngModel)]="userToCreate.Confirm" required minlength="6" />
-            </div>
+          </div>
+
+
         </div>
 
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Dining Room</label>
+      </div>
+
+
+      <!-- inputpasswordConfirm -->
+      <div class="form-group row">
+        <div class="input-group col-12">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></div>
+          </div>
+          <input pInputText type="password" id="passwordConfirm" name="passwordConfirm" class=" form-control"
+            [(ngModel)]="userToCreate.PasswordConfirm" #inputPasswordConfirm="ngModel" placeholder="Confirm password "
+            required />
+
+          <div class="input-group-prepend">
+            <div *ngIf="inputPasswordConfirm.invalid" class="input-group-text text-danger">
+              <i class="fa fa-exclamation-triangle align-middle" [pTooltip]="ConfirmPasswordErrorMsg()" tooltipPosition="top"
+                aria-hidden="true"></i>
             </div>
-            <div class="ui-g-8">
-                <input type="checkbox" pInputText id="diningRoom" [(ngModel)]="userToCreate.IsUseDiningRoom" />
-            </div>
+          </div>
         </div>
- 
+      </div>
+
+      <div class="form-group row">
+        <div class="input-group col-12">
+          <label for="diningRoom">Dining Room</label>
+          <input type="checkbox" class="form-control" pInputText id="diningRoom" name="diningRoom" [(ngModel)]="userToCreate.IsUseDiningRoom" />
+        </div>
+      </div>
+
     </div>
+
+
+
     <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" pButton icon="fa fa-close" (click)="dialogCancel()" label="Cancel"></button>
-            <button type="button" pButton icon="fa fa-check" (click)="dialogOk()" [label]="isNewUser()? 'Create' : 'Save'"></button>
-        </div>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa fa-close" (click)="dialogCancel()" label="Cancel"></button>
+        <button type="button" pButton icon="fa fa-check" (click)="dialogOk()" [label]="isNewUser()? 'Create' : 'Save'"
+          [disabled]="!userForm.valid"></button>
+      </div>
     </p-footer>
+  </form>
 </p-dialog>
 <!-- ------------- [Dialog - Confirm Delete] -------------- -->
 

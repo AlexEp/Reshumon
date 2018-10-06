@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Resumon.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Resumon.BE.Models.ViewModels
 {
@@ -25,6 +26,10 @@ namespace Resumon.BE.Models.ViewModels
 
         [Required]
         public bool IsUseDiningRoom { get; set; }
+
+        [Required]
+        public RolesEnum Role { get; set; }
         
+
     }
 }

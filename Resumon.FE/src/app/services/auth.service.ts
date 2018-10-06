@@ -53,6 +53,23 @@ export class AuthService {
     })
   }
 
+  getAllRoles(){
+  
+    //var reqHeader = new HttpHeaders({ 'Content-Type': 'application/x-www-urlencoded','No-Auth':'True' });
+
+    return this.http.get(this.url + '/api/v1/account/getallroles')      
+    .map(
+      response => {
+        return response
+      }
+    )
+    .catch((error: Response) => {
+      return Observable.throw(new AppError(error));
+    })
+  
+  }
+  
+
   registerUser(user : RegistrationModel){
 
     return this.http.post<User>(this.url + '/api/v1/account/register', user)

@@ -4,31 +4,22 @@
     <div class="card toolbar-card">
       <div class="card-body row float-none">
 
-        <div class="col-4 col-sm-4 col-md-2 ">
+        <div class="col-4 col-sm-4  ">
           <button id="list " [ngClass]="{ 'btn-warning' : isDataChanged , 'btn-secondary' : !isDataChanged }" class="btn btn-warning "
             [disabled]="!isDataChanged" (click)="onRevert() ">
             <i class="fa fa-undo" aria-hidden="true "></i><span class="d-none d-sm-inline">{{ translateWorld('revert')
               | translate}}</span></button>
         </div>
-        <div class="col-4 col-sm-4 col-md-2">
+        <div class="col-4 col-sm-4 ">
           <button id="list " class="btn " [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }"
             [disabled]="!isDataChanged" (click)="onSave() ">
             <i class="fa fa-floppy-o " aria-hidden="true "></i><span class="d-none d-sm-inline">{{
               translateWorld('save') | translate}}</span></button>
         </div>
-        <div class="col-4 col-sm-4 col-md-2">
+        <div class="col-4 col-sm-4" >
           <button id="list " class="btn btn-primary" (click)="onEditClicked()">
             <i class="fa fa-plus-circle" aria-hidden="true "></i><span class="d-none d-sm-inline">{{
               translateWorld('new') | translate}}</span></button>
-        </div>
-        <div class="col-12 col-sm-12 col-md-6">
-
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
-            </div>
-            <input type="text" class="form-control" id="search" placeholder="Search project name" [(ngModel)]="search" autocomplete="off">
-          </div>
         </div>
 
       </div>
@@ -44,7 +35,22 @@
 
 
       <div class="card-body mw-100">
-        <p-table [value]="projects | filterProjectByName:search" [responsive]="true">
+        <p-table #dtProjects [value]="projects "  [globalFilterFields]="['Name']" 
+        [paginator]="true"  [rows]="7" [responsive]="true">
+        
+            <ng-template pTemplate="caption">
+                <div style="text-align: right">
+    
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="search" placeholder="Search project name" [(ngModel)]="search"
+                          autocomplete="off"  (input)="dtProjects.filterGlobal($event.target.value, 'contains')">
+                      </div>
+            
+                </div>
+            </ng-template>
           <ng-template pTemplate="header">
             <tr>
                    <th class="ui-p-2" style="width: 15%"  >{{translateWorld('edit') | translate}}

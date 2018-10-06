@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Resumon.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -34,6 +35,9 @@ namespace Reshumon.DAL.DTO
 
         [Column("JoinDate")]
         public DateTime JoinDate { get; set; }
+
+        [Column("Role")]
+        public RolesEnum Role { get; set; }
     }
 
 }

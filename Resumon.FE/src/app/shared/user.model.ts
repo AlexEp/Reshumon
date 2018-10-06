@@ -25,10 +25,12 @@ export class User {
 
 export class RegistrationModel extends User {
       Password: string;
-      
+      Role : number;
+
       constructor(){
             super();
             this.Password = "";
+            this.Role = 1;
       }
 
   

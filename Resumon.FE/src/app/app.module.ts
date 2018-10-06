@@ -30,6 +30,7 @@ import {ListboxModule} from 'primeng/listbox';
 import {ColorPickerModule} from 'primeng/colorpicker';
 import {SidebarModule} from 'primeng/sidebar';
 import {PaginatorModule} from 'primeng/paginator';
+import {TooltipModule} from 'primeng/tooltip';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -44,7 +45,7 @@ import { AppServicesModule } from './modules/app-services.module';
 import { AuthGuardService } from './services/auth-guard.service';
 import { Http } from '@angular/http';
 
-import { UserProfileComponent } from './user-profile/user-profile.component';
+
 import { AdminGuardService } from './services/admin-guard.service';
 import { AuthModule, AUTH_PROVIDERS } from 'angular2-jwt';
 
@@ -92,9 +93,9 @@ const routesConfigs: Routes = [
     ]
   },
   {
-    path: 'mng', component: MngComponent, canActivate: [AuthGuardService],
+    path: 'mng', component: MngComponent, canActivate: [AdminGuardService],
     children: [
-      { path: 'users', component: MngUsersComponent, canActivate: [AuthGuardService] },
+      { path: 'users', component: MngUsersComponent, canActivate: [AdminGuardService] },
       { path: 'categories', component: MngCategoriesComponent, canActivate: [ AdminGuardService] },
       { path: 'projects', component: MngProjectsComponent, canActivate: [AdminGuardService] },
       {
@@ -126,7 +127,6 @@ const routesConfigs: Routes = [
     MngUsersComponent,
     MngCategoriesComponent,
     DialogEditCategoryComponent,
-    UserProfileComponent,
     DialogEditProjectComponent,
     MngProjectUserComponent,
     MngProjectUserByProjectComponent,
@@ -181,7 +181,8 @@ const routesConfigs: Routes = [
     ListboxModule,
     ColorPickerModule,
     SidebarModule,
-    PaginatorModule
+    PaginatorModule,
+    TooltipModule
     
   ],
   providers: [

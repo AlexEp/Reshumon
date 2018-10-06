@@ -11,7 +11,7 @@ namespace Resumon.BE.Models.Authentication
     public class AuthenticationDbContext : IdentityDbContext<ApplicationUserIdentity>
     {
         public AuthenticationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("IdentityConnection", throwIfV1Schema: false)
         {
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;

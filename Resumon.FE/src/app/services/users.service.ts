@@ -47,6 +47,24 @@ export class UsersService  {
     })
   };
 
+  
+  getAllRoles() : Observable<any[]> {
+    return this.authService.getAllRoles();
+  };
+
+
+  updateRange(projects : User[]) : Observable<User[]> {
+
+    return this.http.put<User[]>(this.url,
+      projects).map(
+        response => {
+        return response;
+      })
+      .catch((error : Response) => {
+        return  Observable.throw(new AppError(error));
+      })
+  }
+
 
   update(user : User) : Observable<User> {
 

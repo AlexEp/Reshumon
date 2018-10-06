@@ -23,7 +23,7 @@ namespace Resumon.BE.Controllers
     [RoutePrefix("api/v1/users")]
     public class UsersController : ApiController
     {
-     
+
         [HttpGet, Route("")]
         public IEnumerable<User> GetAllUsers()
         {
@@ -35,10 +35,10 @@ namespace Resumon.BE.Controllers
                 var identityClaims = (ClaimsIdentity)User.Identity;
                 IEnumerable<Claim> claims = identityClaims.Claims;
 
-                var uerRefID = int.Parse( identityClaims.FindFirst("UserRefID").Value);
+                var uerRefID = int.Parse(identityClaims.FindFirst("UserRefID").Value);
                 var Role = identityClaims.FindFirst(ClaimTypes.Role).Value;
 
-       
+
                 var userStore = new UserStore<ApplicationUserIdentity>(new AuthenticationDbContext());
                 var manager = new UserManager<ApplicationUserIdentity>(userStore);
                 var usersAuth = userStore.Users.ToList();
@@ -64,11 +64,11 @@ namespace Resumon.BE.Controllers
             {
                 throw;
             }
-           
+
         }
 
-        private User FillWithIdntetyData(User user,List<ApplicationUserIdentity> usersAuth)
-        { 
+        private User FillWithIdntetyData(User user, List<ApplicationUserIdentity> usersAuth)
+        {
             var userAuth = usersAuth.FirstOrDefault(ua => ua.UserRefID == user.UserID);
 
             if (userAuth != null)
@@ -84,7 +84,7 @@ namespace Resumon.BE.Controllers
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.Users.GetAll().Where(p => p.IsActive);
+                var ans = this.GetAllUsers().Where(p => p.IsActive);
 
                 return ans.ToList();
             }
@@ -99,9 +99,10 @@ namespace Resumon.BE.Controllers
         // GET: api/Users/5
         [ResponseType(typeof(User))]
         [HttpGet, Route("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetUser(int id)
         {
-            User User  = ServiceProvider.EntityContext.Users.Get(id);
+            User User = ServiceProvider.EntityContext.Users.Get(id);
             if (User == null)
             {
                 return NotFound();
@@ -113,7 +114,8 @@ namespace Resumon.BE.Controllers
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
         [HttpPost, Route("{id:int}")]
-        public IHttpActionResult PutUser(int id,[FromBody] User User)
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult PutUser(int id, [FromBody] User User)
         {
             if (!ModelState.IsValid)
             {
@@ -125,7 +127,7 @@ namespace Resumon.BE.Controllers
                 return BadRequest();
             }
 
-           
+
             try
             {
                 ServiceProvider.EntityContext.Users.Edit(User);
@@ -147,36 +149,96 @@ namespace Resumon.BE.Controllers
 
         // POST: api/Users
 
+        //[HttpPut, Route("")]
+        //[Authorize(Roles = "Admin")]
+        //public IHttpActionResult PostUser([FromBody]User User)
+        //{
+        //    if (!ModelState.IsValid || User.FirstName == null)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    try
+        //    {
+        //        ServiceProvider.EntityContext.Users.Add(User);
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (UserExists(User.UserID))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //    return Ok(User);
+        //    //return Content(HttpStatusCode.Created, User);
+        //}
+
         [HttpPut, Route("")]
-        public IHttpActionResult PostUser([FromBody]User User)
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult PutUsers([FromBody] IEnumerable<User> users)
         {
-            if (!ModelState.IsValid || User.FirstName == null)
+            if (!ModelState.IsValid ||
+                users.Count(p => String.IsNullOrWhiteSpace(p.FirstName)) > 0 ||
+                users.Count(p => p.UserID < 1) > 0)
             {
                 return BadRequest(ModelState);
             }
 
+            IList<User> usersSuccessfulUpdated = new List<User>();
             try
             {
-                ServiceProvider.EntityContext.Users.Add(User);
+                foreach (var user in users)
+                {
+                    try
+                    {
+                        ServiceProvider.EntityContext.Users.Edit(user);
+
+                        var userStore = new UserStore<ApplicationUserIdentity>(new AuthenticationDbContext());
+                        var manager = new UserManager<ApplicationUserIdentity>(userStore);
+                        var usersAuth = userStore.Users.ToList();
+
+                        var userAuth = manager.Users.FirstOrDefault(ua => ua.UserRefID == user.UserID);
+                     
+                        //TODO: should find better why to change this
+                        manager.RemoveFromRole(userAuth.Id, "Admin");
+                        manager.RemoveFromRole(userAuth.Id, "Employee");
+
+                        if (user.Role == Common.RolesEnum.Admin)
+                        {
+                            manager.AddToRole(userAuth.Id, "Admin");
+                        }
+                        else
+                        {
+                            manager.AddToRole(userAuth.Id, "Employee");
+                        }
+                       
+
+                    }
+                    catch (Exception)
+                    {
+                        //Do nothing ..
+                    }
+                    usersSuccessfulUpdated.Add(user);
+
+                }
+
             }
             catch (DbUpdateException)
             {
-                if (UserExists(User.UserID))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-            return Ok(User);
-            //return Content(HttpStatusCode.Created, User);
+            return Ok(usersSuccessfulUpdated);
+            //return Content(HttpStatusCode.Created, Projects);
         }
 
         // DELETE: api/Users/5
         [ResponseType(typeof(User))]
         [HttpDelete, Route("")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteUser(int id)
         {
             

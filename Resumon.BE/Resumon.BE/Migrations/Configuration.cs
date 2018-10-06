@@ -56,11 +56,14 @@ namespace Resumon.BE.Migrations
 
                 var user = new User()
                 {
+                    UserName = "Admin",
                     LastName = "Admin",
                     FirstName = "Admin",
                     JoinDate = DateTime.Now,
                     IsActive = true,
-                    IsUseDiningRoom = false
+                    IsUseDiningRoom = false,
+                    Email = "Admin@Admin.com",
+                    Role = Common.RolesEnum.Admin
                 };
 
                 var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
