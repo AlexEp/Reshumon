@@ -58,7 +58,7 @@ namespace Resumon.BE.Controllers
 
         }
 
-
+           [HttpGet, Route("relevant")]
         public IEnumerable<Project> GetRelevantProjects()
         {
             //user Identity
@@ -84,7 +84,7 @@ namespace Resumon.BE.Controllers
         }
 
         [HttpGet, Route("active")]
-        public IEnumerable<Project> GetAcriveProjects()
+        public IEnumerable<Project> GetActiveProjects()
         {
             try
             {

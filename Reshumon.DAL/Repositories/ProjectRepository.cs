@@ -61,6 +61,19 @@ namespace Reshumon.DAL.Repositories
             return results;
         }
 
+
+        public IList<Project> Get(User user)
+        {
+            IList<Project> results;
+            using (var Context = GetContext())
+            {
+                var userProjects = Context.UserProjects.Where(up => up.UserID == user.UserID);
+
+                results = Context.Projects.Where(p => userProjects.Count(up => up.ProjectID == p.ProjectID) > 0 ).ToList();
+            }
+            return results;
+        }
+
         public void Remove(int Id)
         {
             using (var Context = GetContext())
@@ -94,5 +107,7 @@ namespace Reshumon.DAL.Repositories
         {
             throw new NotImplementedException();
         }
+
+     
     }
 }

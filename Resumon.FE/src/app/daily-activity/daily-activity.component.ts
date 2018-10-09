@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 import _ = require('lodash');
 import { UsersFavoriteService } from '../services/users-favorite.service';
 import { MsgType } from '../services/messages.service';
+import * as Moment from 'moment';
 
 @Component({
   selector: 'app-daily-activity',
@@ -26,9 +27,11 @@ export class DailyActivityComponent implements OnInit, OnDestroy {
   dailyActivity: DailyActivity[];
   projects: Project[];
   categories: Category[];
+  selectedCategories : Category[];
   projectsAvailable: Project[];
   usersFavorite: UsersFavorite[];
-
+  selectedDate: Date;
+  maxDateValue : Date;
   constructor(private dailyActivityService: DailyActivityService,
     private projectsService: ProjectsService,
     private categoryService: CategoryService,
@@ -37,6 +40,8 @@ export class DailyActivityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.reloadData();
+    this.selectedDate = new Date();
+    this.maxDateValue   = new Date();
   }
 
   private reloadData() {
@@ -45,9 +50,9 @@ export class DailyActivityComponent implements OnInit, OnDestroy {
 
     this.loadingDataSubscription =  Observable.forkJoin(
       this.dailyActivityService.getAll(),
-      this.projectsService.getAll(),
-      this.categoryService.getAll(),
-      this.usersFavoriteService.getAll()
+      this.projectsService.getAllRelevant(),
+      this.categoryService.getAllRelevant(),
+      this.usersFavoriteService.getAllRelevant()
     ).subscribe((response) => {
       this.dailyActivity = response[0];
       this.projects = response[1];
@@ -93,15 +98,36 @@ export class DailyActivityComponent implements OnInit, OnDestroy {
     return _.find(this.projects,p => p.ProjectID == projectId);
   }
 
+  getCategoryById(categoryId : number){
+    return _.find(this.categories,c => c.CategoryID == categoryId);
+  }
+
   addFavorite(project : Project){
 
-    let usersFavorite = new UsersFavorite();
-    usersFavorite.ProjectID = project.ProjectID;
-    usersFavorite.UserID = 0;
- 
-    this.usersFavorite.push(usersFavorite);
-    //this.usersFavoriteService.create(project)
+    this.usersFavoriteService.create(project).subscribe(
+      response => this.usersFavorite.push(response)
+    );
+   // this.usersFavorite.push(usersFavorite);
   }
+
+  isPrevDateAllowed(){
+    return true
+  }
+
+  isNextDateAllowed(){
+
+  
+      return !Moment(this.selectedDate).isSameOrAfter(Moment().startOf('day'))
+  }
+
+  nextDate(){
+     this.selectedDate = Moment(this.selectedDate).add(1,'day').toDate()
+  }
+
+  praveDate(){
+    this.selectedDate = Moment(this.selectedDate).add(-1,'day').toDate()
+  }
+
 
   removeFavorite(project : Project){
     this.usersFavorite = this.usersFavorite.filter(f => f.ProjectID != project.ProjectID );

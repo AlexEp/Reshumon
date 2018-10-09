@@ -18,11 +18,14 @@ import { Colore } from '../../shared/colore.model';
 import { UsersService } from '../../services/users.service';
 import { FilterItem } from '../../pipes/filter-item.pipe';
 import { Paginator } from 'primeng/paginator';
+import { UsersFavoriteService } from '../../services/users-favorite.service';
+import { FilterColoredProjectByCategories } from './FilterColoredProjectByCategories';
+
 
 
 @Component({
   selector: 'app-report-summary',
-  providers: [FilterItem],
+  providers: [FilterItem,FilterColoredProjectByCategories],
   templateUrl: './report-summary.component.html',
   styleUrls: ['./report-summary.component.css']
 })
@@ -39,7 +42,10 @@ export class ReportSummaryComponent implements OnInit {
   maxDateValue: Date;
 
   projects: Project[];
+  favoriteProjects: Project[];
+
   categories: Category[];
+  selectedCategories: Category[];
   users: User[];
   searchSelected: string;
   coloredProjects: ColoredValue<Project>[];
@@ -83,7 +89,10 @@ export class ReportSummaryComponent implements OnInit {
     private dailyActivityService: DailyActivityService,
     private messagesService: MessagesService,
     private translate: TranslateService,
-    private filterItem: FilterItem) { }
+    private filterItem: FilterItem,
+    private filterProjectByCategories: FilterColoredProjectByCategories,
+    
+    private usersFavoriteService: UsersFavoriteService ) { }
 
 
   ngOnInit() {
@@ -95,8 +104,8 @@ export class ReportSummaryComponent implements OnInit {
 
     this.reportCols = [
       { field: 'date', header: 'Date', footer: '' },
-      { field: 'category', header: 'Category', footer: '' },
       { field: 'user', header: 'User', footer: '' },
+      { field: 'category', header: 'Category', footer: '' },
       { field: 'project', header: 'Project', footer: '' },
       { field: 'hours', header: 'Hours', footer: '0' },
     ];
@@ -106,32 +115,35 @@ export class ReportSummaryComponent implements OnInit {
       { field: 'Name', header: 'name' },
       { field: 'LastName', header: 'last name' },
       { field: 'isChecked', header: 'is checked' },
-      
+
     ];
 
     this.colsProjects = [
       { field: 'Name', header: 'name' },
-      { field: 'isChecked', header: 'is checked' },
     ];
 
     this.reloadData();
 
   }
 
-  reloadData(){
+  reloadData() {
     this.isDataReady = false;
-    
+
     //load projects & categories
     Observable.forkJoin(
       this.projectsService.getAllActive(),
       this.categoryService.getAllActive(),
       this.usersService.getAllActive(),
+      this.usersFavoriteService.getAll()
     ).subscribe(
       r => {
 
         this.projects = r[0];
         this.categories = r[1];
         this.users = r[2];
+        let favoriteProjects = r[3];
+
+        this.favoriteProjects = this.projects.filter( p => favoriteProjects.findIndex(f => f.ProjectID == p.ProjectID));
 
         this.coloredProjects = this.projects.map(p => new ColoredValue(this.generateRandomColor(), p));
         this.coloredUsers = this.users.map(u => new ColoredValue(this.generateRandomColor(), u));
@@ -143,27 +155,25 @@ export class ReportSummaryComponent implements OnInit {
     )
   }
 
-  paginateUsers(event) {
-    console.log(event);
-    this.usersPageStart = event.first;
-    this.usersPageEnd = event.first + event.rows;
-    //event.first = Index of the first record
-    //event.rows = Number of rows to display in new page
-    //event.page = Index of the new page
-    //event.pageCount = Total number of pages
+
+  togglProject(project: ColoredValue<Project>){
+    project.isChecked = !project.isChecked;
   }
 
+  togglUser(user: ColoredValue<User>){
+    user.isChecked = !user.isChecked;
+  }
 
-log(event){
-  this.log(event);
-}
   getFilteredUsers() {
     return this.filterItem.transform(this.coloredUsers, this.filtercoloredUsers, this.searchUsersSelected);
   }
 
-  getFilteredProjects() {
-    return this.filterItem.transform(this.coloredProjects, this.filtercoloredProjects, this.searchProjectSelected);
-  }
+  // getFilteredProjects()  {
+
+  //   //|   :selectedCategories
+  //   let projects = this.projects.filter( p => !this.coloredProjects.find(cp => cp.value.ProjectID == p.ProjectID )  )
+  //   let  this.filterProjectByCategories.transform(projects, this.selectedCategories);
+  // }
 
   onDateSelect() {
     this.onPeriodChange(Period.Custom);
@@ -195,7 +205,7 @@ log(event){
         this.reloadReport();
 
       },
-      e => { this.messagesService.error(e,'Loading failed' ); this.isDataReady = true; },
+      e => { this.messagesService.error(e, 'Loading failed'); this.isDataReady = true; },
       () => console.log('onCompleted')
     )
 
@@ -244,7 +254,6 @@ log(event){
 
 
 
-
   reloadReport() {
 
     let activityGroup = _.groupBy(this.dailyActivity, (da) => { return da.ProjectID });
@@ -282,16 +291,6 @@ log(event){
 
     this.reportCols.find(r => r.field == 'hours').footer = _.sumBy(this.reportByProject.values, v => v.hours);
 
-    // let keys = selectedProjects.map(key => key.value.Name);
-
-    // //count group hours
-    // let values = selectedProjects.map(key => {
-    //   let groupedArray = activityGroup[key.value.ProjectID];
-
-    //   if (!groupedArray) return 0;
-    //   return _.sumBy(groupedArray, k => k.Hours);
-    // })
-
   }
 
   generateRandomColor(): Colore {
@@ -301,9 +300,8 @@ log(event){
 
     return new Colore(r, g, b);
   }
-
-  getRGBValue(color: Colore) {
-    return `rgba(${color.r}, ${color.g}, ${color.b}, 0.7)`;
+  getCategoryById(categoryId : number){
+    return _.find(this.categories,c => c.CategoryID == categoryId);
   }
 
   selectAllProject() {
@@ -332,7 +330,7 @@ log(event){
 
 }
 
-class ColoredValue<T> {
+export class ColoredValue<T> {
   public isChecked: boolean = false;
 
   constructor(
@@ -364,4 +362,5 @@ enum Period {
   LastMonth,
   Last3Month,
 }
+
 

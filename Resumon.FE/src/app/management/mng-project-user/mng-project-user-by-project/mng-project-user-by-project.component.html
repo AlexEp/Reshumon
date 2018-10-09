@@ -4,33 +4,40 @@
     <div class="card-body ">
 
       <div class="form-row align-items-center">
-        <div class="col-sm-3 ">
+        <div class="col-sm-6 ">
           <button id="list " [ngClass]="{ 'btn-warning' : isDataChanged , 'btn-secondary' : !isDataChanged }" class="btn btn-warning "
             data-original-title="Clear " [disabled]="!isDataChanged" (click)="onRevert() ">
             <i class="fa fa-undo" aria-hidden="true "></i>Revert</button>
         </div>
-        <div class="col-sm-3 ">
+        <div class="col-sm-6 ">
           <button id="list " class="btn " data-original-title="Save" [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }"
             [disabled]="!isDataChanged" (click)="onSave() ">
             <i class="fa fa-floppy-o " aria-hidden="true "></i>Save</button>
         </div>
         <div class="col-sm-6">
-          <!-- <select class="custom-select " [ngModel]="selectedProject" (ngModelChange)="onProjectChanged($event)" name="Select name">
-            <option *ngFor="let project of projects " [ngValue]="project">{{project.Name}}</option>
-          </select> -->
+          <p-multiSelect  [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedCategories" (onChange)="onCategoryChanged($event.value)"
+            placeholder="Select a categories" filter="true" filterBy="label,value.Name" [style]="{'width':'300px'}" defaultLabel="categories">
+            <ng-template let-category pTemplate="selectedItem">
+                {{category.value.Name}}
+            </ng-template>
+            <ng-template let-category pTemplate="item">
+              {{category.value.Name}}
+            </ng-template>
+          </p-multiSelect >
+        </div>
+        <div class="col-sm-6">
+          <p-dropdown [options]="projects  |  filterProjectByCategories:selectedCategories |selectItemPipe:'Name'  " [(ngModel)]="selectedProject" (onChange)="onProjectChanged($event.value)"
+            placeholder="Select a project" [showClear]="false" filter="true" filterBy="label,value.Name" [style]="{'width':'300px'}">
+            <ng-template let-project pTemplate="selectedItem">
 
-          <p-dropdown [options]="projects |selectItemPipe:'Name'" [(ngModel)]="selectedProject" (onChange)="onProjectChanged($event.value)"
-          placeholder="Select a project" [showClear]="false" filter="true" filterBy="label,value.Name" [style]="{'width':'300px'}">
-          <ng-template let-project pTemplate="selectedItem">
-
-            <span style="vertical-align:middle; margin-left: .5em">{{project.value.Name}}</span>
-          </ng-template>
-          <ng-template let-project pTemplate="item">
-            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-              <div style="font-size:14px;float:right;margin-top:4px">{{project.value.Name}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+              <span style="vertical-align:middle; margin-left: .5em">{{project.value.Name}} <span style="color: rgb(146, 146, 146)">({{getCategoryById(project.value.CategoryID)?.Name}})</span></span>
+            </ng-template>
+            <ng-template let-project pTemplate="item">
+              <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                <div style="font-size:14px;float:right;margin-top:4px">{{project.value.Name}} <span style="color: rgb(146, 146, 146)">({{getCategoryById(project.value.CategoryID)?.Name}})</span></div>
+              </div>
+            </ng-template>
+          </p-dropdown>
         </div>
       </div>
     </div>
@@ -55,8 +62,8 @@
           </div>
         </div>
         <div class="card-body ">
-          <div *ngFor="let user of availableUsers  | filterUsers:searchAvailable" class="available-user" pDraggable="users" (onDragStart)="userDragStart($event,user) "
-            (onDragEnd)="userDragEnd($event) " (click)="userSelected(user) ">
+          <div *ngFor="let user of availableUsers  | filterUsers:searchAvailable" class="available-user" pDraggable="users"
+            (onDragStart)="userDragStart($event,user) " (onDragEnd)="userDragEnd($event) " (click)="userSelected(user) ">
             <!-- <app-select-user-card [profile]='user' [selected]="false "></app-select-user-card> -->
             {{user.FirstName}} - {{ user.LastName}}
           </div>
@@ -68,17 +75,17 @@
     <div class=" col-sm-12 col-md-6 ">
       <div class="card " pDroppable="users" (onDrop)="userDrop($event) ">
         <div class="card-header ">
-        
+
           <div class="header-title">
-              Selected Users
+            Selected Users
+          </div>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="searchSelected"> <i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
-  
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="searchSelected"> <i class="fa fa-search" aria-hidden="true"></i></span>
-              </div>
-              <input type="text" class="form-control" id="search" [(ngModel)]="searchSelected" autocomplete="off">
-            </div>
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchSelected" autocomplete="off">
+          </div>
         </div>
         <div class="card-body ">
           <div *ngFor="let user of selectedUsers | filterUsers:searchSelected" class="selected-user" (onDragStart)="userDragStart($event,user)"
@@ -95,10 +102,10 @@
 
 
 <ng-template #elseBlock>
-    <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
-    <div *ngIf="isDataLodingFailed" class="">
-      <div class="alert alert-danger" role="alert">
-        <strong>{{'Loading Data Failed'}}</strong>
-      </div>
+  <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
+  <div *ngIf="isDataLodingFailed" class="">
+    <div class="alert alert-danger" role="alert">
+      <strong>{{'Loading Data Failed'}}</strong>
     </div>
-  </ng-template>
+  </div>
+</ng-template>

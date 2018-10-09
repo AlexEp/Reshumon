@@ -53,7 +53,7 @@
             </ng-template>
           <ng-template pTemplate="header">
             <tr>
-                   <th class="ui-p-2" style="width: 15%"  >{{translateWorld('edit') | translate}}
+              <th class="th-delete"  >{{translateWorld('edit') | translate}}
               </th>
                 <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="th-{{col.field}}">
                     {{col.header}}

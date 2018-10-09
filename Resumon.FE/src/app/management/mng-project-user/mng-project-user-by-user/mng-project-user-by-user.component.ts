@@ -32,6 +32,8 @@ export class MngProjectUserByUserComponent implements OnInit {
   draggedProject: Project;
   availableProject: Project[] = [];
   selectedProject: Project[] = [];
+  selectedCategories: Category[] = [];
+  selectedAvailableCategories: Category[] = [];
   userProject: UserProject[] = [];
   selectedUser: User;
 
@@ -149,6 +151,10 @@ export class MngProjectUserByUserComponent implements OnInit {
     });
     this.availableProject = group['false'] || [];
     this.selectedProject = group['true'] || [];
+  }
+
+  getCategoryById(categoryId : number){
+    return _.find(this.categories,c => c.CategoryID == categoryId);
   }
 
   canDeactivate() {

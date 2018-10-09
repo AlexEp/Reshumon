@@ -22,6 +22,7 @@ namespace Reshumon.DAL
 
     public interface IProjectRepository : IGenericRepository<Project>
     {
+        IList<Project> Get(User user);
     }
 
     public interface IUserRepository : IGenericRepository<User>
@@ -30,6 +31,7 @@ namespace Reshumon.DAL
 
     public interface IUserFavoriteRepository : IGenericRepository<UserFavorite>
     {
+        IList<UserFavorite> Get(User user);
     }
     
 

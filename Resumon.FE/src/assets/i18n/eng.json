@@ -45,7 +45,8 @@
                 "notes" : "notes",
                 "daily activity": "daily activity",
                 "prev" : "prev",
-                "next" : "next"
+                "next" : "next",
+                "caterory": "caterory"
   
             },
             "reports":{
@@ -57,7 +58,9 @@
                 "time" : "Time",
                 "name" : "Name",
                 "last name" : "Last Name",
-                "is checked" : "checked"
+                "is checked" : "Checked",
+                "all" : "All",
+                "none" : "None"
             },
             "mng-users":{
                 "users managment" : "Users Managment",

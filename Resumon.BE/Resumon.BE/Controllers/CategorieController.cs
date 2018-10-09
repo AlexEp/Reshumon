@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
@@ -22,12 +23,29 @@ namespace Resumon.BE.Controllers
 
         // GET: api/Categories
         [HttpGet, Route("")]
-        public IEnumerable<Category> GetCategory()
+        public IEnumerable<Category> GetAllCategory()
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.Categories.GetAll(); 
-                return ans.ToList();
+
+                //user Identity
+                var identityClaims = (ClaimsIdentity)User.Identity;
+                IEnumerable<Claim> claims = identityClaims.Claims;
+
+                var uerRefID = int.Parse(identityClaims.FindFirst("UserRefID").Value);
+                var Role = identityClaims.FindFirst(ClaimTypes.Role).Value;
+
+
+                if (User.IsInRole("Admin")) //filter in case of non Admin
+                {
+                    var ans = ServiceProvider.EntityContext.Categories.GetAll();
+                    return ans.ToList();
+                }
+                else
+                {
+                    return GetRelevantCategories().ToList();
+                }
+
             }
             catch (Exception)
             {
@@ -37,13 +55,40 @@ namespace Resumon.BE.Controllers
            
         }
 
+        [HttpGet, Route("relevant")]
+        public IEnumerable<Category> GetRelevantCategories()
+        {
+            //user Identity
+            var identityClaims = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identityClaims.Claims;
+
+            var uerRefID = int.Parse(identityClaims.FindFirst("UserRefID").Value);
+
+            try
+            {
+                var user = ServiceProvider.EntityContext.Users.Get(uerRefID);
+                //TODO : better getby user / project function
+                var userProjects = ServiceProvider.EntityContext.UserProject.GetAll().Where(p => p.UserID == user.UserID);
+
+                var relevantProjects = ServiceProvider.EntityContext.Projects.GetAll().Where(p => userProjects.Count(up => up.ProjectID == p.ProjectID) > 0);
+                var relevantCategory = ServiceProvider.EntityContext.Categories.GetAll().Where(c => relevantProjects.Count(p => p.CategoryID == c.CategoryID) > 0);
+
+                return relevantCategory;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         [HttpGet, Route("active")]
-        public IEnumerable<Category> GetAcriveCategories()
+        public IEnumerable<Category> GetActiveProjects()
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.Categories.GetAll().Where(p => p.IsActive);
+                var ans = GetAllCategory().Where(p => p.IsActive);
                 return ans.ToList();
             }
             catch (Exception)
@@ -52,6 +97,7 @@ namespace Resumon.BE.Controllers
                 throw;
             }
         }
+
 
 
         // GET: api/Categories/5

@@ -3,7 +3,6 @@ import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 
 
 
-
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -31,6 +30,8 @@ import {ColorPickerModule} from 'primeng/colorpicker';
 import {SidebarModule} from 'primeng/sidebar';
 import {PaginatorModule} from 'primeng/paginator';
 import {TooltipModule} from 'primeng/tooltip';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -74,7 +75,10 @@ import { ReportByProjectComponent } from './reports/report-by-project/report-by-
 import { ReportComponent } from './reports/report/report.component';
 import { ReportSummaryComponent } from './reports/report-summary/report-summary.component';
 import { AuthInterceptor } from './services/auth.Interceptor';
-import { truncate } from 'fs';
+import { FilterProjectByCategories } from './pipes/filter-project-by-categories.pipe';
+import { FilterProjectByCategory } from './pipes/filter-project-by-category.pipe';
+import { FilterColoredProjectByCategories } from './reports/report-summary/FilterColoredProjectByCategories';
+
 
 
 
@@ -145,6 +149,9 @@ const routesConfigs: Routes = [
     FilterProjectFavorite,
     FilterUsers,
     FilterItem,
+    FilterProjectByCategories,
+    FilterProjectByCategory,
+    FilterColoredProjectByCategories,
     SelectItemPipe,
     ReportSummaryComponent,
     
@@ -182,7 +189,9 @@ const routesConfigs: Routes = [
     ColorPickerModule,
     SidebarModule,
     PaginatorModule,
-    TooltipModule
+    TooltipModule,
+    OverlayPanelModule,
+    MultiSelectModule
     
   ],
   providers: [

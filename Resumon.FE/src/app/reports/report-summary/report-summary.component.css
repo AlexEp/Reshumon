@@ -12,3 +12,12 @@ input[type=checkbox]
   -o-transform: scale(2); /* Opera */
   padding: 10px;
 }
+
+.selected-item {
+
+    background-color: #60ac92 !important;
+    color: #f0f1f4;
+}
+.selected-item  span{
+  color: #f0f1f4 !important;
+}

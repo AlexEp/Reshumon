@@ -35,6 +35,14 @@ export class UsersFavoriteService {
     })
   };
 
+  getAllRelevant() : Observable<UsersFavorite[]> {
+    return this.http.get(this.url + '/relevant').map(
+        (response : Response)=> response
+    )
+    .catch((error : Response) => {
+      return  Observable.throw(new AppError(error));
+    })
+  };
 
 
     delete(project : Project) : Observable<UsersFavorite> {
@@ -51,14 +59,14 @@ export class UsersFavoriteService {
 
     create(project : Project) : Observable<UsersFavorite> {
     
-      return this.http.put<Project>(this.url,project)
-          .map(
-            response => {
-              return response
-            }
-          )
-          .catch((error : Response) => {
-            return  Observable.throw(new AppError(error));
-          })
+      return this.http.post<UsersFavorite>(this.url,project)
+      .map(
+        response => {
+          return response
+        }
+      )
+      .catch((error : Response) => {
+        return  Observable.throw(new AppError(error));
+      })
     }
 }

@@ -252,6 +252,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountAPIController.cs" />
+    <Compile Include="Controllers\BaseAPI.cs" />
     <Compile Include="Migrations\201810031939352_RebuildUserIdentity.cs" />
     <Compile Include="Migrations\201810031939352_RebuildUserIdentity.Designer.cs">
       <DependentUpon>201810031939352_RebuildUserIdentity.cs</DependentUpon>

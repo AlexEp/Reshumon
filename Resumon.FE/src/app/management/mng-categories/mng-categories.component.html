@@ -49,7 +49,8 @@
         </ng-template>
           <ng-template pTemplate="header">
             <tr>
-             <th class="ui-p-2" style="width: 15%"  >{{translateWorld('edit') | translate}}
+             <th  class="th-delete" >
+               {{translateWorld('edit') | translate}}
               </th>
                 <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="th-{{col.field}}">
                     {{col.header}}
@@ -60,10 +61,10 @@
           </ng-template>
           <ng-template pTemplate="body" let-category>
             <tr>
-              <td class="ui-p-1">
+              <td >
                 <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true" (click)="onDeleteClicked(category)"></i>
               </td>
-              <td class="ui-p-5">
+              <td >
                 <input class="form-control is-invalid" #inputName="ngModel" autocomplete="off" (change)="onChange(category)"
                   [ngClass]="{'is-invalid': !(inputName.valid), 'is-valid': inputName.valid }" id="name" name="name"
                   [(ngModel)]="category.Name" required />
@@ -72,7 +73,7 @@
                   This filed is requred
                 </small>
               </td>
-              <td class="ui-p-5">
+              <td >
                 <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="category.IsActive"
                   (change)="onChange(category)" />
               </td>

@@ -1,6 +1,6 @@
+import { Category } from './../../../shared/category.model';
 import { UserProject } from './../../../shared/user-project.model';
 import { Component, OnInit } from '@angular/core';
-import { Category } from '../../../shared/category.model';
 import { Project } from '../../../shared/project.model';
 import { User } from '../../../shared/user.model';
 import { TranslateService } from 'ng2-translate';
@@ -35,6 +35,7 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
   selectedUsers: User[] = [];
   userProject: UserProject[] = [];
   selectedProject : Project;
+  selectedCategories: Category[] = [];
 
   constructor(
     private usersProjectService : UsersProjectService,
@@ -105,6 +106,9 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
     }
   }
 
+  onCategoryChanged(category : Category){
+    //Do nothing..
+  }
   userDropBack(event) {
     if (this.draggedEUser) {
       this.userRemoved(this.draggedEUser);
@@ -151,6 +155,10 @@ export class MngProjectUserByProjectComponent implements OnInit,CanComponentDeac
           this.isDataChanged = false;
         });
   
+  }
+
+  getCategoryById(categoryId : number){
+    return _.find(this.categories,c => c.CategoryID == categoryId);
   }
 
   onSelectionChanged(event){

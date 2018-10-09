@@ -28,7 +28,8 @@
             <ng-template let-user pTemplate="item">
               <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
 
-                <div style="font-size:14px;float:right;margin-top:4px">{{user.value.FirstName}} - {{user.value.LastName}}</div>
+                <div style="font-size:14px;float:right;margin-top:4px">{{user.value.FirstName}} -
+                  {{user.value.LastName}}</div>
               </div>
             </ng-template>
           </p-dropdown>
@@ -50,20 +51,34 @@
             Available Projects
           </div>
 
-          <div class="input-group">
+          <div class="input-group mb-2">
+              <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedAvailableCategories" (onChange)="onCategoryChanged($event.value)"
+                placeholder="Select a categories" filter="true" filterBy="label,value.Name" [style]="{'width':'385px'}" defaultLabel="categories">
+                <ng-template let-category pTemplate="selectedItem">
+                  {{category.value.Name}}
+                </ng-template>
+                <ng-template let-category pTemplate="item">
+                  {{category.value.Name}}
+                </ng-template>
+              </p-multiSelect>
+            </div>
+
+          <div class="input-group" >
             <div class="input-group-prepend">
               <span class="input-group-text" id="searchAvailable"> <i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
             <input type="text" class="form-control" id="search" [(ngModel)]="searchAvailable" autocomplete="off">
           </div>
-
+  
         </div>
         <div class="card-body limit-width">
-          <div *ngFor="let project of availableProject | filterProjectByName:searchAvailable" class="available-project"
+          <div *ngFor="let project of availableProject |   filterProjectByCategories:selectedAvailableCategories | filterProjectByName:searchAvailable" class="available-project"
             pDraggable="project" (onDragStart)="projectDragStart($event,project)" (onDragEnd)="userDragEnd($event)"
             (click)="userSelected(project)">
 
-            {{project.Name}}</div>
+            {{project.Name}} <span style="color: rgb(146, 146, 146)">({{getCategoryById(project.CategoryID)?.Name}})</span>
+
+          </div>
 
         </div>
       </div>
@@ -75,19 +90,33 @@
             Selected Projects
           </div>
 
+          <div class="input-group mb-2">
+              <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedCategories" (onChange)="onCategoryChanged($event.value)"
+                placeholder="Select a categories" filter="true" filterBy="label,value.Name" [style]="{'width':'385px'}" defaultLabel="categories">
+                <ng-template let-category pTemplate="selectedItem">
+                  {{category.value.Name}}
+                </ng-template>
+                <ng-template let-category pTemplate="item">
+                  {{category.value.Name}}
+                </ng-template>
+              </p-multiSelect>
+            </div>
+
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text" id="searchSelected"> <i class="fa fa-search" aria-hidden="true"></i></span>
             </div>
             <input type="text" class="form-control" id="search" [(ngModel)]="searchSelected" autocomplete="off">
           </div>
+
+ 
         </div>
         <div class="card-body  limit-width">
 
-          <div *ngFor="let project of selectedProject | filterProjectByName:searchSelected" class="selected-project"
+          <div *ngFor="let project of selectedProject  |  filterProjectByCategories:selectedCategories | filterProjectByName:searchSelected" class="selected-project"
             (onDragStart)="projectDragStart($event,project)" (onDragEnd)="userDragEnd($event)" pDraggable="projectBack"
             (click)="userRemoved(project)">
-            {{project.Name}}
+            {{project.Name}} <span style="color: rgb(146, 146, 146)">({{getCategoryById(project.CategoryID)?.Name}})</span>
           </div>
 
 
@@ -98,10 +127,10 @@
 
 </div>
 <ng-template #elseBlock>
-    <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
-    <div *ngIf="isDataLodingFailed" class="">
-      <div class="alert alert-danger" role="alert">
-        <strong>{{'Loading Data Failed'}}</strong>
-      </div>
+  <app-animated-loading *ngIf="!isDataLodingFailed"></app-animated-loading>
+  <div *ngIf="isDataLodingFailed" class="">
+    <div class="alert alert-danger" role="alert">
+      <strong>{{'Loading Data Failed'}}</strong>
     </div>
-  </ng-template>
+  </div>
+</ng-template>

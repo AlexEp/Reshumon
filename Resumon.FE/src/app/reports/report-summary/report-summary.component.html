@@ -30,7 +30,7 @@
     </div>
     <!-- ----------- Table ----------- -->
     <div class="card   mw-100">
-        <div class="card-body ">
+        <div class="card-body " >
             <p-table #dt [columns]="reportCols" [value]="reportByProject.values">
                 <ng-template pTemplate="caption">
                     <div class="ui-helper-clearfix">
@@ -57,7 +57,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="footer" let-columns>
-                    <tr>
+                    <tr style="background-color: gainsboro">
                         <td *ngFor="let col of columns">
                             {{col.footer}}
                         </td>
@@ -80,16 +80,34 @@
 </ng-template>
 <!-- ------------- [sidebar - project] -------------- -->
 <p-sidebar [(visible)]="visibleSidebarProject" [baseZIndex]="10000">
-    <h1 style="font-weight:normal"> Project</h1>
+    <h1 style="font-weight:normal"> Projects</h1>
 
-    <p-table #dtProjects [value]="getFilteredProjects()" [globalFilterFields]="['value.Name']" [paginator]="true"
-        [rows]="7">
+    <div>
+
+            <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedCategories"
+                (onChange)="onCategoryChanged($event.value)" placeholder="Select a categories" filter="true"
+                filterBy="label,value.Name" [style]="{'width':'250px'}" defaultLabel="categories">
+                <ng-template let-category pTemplate="selectedItem">
+                    {{category.value.Name}}
+                </ng-template>
+                <ng-template let-category pTemplate="item">
+                    {{category.value.Name}}
+                </ng-template>
+            </p-multiSelect>
+
+        </div>
+
+    <p-table #dtProjects [value]="coloredProjects |  filterColoredProjectByCategories:selectedCategories "
+        [globalFilterFields]="['value.Name']" [paginator]="true" [rows]="7">
         <ng-template pTemplate="caption">
-            <div style="text-align: right">
-                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="25" placeholder="Search project name" (input)="dtProjects.filterGlobal($event.target.value, 'contains')"
-                    style="width:auto">
-            </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="search" placeholder="Search project name" [(ngModel)]="search"
+                        autocomplete="off" (input)="dtProjects.filterGlobal($event.target.value, 'contains')">
+                </div>
+
         </ng-template>
         <ng-template pTemplate="header">
 
@@ -99,21 +117,30 @@
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="colsProjects">
-            <tr [pSelectableRow]="rowData">
-                <td>
-                    {{rowData.value.Name}}
-                </td>
+        <ng-template pTemplate="body" let-project let-columns="colsProjects">
+            <tr [pSelectableRow]="project" (click)="togglProject(project)"
+            >
                 <td >
-                  <input type="checkbox" name="" id="" [(ngModel)]="rowData.isChecked">
+                        <div class="rounded" [ngClass]="{'selected-item': project.isChecked}">
+                        {{project.value.Name}}  <span style="color: rgb(146, 146, 146)">({{getCategoryById(project.value.CategoryID)?.Name}})</span></div>
+          
                 </td>
             </tr>
             <tr>
-        </tr> 
+            </tr>
         </ng-template>
 
     </p-table>
+    <button id="list" class="btn btn-warning float-right" data-original-title="all" (click)="selectAllProject()">
+            <i class="fa fa-check-square-o" aria-hidden="true "></i>
+            <span class="d-none d-sm-inline"> {{translateWorld('all') | translate}}</span>
+        </button>
 
+        <button id="list" class="btn btn-warning  float-left" data-original-title="
+         Note" (click)="selectNoneProject()">
+                <i class="fa fa-square-o" aria-hidden="true "></i>
+                <span class="d-none d-sm-inline"> {{translateWorld('none') | translate}}</span>
+            </button>
 
 </p-sidebar>
 
@@ -121,32 +148,45 @@
 <p-sidebar [(visible)]="visibleSidebarUser" [baseZIndex]="10000" [blockScroll]="true">
     <h1 style="font-weight:normal"> Users</h1>
 
-    <p-table #dtUsers [value]="getFilteredUsers()" [globalFilterFields]="['value.FirstName','value.LastName']" [paginator]="true"
-        [rows]="7">
+    <p-table #dtUsers [value]="coloredUsers" [globalFilterFields]="['value.FirstName','value.LastName']"
+        [paginator]="true" [rows]="7">
         <ng-template pTemplate="caption">
-            <div style="text-align: right">
-                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="25" placeholder="Search user name/last name" (input)="dtUsers.filterGlobal($event.target.value, 'contains')"
-                    style="width:auto">
-            </div>
+            <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="search" placeholder="Search user name/last namee" [(ngModel)]="search"
+                        autocomplete="off" (input)="dtUsers.filterGlobal($event.target.value, 'contains')">
+                </div>
+
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th class="ui-p-2" style="width: 50%">{{translateWorld('name') | translate}} </th>
-                <th class="ui-p-2" style="width: 50%">{{translateWorld('last name') | translate}} </th>
-                <th class="ui-p-2" style="width: 50%">{{translateWorld('is checked') | translate}} </th>
+                <th class="ui-p-2" style="width: 50%">{{translateWorld('name') | translate}} - {{translateWorld('last name') | translate}} </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
-            <tr>
-                <td class="ui-p-1">{{user.value.FirstName}} </td>
-                <td class="ui-p-1">{{user.value.LastName}} </td>
-                <td class="ui-p-1">  <input type="checkbox" name="" id="" [(ngModel)]="user.isChecked"></td>
+            <tr (click)="togglUser(user)">
+                 <td class="ui-p-1">
+                            <div class="rounded" [ngClass]="{'selected-item': user.isChecked}">
+                                    {{user.value.FirstName}} - {{user.value.LastName}}
+                            </div>
+                </td>
+    
             </tr>
         </ng-template>
 
     </p-table>
 
+    <button id="list" class="btn btn-warning float-right" data-original-title="ll" (click)="selectAllUsers()">
+            <i class="fa fa-check-square-o" aria-hidden="true "></i>
+            <span class="d-none d-sm-inline"> {{translateWorld('all') | translate}}</span>
+        </button>
+
+        <button id="list" class="btn btn-warning  float-left" data-original-title="Select Note" (click)="selectNoneUsers()">
+                <i class="fa fa-square-o" aria-hidden="true "></i>
+                <span class="d-none d-sm-inline"> {{translateWorld('none') | translate}}</span>
+            </button>
 </p-sidebar>
 
 <!-- ------------- [sidebar - time] -------------- -->

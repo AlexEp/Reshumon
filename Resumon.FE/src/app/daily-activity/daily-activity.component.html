@@ -3,132 +3,132 @@
   <div class="row">
 
     <div class="col-sm-12 col-md-3">
-      <div class="row ">
 
-        <!-- Favorite -->
-        <div class="list-group option-bar">
-          <span class="list-group-item option-header">
-            Favorite
-            <span class="pull-right" id="slide-submenu">
-              <i class="fa fa-list-alt" aria-hidden="true"></i>
-            </span>
-          </span>
+      <!-- Available Project List -->
+      <p-table #dtProjects [value]="projects  |  filterProjectByCategories:selectedCategories  " [globalFilterFields]="['Name']" [paginator]="true" [rows]="7"
+        [responsive]="true">
 
-          <p-accordion>
-            <p-accordionTab header="Favorite projects">
-                <li class="list-group-item" *ngFor="let project of projectsAvailable | filterProjectFavorite:usersFavorite" >
-                    <div class="row">
-                      <div class="col-sm-10" (click)="onProjectSelected(project)">{{project.Name}}</div>
-                      <div class="col-sm-2">
-                        <div><i id="btn-row-delete" class="btn btn-sm btn-outline-danger fa fa-star-o btn-hover" aria-hidden="true"
-                            (click)="removeFavorite(project)"></i></div>
-                      </div>
-                    </div>
-            </p-accordionTab>
-            <p-accordionTab header="Favorite Categories">
-
-            </p-accordionTab>
-          </p-accordion>
-        </div>
-      </div>
-
-
-       <!-- Available Project List -->
-      <div class="row ">
-        <div class="list-group option-bar">
-          <span class="list-group-item option-header">
-            Projects
-            <span class="pull-right" id="slide-submenu">
-              <i class="fa fa-list-alt" aria-hidden="true"></i>
-            </span>
-          </span>
-
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+        <ng-template pTemplate="caption">
+          <div >
+              <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedCategories" (onChange)="onCategoryChanged($event.value)"
+              placeholder="Select a categories" filter="true" filterBy="label,value.Name" [style]="{'width':'250px'}" defaultLabel="categories">
+              <ng-template let-category pTemplate="selectedItem">
+                {{category.value.Name}}
+              </ng-template>
+              <ng-template let-category pTemplate="item">
+                {{category.value.Name}}
+              </ng-template>
+            </p-multiSelect>
+         
             </div>
-            <input type="text" class="form-control" id="search" [(ngModel)]="search" autocomplete="off">
-          </div>
-          <ul id="available-project-list" class="list-group">
-            <li class="list-group-item" *ngFor="let project of projectsAvailable| filterProjectByName:search" >
-              <div class="row">
-                <div class="col-sm-10" (click)="onProjectSelected(project)">{{project.Name}}</div>
-                <div class="col-sm-2">
-                  <div><i id="btn-row-delete" class="btn btn-sm btn-outline-danger fa fa-star btn-hover" aria-hidden="true"
-                      (click)="addFavorite(project)"></i></div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="search" placeholder="Search project name" [(ngModel)]="search"
+                          autocomplete="off" (input)="dtProjects.filterGlobal($event.target.value, 'contains')">
+                      </div>
+                </th>
+              </tr>
+          <tr>
+            <th>
+              Name
+              <p-sortIcon [field]="['Name']" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+          </tr>
+      
+        </ng-template>
+        <ng-template pTemplate="body" let-project>
+          <tr>
+            <td class="ui-p-3" (click)="onProjectSelected(project)">
+             {{project.Name}} <span style="color: rgb(146, 146, 146)">({{getCategoryById(project.CategoryID)?.Name}})</span>
+            </td>
+
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
 
 
-    <!-- Activity recording -->
     <div class="col-sm-12 col-md-9">
-      <div class="card toolbar-row mw-100">
+          <!-- calendar -->
+          <div class="card ">
+            <div class="card-body row">
 
-        <div class="card-body row">
-
-          <div class="col-3">
-            <button id="list " [ngClass]="{ 'btn-warning' : isDataChanged , 'btn-secondary' : !isDataChanged }" class="btn btn-warning "
-              [disabled]="!isDataChanged" (click)="onRevert() ">
-              <i class="fa fa-caret-square-o-left" aria-hidden="true "></i>{{ translateWorld('prev') | translate}}</button>
-          </div>
-          <div class="col-6">
-            <p-calendar [(ngModel)]="date3" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
-          </div>
-          <div class="col-3">
-            <button id="list " class="btn " [ngClass]="{ 'btn-success' : isDataChanged , 'btn-secondary' : !isDataChanged }"
-              [disabled]="!isDataChanged" (click)="onSave() ">
-              {{ translateWorld('next') | translate}} <i class="fa fa-caret-square-o-right " aria-hidden="true "></i></button>
-          </div>
-
-
-        </div>
-      </div>
+              <div class="col-3">
+                <button id="next-day " [ngClass]="{ 'btn-primary' : isPrevDateAllowed () , 
+                'btn-secondary' : !isPrevDateAllowed() }" class="btn btn-primary "
+                  [disabled]="!isPrevDateAllowed()" (click)="praveDate () ">
+                  <i class="fa fa-caret-square-o-left" aria-hidden="true "></i>{{ translateWorld('prev') | translate}}</button>
+              </div>
+              <div class="col-6">
+                <p-calendar [(ngModel)]="selectedDate" [showIcon]="true" 
+                dateFormat="dd/mm/yy" [readonlyInput]="true"  [maxDate]="maxDateValue" ></p-calendar>
+              </div>
+              <div class="col-3">
+                <button id="list " class="btn " [ngClass]="{ 'btn-primary' : isNextDateAllowed() , 'btn-secondary' : !isNextDateAllowed() }"
+                  [disabled]="!isNextDateAllowed()" (click)="nextDate() ">
+                  {{ translateWorld('next') | translate}} <i class="fa fa-caret-square-o-right " aria-hidden="true "></i></button>
+              </div>
 
 
-      <div class="row">
-        <div class="card">
-          <div class="card-header">
-            {{translateWorld('daily activity') | translate}}
+            </div>
           </div>
 
-          <div class="card-body mw-100">
 
-            <p-table [value]="dailyActivity " [responsive]="true">
+         
+            <div class="card">
+              <div class="card-header">
+                {{translateWorld('daily activity') | translate}}
+              </div>
 
-              <ng-template pTemplate="header">
-                <tr>
-                  <th class="ui-p-2" style="width: 10%"> </th>
-                  <th class="ui-p-2" style="width: 20%">{{translateWorld('project') | translate}} </th>
-                  <th class="ui-p-5" style="width: 10%">{{translateWorld('hours') | translate}}</th>
-                  <th class="ui-p-5" style="width: 40%">{{translateWorld('notes') | translate}}</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-activity>
-                <tr>
-                  <td class="ui-p-1">
-                    <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true"
-                      (click)="onActivityDeleted(activity)"></i>
-                  </td>
-                  <td class="ui-p-1">
-                    {{getProjectById(activity.ProjectID).Name}}
-                  </td>
-                  <td class="ui-p-5">
-                    <p-spinner size="3" [(ngModel)]="activity.Hours" [min]="0" [max]="24"></p-spinner>
-                  </td>
-                  <td class="ui-p-5">
-                    {{activity.ActivityID}}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
-        </div>
-      </div>
+              <div class="card-body mw-100">
+
+                <p-table [value]="dailyActivity " [responsive]="true">
+
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="ui-p-2" style="width: 10%"> </th>
+                      <th class="ui-p-5" style="width: 20%">{{translateWorld('caterory') | translate}}</th>
+                      <th class="ui-p-2" style="width: 20%">{{translateWorld('project') | translate}} </th>
+                      <th class="ui-p-5" style="width: 10%">{{translateWorld('hours') | translate}}</th>
+                      <th class="ui-p-5" style="width: 30%">{{translateWorld('notes') | translate}}</th>
+                    </tr>
+              
+                  </ng-template>
+                  <ng-template pTemplate="body" let-activity>
+                    <tr>
+                      <td>
+                        <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true"
+                          (click)="onActivityDeleted(activity)"></i>
+                      </td>
+                      <td>
+                          {{getCategoryById(getProjectById(activity.ProjectID).CategoryID)?.Name}}
+                      </td>
+                      <!-- Projects -->
+                      <td>
+                        {{getProjectById(activity.ProjectID).Name}}
+                      </td>
+                      <!-- Hours -->
+                      <td>
+                        <p-spinner size="3" [(ngModel)]="activity.Hours" [min]="0" [max]="24"></p-spinner>
+                      </td>
+                      <!-- Note -->
+                      <td>
+                        <input class="form-control" type="text" [(ngModel)]="activity.Note" />
+
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+        
     </div>
 
   </div>

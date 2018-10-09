@@ -33,6 +33,14 @@ namespace Reshumon.DAL.Repositories
 
         }
 
+        public IList<UserFavorite> Get(User user)
+        {
+            //TODO : bad preformance. to improve ..
+            return GetAll().Where(uf => uf.UserID == user.UserID).ToList();
+
+
+        }
+
         public void Edit(UserFavorite entity)
         {
             using (var Context = GetContext())
@@ -88,5 +96,7 @@ namespace Reshumon.DAL.Repositories
         {
             throw new NotImplementedException();
         }
+
+    
     }
 }

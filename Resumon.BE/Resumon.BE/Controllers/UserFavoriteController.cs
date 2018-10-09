@@ -16,8 +16,11 @@ namespace Resumon.BE.Controllers
 {
     [Authorize]
     [RoutePrefix("api/v1/user-favorite")]
-    public class UserFavoriteController : ApiController
+ 
+    public class UserFavoriteController : BaseAPI
     {
+
+        [Route("Admin")]
         [HttpGet, Route("")]
         public IEnumerable<UserFavorite> Get()
         {
@@ -33,80 +36,61 @@ namespace Resumon.BE.Controllers
 
         }
 
-        // GET: api/Categories/5
-        [Route("{id:int}")]
-        [HttpGet]
-        public IHttpActionResult Get(int id)
+
+        [HttpGet, Route("relevant")]
+        public IEnumerable<UserFavorite> GetRelevant()
         {
-            UserFavorite entety = ServiceProvider.EntityContext.UserFavorites.Get(id);
-            if (entety == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(entety);
-        }
-
-        // PUT: api/Categories/5
-        [HttpPut]
-        public IHttpActionResult Put(int id, [FromBody] UserFavorite entity)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != entity.UsersFavoriteID)
-            {
-                return BadRequest();
-            }
-
-
             try
             {
-                ServiceProvider.EntityContext.UserFavorites.Edit(entity);
+                var ans = ServiceProvider.EntityContext.UserFavorites.Get(GetUser());
+                return ans.ToList();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                if (!IsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
-            return Ok(entity);
         }
+
 
         // POST: api/Categories
 
-        [HttpPut]
-        public IHttpActionResult Post([FromBody]DailyActivity entity)
+        [HttpPost, Route("")]
+        public IHttpActionResult Post([FromBody]Project entity)
         {
             if (!ModelState.IsValid )
             {
                 return BadRequest(ModelState);
             }
 
+            UserFavorite userFavorites = new UserFavorite();
             try
             {
-                ServiceProvider.EntityContext.DailyActivity.Add(entity);
+
+                //Validation if project belong to the user
+
+                var user = this.GetUser();
+                var projects = ServiceProvider.EntityContext.Projects.Get(user);
+               
+
+                if (projects.Count(p => p.ProjectID == entity.ProjectID) < 1)
+                {
+                    return BadRequest();
+                }
+
+
+              
+                userFavorites.ProjectID = entity.ProjectID;
+                userFavorites.UserID = user.UserID;
+
+                ServiceProvider.EntityContext.UserFavorites.Add(userFavorites);
             }
             catch (DbUpdateException)
             {
-                if (IsExists(entity.ActivityID))
-                {
-                    return Conflict();
-                }
-                else
-                {
+
                     throw;
-                }
             }
-            return Ok(entity);
+            return Ok(userFavorites);
      
         }
 
