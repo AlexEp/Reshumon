@@ -19,8 +19,7 @@ namespace Reshumon.DAL.DTO
         public DbSet<UserProject> UserProjects { get; set; }
         public DbSet<DailyActivity> DailyActivities { get; set; }
         public DbSet<UserFavorite> UserFavorites { get; set; }
-
-        
+        public DbSet<DiningRoomUse> DiningRoomUse { get; set; }
     }
 
 }

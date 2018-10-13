@@ -40,8 +40,17 @@
               aria-hidden="true"></i>{{translateWorld('categories') | translate}}</li>
           <li class="dropdown-item" routerLinkActive="active" [routerLink]="['/mng/projects']"> <i class="fa fa-flask"
               aria-hidden="true"></i>{{translateWorld('projects') | translate}} </li>
-          <li class="dropdown-item" routerLinkActive="active" [routerLink]="['/mng/projectsUsers/user']"> <i class="fa fa-link"
-              aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </li>
+          <!-- <li class="dropdown-item" routerLinkActive="active" [routerLink]="['/mng/projectsUsers/user']"> 
+            <i class="fa fa-link"
+              aria-hidden="true"></i>{{translateWorld('projects users') | translate}} </li> -->
+           <li class="dropdown-submenu nav-item"  routerLinkActive="active">
+              <a  class="dropdown-item" tabindex="-1" > <i class="fa fa-link"
+                aria-hidden="true"></i>{{translateWorld('projects users') | translate}}</a>
+                  <ul class="dropdown-menu">
+                      <li class="dropdown-item" routerLinkActive="active"  [routerLink]="['/mng/projectsUsers/user']"><a tabindex="-1">By user</a></li>
+                      <li class="dropdown-item" routerLinkActive="active"  [routerLink]="['/mng/projectsUsers/project']"><a tabindex="-1">By project</a></li>
+                  </ul>
+              </li>
         </ul>
       </li>
     </ul>

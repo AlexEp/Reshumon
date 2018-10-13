@@ -14,5 +14,7 @@ namespace Reshumon.DAL
         IDailyActivityRepository DailyActivity { get; }
         IUserProjectRepository UserProject { get; }
         IUserFavoriteRepository UserFavorites { get; }
+
+        IDiningRoomUseRepository DiningRoomUse { get; }
     }
 }

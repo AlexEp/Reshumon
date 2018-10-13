@@ -17,15 +17,15 @@ namespace Resumon.BE.Controllers
 {
 
     [Authorize]
-    [RoutePrefix("api/v1/daily-activity")]
-    public class DailyActivityController : BaseAPI
+    [RoutePrefix("api/v1/dining-room")]
+    public class DiningRoomUseController : BaseAPI
     {
         [HttpGet, Route("")]
-        public IEnumerable<DailyActivity> Get()
+        public IEnumerable<DiningRoomUse> Get()
         {
             try
             {
-                var ans = ServiceProvider.EntityContext.DailyActivity.GetAll();
+                var ans = ServiceProvider.EntityContext.DiningRoomUse.GetAll();
                 return ans.ToList();
             }
             catch (Exception)
@@ -35,7 +35,7 @@ namespace Resumon.BE.Controllers
         }
 
         [HttpGet, Route("")]
-        public IEnumerable<DailyActivity> Get([FromUri] string from, [FromUri] string to)
+        public IEnumerable<DiningRoomUse> Get([FromUri] string from, [FromUri] string to)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Resumon.BE.Controllers
                 DateTime.TryParse(from, out fromDate);
                 DateTime.TryParse(to,out toDate);
 
-                var ans = ServiceProvider.EntityContext.DailyActivity.GetByDate(fromDate.Date, toDate.AddDays(1).Date);
+                var ans = ServiceProvider.EntityContext.DiningRoomUse.GetByDate(fromDate.Date, toDate.AddDays(1).Date);
                 return ans.Where(a => a.UserID == this.GetUserID()).ToList();
             }
             catch (Exception)
@@ -61,7 +61,7 @@ namespace Resumon.BE.Controllers
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            DailyActivity entety = ServiceProvider.EntityContext.DailyActivity.Get(id);
+            DiningRoomUse entety = ServiceProvider.EntityContext.DiningRoomUse.Get(id);
             if (entety == null)
             {
                 return NotFound();
@@ -72,31 +72,39 @@ namespace Resumon.BE.Controllers
 
         // PUT: api/Categories/5
         [HttpPut, Route("")]
-        public IHttpActionResult Put([FromBody] DailyActivity entity)
+        public IHttpActionResult Put([FromBody] DiningRoomUse entity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            DiningRoomUse existEntity = null;
+            IList<DiningRoomUse> existEntitiesByDate = ServiceProvider.EntityContext.DiningRoomUse.GetByDate(entity.Date, entity.Date.AddDays(1)).ToList();
 
-            DailyActivity existEntity = ServiceProvider.EntityContext.DailyActivity.Get(entity.ActivityID);
-            if (existEntity == null || existEntity.UserID != this.GetUserID())
+            if (existEntitiesByDate != null && existEntitiesByDate.Count() >0)
             {
-                return NotFound();
+                existEntity = existEntitiesByDate.FirstOrDefault(d => d.UserID == this.GetUserID());
             }
 
-            existEntity.StartDate = entity.StartDate;
-            existEntity.EndDate = entity.EndDate;
-            existEntity.Note = entity.Note;
+     
 
             try
             {
-                ServiceProvider.EntityContext.DailyActivity.Edit(existEntity);
+                if (existEntity == null)
+                {
+                    entity.UserID = this.GetUserID();
+                    ServiceProvider.EntityContext.DiningRoomUse.Add(entity);
+                }
+                else
+                {
+                    existEntity.IsDiningRoomUse = entity.IsDiningRoomUse;
+                    ServiceProvider.EntityContext.DiningRoomUse.Edit(existEntity);
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IsExists(entity.ActivityID))
+                if (!IsExists(entity.DiningRoomUseID))
                 {
                     return NotFound();
                 }
@@ -112,7 +120,7 @@ namespace Resumon.BE.Controllers
         // POST: api/Categories
 
         [HttpPost, Route("")]
-        public IHttpActionResult Post([FromBody]DailyActivity entity)
+        public IHttpActionResult Post([FromBody]DiningRoomUse entity)
         {
            
             if (!ModelState.IsValid )
@@ -123,11 +131,11 @@ namespace Resumon.BE.Controllers
 
             try
             {
-                ServiceProvider.EntityContext.DailyActivity.Add(entity);
+                ServiceProvider.EntityContext.DiningRoomUse.Add(entity);
             }
             catch (DbUpdateException)
             {
-                if (IsExists(entity.ActivityID))
+                if (IsExists(entity.DiningRoomUseID))
                 {
                     return Conflict();
                 }
@@ -145,13 +153,13 @@ namespace Resumon.BE.Controllers
         public IHttpActionResult Delete([FromUri]int id)
         {
 
-            DailyActivity entity = ServiceProvider.EntityContext.DailyActivity.Get(id);
+            DiningRoomUse entity = ServiceProvider.EntityContext.DiningRoomUse.Get(id);
             if (entity == null || entity.UserID != this.GetUserID())
             {
                 return NotFound();
             }
 
-            ServiceProvider.EntityContext.DailyActivity.Remove(entity);
+            ServiceProvider.EntityContext.DiningRoomUse.Remove(entity);
 
             return Ok(entity);
         }

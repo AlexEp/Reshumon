@@ -16,6 +16,7 @@ import { AppErrorHandleService } from './error-handle.service';
 import { DailyActivity } from '../shared/daily-activity.model';
 
 import * as Moment from 'moment'; 
+import _ = require('lodash');
 
 
 
@@ -29,19 +30,20 @@ export class DailyActivityService  {
     this.url = appConfig.getSiteURL() + "/api/v1/daily-activity";
   }
 
-  getAll() : Observable<DailyActivity[]> {
-    return this.http.get(this.url).map(
-        (response : Response)=> response
-    )
-    .catch((error : Response) => {
-      return  Observable.throw(new AppError(error));
-    })
-  };
+  // getAll() : Observable<DailyActivity[]> {
+  //   return this.http.get(this.url).map(
+  //       (response : Response)=> response
+  //   )
+  //   .catch((error : Response) => {
+  //     return  Observable.throw(new AppError(error));
+  //   })
+  // };
 
   getByDates(from :Date, to : Date) : Observable<DailyActivity[]> {
-    let fromFormatted = Moment(from).format('YYYY-MM-DD');
-    let toFormatted = Moment(to).format('YYYY-MM-DD');
 
+    let fromFormatted = from ? Moment(from).format('YYYY-MM-DDTHH:mm:ss'): null;
+    let toFormatted = to ? Moment(to).format('YYYY-MM-DDTHH:mm:ss'): null;
+    
     return this.http.get(this.url + `?from=${fromFormatted}&to=${toFormatted}`).map(
         (response : Response)=> response
     )
@@ -52,8 +54,13 @@ export class DailyActivityService  {
 
   update(dailyActivity : DailyActivity) : Observable<DailyActivity> {
 
-      return this.http.put<DailyActivity>(this.url + "?id=" + dailyActivity.ActivityID,
-      dailyActivity).map(
+    const newActivity = _.cloneDeep(dailyActivity);
+    newActivity.StartDate = newActivity.StartDate? Moment(newActivity.StartDate).format('YYYY-MM-DDTHH:mm:ss') : null;
+    newActivity.EndDate = newActivity.StartDate? Moment(newActivity.StartDate).add(dailyActivity.Hours,'hour').format('YYYY-MM-DDTHH:mm:ss'): null;
+
+
+      return this.http.put<DailyActivity>(this.url,
+      newActivity).map(
         article => {
           return article;
         },
@@ -76,7 +83,11 @@ export class DailyActivityService  {
 
     create(dailyActivity : DailyActivity) : Observable<DailyActivity> {
     
-      return this.http.put<DailyActivity>(this.url,dailyActivity)
+     const newActivity = _.cloneDeep(dailyActivity);
+     newActivity.StartDate = newActivity.StartDate? Moment(newActivity.StartDate).format('YYYY-MM-DDTHH:mm:ss') : null;
+     newActivity.EndDate = newActivity.EndDate? Moment(newActivity.EndDate).format('YYYY-MM-DDTHH:mm:ss'): null;
+
+      return this.http.post<DailyActivity>(this.url,newActivity)
           .map(
             response => {
               return response

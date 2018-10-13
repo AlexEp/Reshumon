@@ -63,6 +63,7 @@ import { SelectUserCardComponent } from './shared/select-user-card/select-user-c
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MngComponent } from './management/mng/mng.component';
 import { DailyActivityComponent } from './daily-activity/daily-activity.component';
+import { FilterProjectByActivity } from "./daily-activity/filterProjectByActivity.pipe";
 import { AnimatedLoadingComponent } from './shared/animated-loading/animated-loading.component';
 import { FilterProjectByName } from './pipes/filter-project-by-name.pipe';
 import { FilterProjectFavorite } from './pipes/filter-project-favorite.pipe';
@@ -152,6 +153,7 @@ const routesConfigs: Routes = [
     FilterProjectByCategories,
     FilterProjectByCategory,
     FilterColoredProjectByCategories,
+    FilterProjectByActivity,
     SelectItemPipe,
     ReportSummaryComponent,
     

@@ -51,5 +51,11 @@ namespace Reshumon.DAL
         void AddRange(IEnumerable<UserProject> entities);
     }
 
+    public interface IDiningRoomUseRepository : IGenericRepository<DiningRoomUse>
+    {
+        IEnumerable<DiningRoomUse> GetByDate(DateTime from, DateTime to);
+    }
+
+    
 }
 

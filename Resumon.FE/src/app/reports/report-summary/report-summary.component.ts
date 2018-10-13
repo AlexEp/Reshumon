@@ -199,7 +199,6 @@ export class ReportSummaryComponent implements OnInit {
             let minutes = Moment(da.EndDate).diff(da.StartDate, 'minutes');
             da.Hours = +(minutes / 60).toFixed(2);
           }
-
         })
 
         this.reloadReport();

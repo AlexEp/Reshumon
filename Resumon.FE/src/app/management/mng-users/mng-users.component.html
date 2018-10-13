@@ -36,21 +36,32 @@
       </div>
 
       <div class="card-body mw-100">
-        <p-table #dtUsers  [value]="users" [responsive]="true"  
-        [globalFilterFields]="['FirstName','LastName','Username','Email']" [paginator]="true"  [rows]="5">
-        <ng-template pTemplate="caption">
+        <p-table #dtUsers [value]="getFilterUsers()" [responsive]="true" [globalFilterFields]="['FirstName','LastName','Username','Email']"
+          [paginator]="true" [rows]="5">
+          <ng-template pTemplate="caption">
             <div style="text-align: right">
+            <div class="row">
+                <div class=" input-group col-12 col-sm-8">
+                    <div class="input-group-prepend ">
+                        <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                      </div>
+                      <input type="text" class="form-control " style="width: 70%" id="search" placeholder="Search First/Last name, Username, Email"
+                        [(ngModel)]="search" autocomplete="off" (input)="dtUsers.filterGlobal($event.target.value, 'contains')">
+             
+              </div>
 
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+              <div class=" input-group col-12 col-sm-4">
+                  <div class="form-check form-check-inline ">
+                      <input class="form-check-input big-checkbox" type="checkbox" id="active-only-checkbox" [(ngModel)]="isShowActiveOnly">
+                      <label class="form-check-label" for="active-only-checkbox">Active only</label>
                     </div>
-                    <input type="text" class="form-control" id="search" placeholder="Search First/Last name, Username, Email" [(ngModel)]="search"
-                      autocomplete="off"  (input)="dtUsers.filterGlobal($event.target.value, 'contains')">
-                  </div>
-        
+                </div>
             </div>
-        </ng-template>
+           
+
+
+            </div>
+          </ng-template>
           <ng-template pTemplate="header">
             <tr>
 
@@ -214,15 +225,15 @@
 
       <!-- Role -->
       <div class="form-group row">
-          <label for="example-text-input" class="col-2 col-form-label">Role</label>
-          <div class="col-10">
-          
-             <select class="custom-select" style="width:100% " [(ngModel)]="userToCreate.Role" name="role">
-                  <option *ngFor="let role of roles" [ngValue]="role.RoleID">
-                    {{role.Name}}
-                  </option>
-                </select> 
-          </div>
+        <label for="example-text-input" class="col-2 col-form-label">Role</label>
+        <div class="col-10">
+
+          <select class="custom-select" style="width:100% " [(ngModel)]="userToCreate.Role" name="role">
+            <option *ngFor="let role of roles" [ngValue]="role.RoleID">
+              {{role.Name}}
+            </option>
+          </select>
+        </div>
       </div>
 
       <!-- Password -->

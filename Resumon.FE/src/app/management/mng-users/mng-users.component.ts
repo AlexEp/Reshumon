@@ -31,7 +31,8 @@ export class MngUsersComponent implements OnInit {
   isDataReady = false;
   isDataLodingFailed = false;
   displayEditDialog= false;
-  
+  isShowActiveOnly = true;
+
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
@@ -224,6 +225,10 @@ export class MngUsersComponent implements OnInit {
   }
 
     return errorMsg;
+  }
+
+  getFilterUsers(){
+    return   this.isShowActiveOnly ? this.users.filter(u => u.IsActive == true) : this.users ;
   }
 
   ConfirmPasswordErrorMsg(){

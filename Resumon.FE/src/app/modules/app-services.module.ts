@@ -14,6 +14,7 @@ import { CanDeactivateGuard } from '../services/can-deactivate-guard.service';
 import { UsersProjectService } from '../services/user-project.service';
 import { DailyActivityService } from '../services/daily-activity.service';
 import { UsersFavoriteService } from '../services/users-favorite.service';
+import { DiningRoomService } from '../services/dining-room.service';
 
 @NgModule({
   imports: [
@@ -26,8 +27,9 @@ import { UsersFavoriteService } from '../services/users-favorite.service';
     UsersService,
     UsersProjectService,
     DailyActivityService,
-    UsersFavoriteService,,
-
+    UsersFavoriteService,
+    DiningRoomService,
+    
     AuthService,
 
     AuthGuardService,

@@ -18,7 +18,7 @@ namespace Resumon.BE.Controllers
 
     [Authorize]
     [RoutePrefix("api/v1/user-project")]
-    public class UserProjectController : ApiController
+    public class UserProjectController : BaseAPI
     {
         [HttpGet,Route("")]
         public IEnumerable<UserProject> Get()

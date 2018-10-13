@@ -22,7 +22,7 @@ namespace Resumon.BE.Controllers
 
     [Authorize]
     [RoutePrefix("api/v1/projects")]
-    public class ProjectsController : ApiController
+    public class ProjectsController : BaseAPI
     {
         // GET: api/Categories
         [HttpGet, Route("")]

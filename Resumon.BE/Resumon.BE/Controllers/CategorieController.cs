@@ -18,7 +18,7 @@ namespace Resumon.BE.Controllers
     [Authorize]
     [RoutePrefix("api/v1/categories")]
 
-    public class CategoriesController : ApiController
+    public class CategoriesController : BaseAPI
     {
 
         // GET: api/Categories

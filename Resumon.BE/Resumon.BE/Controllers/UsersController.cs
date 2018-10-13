@@ -21,7 +21,7 @@ namespace Resumon.BE.Controllers
 {
     [Authorize]
     [RoutePrefix("api/v1/users")]
-    public class UsersController : ApiController
+    public class UsersController : BaseAPI
     {
 
         [HttpGet, Route("")]

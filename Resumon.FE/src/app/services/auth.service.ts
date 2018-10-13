@@ -20,7 +20,7 @@ export class AuthService {
 
   private url = ""
 
-  public userProfile: { 'userName' : string, 'roles' : string[] };;
+  public userProfile: { 'userName' : string, 'roles' : string[],  'isUseDiningRoom' : boolean, };;
 
   constructor(protected http: HttpClient ,
     private appConfig : AppConfigService,
@@ -110,7 +110,10 @@ export class AuthService {
 
     if(token){
       let authResult = JSON.parse(token);
-      this.userProfile =  { 'userName' : authResult.userName, 'roles' : JSON.parse( authResult.role) };
+      this.userProfile =  { 
+       'userName' : authResult.userName, 
+      'roles' : JSON.parse( authResult.role),
+      'isUseDiningRoom' : authResult.isUseDiningRoom == "True" };
     }
   }
 

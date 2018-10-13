@@ -10,10 +10,10 @@ namespace Reshumon.DAL.Repositories
 {
 
 
-    public class DailyActivityRepository : IDailyActivityRepository
+    public class DiningRoomUseRepository : IDiningRoomUseRepository
     {
         string ConnectionString = "";
-        public DailyActivityRepository(string connectionString)
+        public DiningRoomUseRepository(string connectionString)
         {
             this.ConnectionString = connectionString;
         }
@@ -23,17 +23,17 @@ namespace Reshumon.DAL.Repositories
             return new DataBaseContext(this.ConnectionString);
         }
 
-        public void Add(DailyActivity entity)
+        public void Add(DiningRoomUse entity)
         {
             using (var Context = GetContext())
             {
-                Context.DailyActivities.Add(entity);
+                Context.DiningRoomUse.Add(entity);
                 Context.SaveChanges();
             }
 
         }
 
-        public void Edit(DailyActivity entity)
+        public void Edit(DiningRoomUse entity)
         {
             using (var Context = GetContext())
             {
@@ -42,23 +42,23 @@ namespace Reshumon.DAL.Repositories
             }
         }
 
-        public DailyActivity Get(int Id)
+        public DiningRoomUse Get(int Id)
         {
-            DailyActivity results;
+            DiningRoomUse results;
             using (var Context = GetContext())
             {
-                results = Context.DailyActivities.Find(Id);
+                results = Context.DiningRoomUse.Find(Id);
             }
 
             return results;
         }
 
-        public IEnumerable<DailyActivity> GetAll()
+        public IEnumerable<DiningRoomUse> GetAll()
         {
-            IEnumerable<DailyActivity> results;
+            IEnumerable<DiningRoomUse> results;
             using (var Context = GetContext())
             {
-                results = Context.DailyActivities.ToList();
+                results = Context.DiningRoomUse.ToList();
             }
 
             return results;
@@ -68,29 +68,29 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                var dailyActivity = Context.DailyActivities.FirstOrDefault(u => u.ActivityID == Id);
+                var DiningRoomUse = Context.DiningRoomUse.FirstOrDefault(u => u.DiningRoomUseID == Id);
 
-                if (dailyActivity != null)
+                if (DiningRoomUse != null)
                 {
-                    Context.DailyActivities.Remove(dailyActivity);
+                    Context.DiningRoomUse.Remove(DiningRoomUse);
                     Context.SaveChanges();
                 }
             }
          
         }
 
-        public void Remove(DailyActivity entity)
+        public void Remove(DiningRoomUse entity)
         {
             using (var Context = GetContext())
             {
 
-                var dailyActivities = Context.DailyActivities.FirstOrDefault(c => c.ActivityID == entity.ActivityID);
+                var DiningRoomUse = Context.DiningRoomUse.FirstOrDefault(c => c.DiningRoomUseID == entity.DiningRoomUseID);
 
-                if (dailyActivities != null)
+                if (DiningRoomUse != null)
                 {
                     try
                     {
-                        Context.DailyActivities.Remove(dailyActivities);
+                        Context.DiningRoomUse.Remove(DiningRoomUse);
                         Context.SaveChanges();
                     }
                     catch (Exception)
@@ -103,17 +103,17 @@ namespace Reshumon.DAL.Repositories
             }
         }
 
-        public void RemoveRange(IEnumerable<DailyActivity> entitList)
+        public void RemoveRange(IEnumerable<DiningRoomUse> entitList)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DailyActivity> GetByDate(DateTime from, DateTime to)
+        public IEnumerable<DiningRoomUse> GetByDate(DateTime from, DateTime to)
         {
-            IEnumerable<DailyActivity> results;
+            IEnumerable<DiningRoomUse> results;
             using (var Context = GetContext())
             {
-                results = Context.DailyActivities.Where( d => d.StartDate >= from && d.StartDate < to).ToList();
+                results = Context.DiningRoomUse.Where( d => d.Date >= from && d.Date < to).ToList();
             }
 
             return results;

@@ -3,10 +3,11 @@
     margin-bottom: 15px;
 }
 
-
-#available-project-list li
-{
-    height:54px ;
+.available-project{
+    cursor: pointer;
+}
+.available-project:hover{
+    background-color: rgb(215, 250, 217);
 }
 
 

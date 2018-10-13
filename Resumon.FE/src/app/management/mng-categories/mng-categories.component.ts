@@ -27,7 +27,8 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
   isDataLodingFailed = false;
   isDataChanged = false;
   changedCategories: any = {};
-
+  isShowActiveOnly= true;
+  
   loadingDataSubscription: Subscription;
 
   columns :any[]
@@ -130,6 +131,9 @@ export class MngCategoriesComponent implements OnInit, OnDestroy {
     return !this.categoryToEdit || this.categoryToEdit.CategoryID < 1
   }
 
+  getFilterCategories(){
+    return   this.isShowActiveOnly ? this.categories.filter(u => u.IsActive == true) : this.categories ;
+  }
   
 
   displayDialogResults(result: DialogResult) {

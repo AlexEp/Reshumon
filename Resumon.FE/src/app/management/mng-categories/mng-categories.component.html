@@ -32,19 +32,37 @@
 
       <div class="card-body mw-100">
 
-        <p-table #dtCategories [value]="categories" 
+        <p-table #dtCategories [value]="getFilterCategories() " 
         [globalFilterFields]="['Name']" [paginator]="true"  [rows]="7" [responsive]="true">
         <ng-template pTemplate="caption">
             <div style="text-align: right">
 
-                <div class="input-group">
+                <div class="row">
+                    <div class=" input-group col-12 col-sm-8">
+                        <div class="input-group-prepend ">
+                            <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
+                          </div>
+                          <input type="text" class="form-control" style="width: 70%" id="search" placeholder="Search categories name" [(ngModel)]="search"
+                          autocomplete="off"  (input)="dtCategories.filterGlobal($event.target.value, 'contains')">
+                  </div>
+    
+                  <div class=" input-group col-12 col-sm-4">
+                      <div class="form-check form-check-inline ">
+                          <input class="form-check-input big-checkbox" type="checkbox" id="active-only-checkbox" [(ngModel)]="isShowActiveOnly">
+                          <label class="form-check-label" for="active-only-checkbox">Active only</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroupPrepend2"> <i class="fa fa-search" aria-hidden="true"></i></span>
                     </div>
                     <input type="text" class="form-control" id="search" placeholder="Search categories name" [(ngModel)]="search"
                       autocomplete="off"  (input)="dtCategories.filterGlobal($event.target.value, 'contains')">
                   </div>
-        
+         -->
             </div>
         </ng-template>
           <ng-template pTemplate="header">

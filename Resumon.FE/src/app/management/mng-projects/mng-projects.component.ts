@@ -33,7 +33,8 @@ export class MngProjectsComponent implements OnInit {
 
   changedProjects : any = {};
   isDataChanged = false;
-
+  isShowActiveOnly = true;
+  
   columns : any[];
   
   constructor(
@@ -126,6 +127,9 @@ export class MngProjectsComponent implements OnInit {
     );
   }
 
+  getFilterProjects(){
+    return   this.isShowActiveOnly ? this.projects.filter(u => u.IsActive == true) : this.projects ;
+  }
   
   cancelDelete(){
     this.displayConfirmDeleteDialog = false;

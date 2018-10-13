@@ -27,8 +27,12 @@ namespace Reshumon.DAL.Repositories
         {
             using (var Context = GetContext())
             {
-                Context.UserFavorites.Add(entity);
-                Context.SaveChanges();
+          
+                    Context.UserFavorites.Add(entity);
+                    Context.SaveChanges();
+       
+            
+   
             }
 
         }

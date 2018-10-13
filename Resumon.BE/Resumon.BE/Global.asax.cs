@@ -1,4 +1,7 @@
-﻿using Reshumon.Common;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using Reshumon.Common;
 using Reshumon.DAL.DTO;
 using Reshumon.DAL.Repositories;
 using Resumon.BE.Models;
@@ -7,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -33,6 +37,23 @@ namespace Reshumon.BE
             //Init Services
             ServiceProvider.Init(entityContext);
 
+            IsoDateTimeConverter converter = new IsoDateTimeConverter
+            {
+                DateTimeStyles = DateTimeStyles.AdjustToUniversal,
+                DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK"
+            };
+
+
+
+            var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            formatter.SerializerSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.Objects,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+           
+            formatter.SerializerSettings.Converters.Add(converter);
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
