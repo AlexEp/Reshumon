@@ -11,7 +11,7 @@ import * as Moment from 'moment';
 import { Project } from '../../shared/project.model';
 import { Category } from '../../shared/category.model';
 import { DailyActivity } from '../../shared/daily-activity.model';
-import _ = require('lodash');
+import * as _ from 'lodash';
 import { Colore } from '../../shared/colore.model';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../shared/user.model';

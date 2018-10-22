@@ -66,7 +66,11 @@ namespace Resumon.BE.Models
                         },
                         {
                             "userName", context.UserName
+                        },
+                        {
+                            "isUseDiningRoom", user.IsUseDiningRoom.ToString()
                         }
+                        
                     });
 
                         AuthenticationProperties properties = CreateProperties(context.UserName);

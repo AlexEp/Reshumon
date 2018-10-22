@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Reshumon.DAL.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reshumon.DAL
+namespace Reshumon.DAL.Repositories
 {
     public interface IEntityContext
     {
@@ -14,7 +15,6 @@ namespace Reshumon.DAL
         IDailyActivityRepository DailyActivity { get; }
         IUserProjectRepository UserProject { get; }
         IUserFavoriteRepository UserFavorites { get; }
-
         IDiningRoomUseRepository DiningRoomUse { get; }
     }
 }

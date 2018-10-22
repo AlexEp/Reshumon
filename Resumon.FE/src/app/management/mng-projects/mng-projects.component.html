@@ -73,10 +73,10 @@
           </ng-template>
           <ng-template pTemplate="body" let-project>
             <tr>
-              <td class="ui-p-2">
+              <td >
                 <i id="btn-row-delete" class="btn btn-outline-danger fa fa-trash btn-hover" aria-hidden="true" (click)="onDeleteClicked(project)"></i>
               </td>
-              <td class="ui-p-3">
+              <td >
                 <input class="form-control is-invalid" #inputName="ngModel" autocomplete="off" (change)="onChange(project)"
                   [ngClass]="{'is-invalid': !(inputName.valid), 'is-valid': inputName.valid }" id="name" name="name"
                   [(ngModel)]="project.Name" required />
@@ -86,14 +86,14 @@
                 </small>
 
               </td>
-              <td class="ui-p-3">
+              <td >
               <select class="custom-select " [(ngModel)]="project.CategoryID" (change)="onChange(project)">
                 <option *ngFor="let category of categories " [ngValue]="category.CategoryID">
                   {{category.Name}}
                 </option>
               </select>
             </td>
-              <td class="ui-p-3">
+              <td>
                 <input type="checkbox" name="isActive" class="form-control" id="isActive" [(ngModel)]="project.IsActive"
                   (change)="onChange(project)" />
               </td>

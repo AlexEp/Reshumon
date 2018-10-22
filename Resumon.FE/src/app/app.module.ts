@@ -36,8 +36,6 @@ import {MultiSelectModule} from 'primeng/multiselect';
 /* Component */
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-import { HomeComponent } from './home/home.component';
-
 
 import { LoginComponent } from './login/login.component';
 
@@ -123,7 +121,6 @@ const routesConfigs: Routes = [
   declarations: [
     AppComponent,
     NavigationBarComponent,
-    HomeComponent,
     ReportComponent,
     LoginComponent,
 

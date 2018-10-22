@@ -2,26 +2,26 @@
 
   <div class="row">
 
-    <div class="col-sm-12 col-md-3">
+    <div class="col-md-12 col-lg-3  mb-4">
 
-      <div class="card ">
+      <div class="card">
         <div class="card-body ">
 
-            <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedCategories" placeholder="Select a categories"
-              filter="true" filterBy="label,value.Name" [style]="{'width':'250px'}" defaultLabel="categories">
-              <ng-template let-category pTemplate="selectedItem">
-                {{category.value.Name}}
-              </ng-template>
-              <ng-template let-category pTemplate="item">
-                {{category.value.Name}}
-              </ng-template>
-            </p-multiSelect>
-         
+          <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedCategories" placeholder="Select a categories"
+            filter="true" filterBy="label,value.Name"  defaultLabel="Filter categories">
+            <ng-template let-category pTemplate="selectedItem">
+              {{category.value.Name}}
+            </ng-template>
+            <ng-template let-category pTemplate="item">
+              {{category.value.Name}}
+            </ng-template>
+          </p-multiSelect>
+
         </div>
       </div>
       <!-- Available Project List -->
-      <p-table #dtProjects [value]="getAvailableProjects()   |  filterProjectByCategories:selectedCategories" [globalFilterFields]="['Name']" [paginator]="true" [rows]="5"
-        [responsive]="true">
+      <p-table #dtProjects [value]="getAvailableProjects()   |  filterProjectByCategories:selectedCategories"
+        [globalFilterFields]="['Name']" [paginator]="true" [rows]="5" [responsive]="true">
 
         <ng-template pTemplate="caption">
           <h3>Projects</h3>
@@ -60,26 +60,54 @@
     </div>
 
 
-    <div class="col-sm-12 col-md-9">
+    <div class="col-md-12 col-lg-9">
       <!-- calendar -->
       <div class="card ">
-        <div class="card-body row">
+        <div class="card-body toolbar-section-body row">
 
-          <div class="col-3">
-            <button id="next-day " [ngClass]="{ 'btn-primary' : isPrevDateAllowed () , 
-                'btn-secondary' : !isPrevDateAllowed() }"
-              class="btn btn-primary " [disabled]="!isPrevDateAllowed()" (click)="praveDate () ">
-              <i class="fa fa-caret-square-o-left" aria-hidden="true "></i>{{ translateWorld('prev') | translate}}</button>
+            <div class="col-12 col-md-6 ">
+                <span>Dining Room:</span> 
+                <div class="btn-group" role="group ">
+                  <button type="button" class="btn  btn-dining-room" title="Not Dining Room" [ngClass]="{ 'btn-warning' : diningRoomUse?.IsDiningRoomUse == false }"
+                    (click)="addDiningRoomNotUsed()">
+                    <span class="fa-stack ">
+                      <i class="fa fa-cutlery fa-stack-1x"></i>
+                      <i class="fa fa-ban fa-stack-2x "></i>
+                    </span>
+                  </button>
+    
+                  <button type="button" class="btn btn-dining-room" title=" Dining Room" [ngClass]="{ 'btn-success' : diningRoomUse?.IsDiningRoomUse == true }"
+                    (click)="addDiningRoomUsed()">
+                    <span class="fa-stack ">
+                      <i class="fa fa-cutlery fa-stack-1x"></i>
+                    </span>
+                  </button>
+                </div>
+    
+              </div>
+
+          <div class="col-12 col-md-6">
+              <span>Date:</span> 
+            <div class="btn-group" role="group ">
+              <button id="next-day " [ngClass]="{ 'btn-primary' : isPrevDateAllowed() , 
+              'btn-secondary' : !isPrevDateAllowed() }"
+                class="btn btn-primary " [disabled]="!isPrevDateAllowed()" (click)="praveDate() ">
+                <i class="fa fa-caret-square-o-left" aria-hidden="true "></i>
+              </button>
+              <div>
+                <p-calendar [(ngModel)]="selectedDate" [showIcon]="false" 
+                dateFormat="dd/mm/yy" [readonlyInput]="true"   [inputStyle]="{'width':'100px'}"
+                  [maxDate]="maxDateValue" (onSelect)="oncalendarSelect()"></p-calendar>
+              </div>
+              <button id="list " class="btn " [ngClass]="{ 'btn-primary' : isNextDateAllowed() , 'btn-secondary' : !isNextDateAllowed() }"
+                [disabled]="!isNextDateAllowed()" (click)="nextDate() ">
+
+                <i class="fa fa-caret-square-o-right " aria-hidden="true "></i></button>
+            </div>
+
           </div>
-          <div class="col-6">
-            <p-calendar [(ngModel)]="selectedDate" [showIcon]="true" dateFormat="dd/mm/yy" [readonlyInput]="true"
-              [maxDate]="maxDateValue" (onSelect)="oncalendarSelect()"></p-calendar>
-          </div>
-          <div class="col-3">
-            <button id="list " class="btn " [ngClass]="{ 'btn-primary' : isNextDateAllowed() , 'btn-secondary' : !isNextDateAllowed() }"
-              [disabled]="!isNextDateAllowed()" (click)="nextDate() ">
-              {{ translateWorld('next') | translate}} <i class="fa fa-caret-square-o-right " aria-hidden="true "></i></button>
-          </div>
+
+   
 
 
         </div>
@@ -89,29 +117,12 @@
 
       <div class="card">
         <div class="card-header">
-          {{translateWorld('daily activity') | translate}}
+          <h3> {{translateWorld('daily activity') | translate}}</h3>
         </div>
 
         <div class="card-body mw-100">
-          
-            <div class="btn-group mb-3" role="group " >
-                <button type="button" class="btn"
-                [ngClass]="{ 'btn-warning' : diningRoomUse?.IsDiningRoomUse == false }" (click)="addDiningRoomNotUsed()"> 
-                <span class="fa-stack ">
-                    <i class="fa fa-cutlery fa-stack-1x"></i>
-                    <i class="fa fa-ban fa-stack-2x "></i>
-                </span>
-                  Not Dining Room
-                </button>
-                <button type="button" class="btn "  
-                [ngClass]="{ 'btn-light' : diningRoomUse == null }"  (click)="removeDiningRoom()">No Answer</button>
-                <button type="button" class="btn "
-                [ngClass]="{ 'btn-success' : diningRoomUse?.IsDiningRoomUse == true }" (click)="addDiningRoomUsed()">
-                <span class="fa-stack ">
-                    <i class="fa fa-cutlery fa-stack-1x"></i>
-                </span> Dining Room
-                </button>
-              </div>
+
+
 
           <p-table [value]="dailyActivity " [responsive]="true">
 
@@ -145,7 +156,7 @@
                 </td>
                 <!-- Note -->
                 <td>
-                  <input class="form-control" type="text" [(ngModel)]="activity.Note"  (blur)="updateDailyActivity(activity)" />
+                  <input class="form-control" type="text" [(ngModel)]="activity.Note" (blur)="updateDailyActivity(activity)" />
 
                 </td>
               </tr>

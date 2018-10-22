@@ -10,4 +10,10 @@
     background-color: rgb(215, 250, 217);
 }
 
+.btn-dining-room{
+    min-width: 100px;
+}
+.toolbar-section-body{
+    min-height: 87px;
+  }
 

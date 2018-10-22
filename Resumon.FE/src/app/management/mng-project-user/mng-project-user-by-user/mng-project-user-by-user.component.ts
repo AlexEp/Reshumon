@@ -9,7 +9,7 @@ import { MessagesService, MsgType } from '../../../services/messages.service';
 import { CategoryService } from '../../../services/category.service';
 import { UsersService } from '../../../services/users.service';
 import { ProjectsService } from '../../../services/projects.service';
-import _ = require('lodash');
+import * as _ from 'lodash';
 import { UsersProjectService } from '../../../services/user-project.service';
 import { Observable } from 'rxjs';
 

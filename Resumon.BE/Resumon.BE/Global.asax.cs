@@ -6,6 +6,8 @@ using Reshumon.DAL.DTO;
 using Reshumon.DAL.Repositories;
 using Resumon.BE.Models;
 using Resumon.BE.Models.Authentication;
+using Resumon.Common.interfaces;
+using Resumon.Common.Mocks;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;
@@ -13,6 +15,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -25,26 +28,27 @@ namespace Reshumon.BE
     {
         protected void Application_Start()
         {
-            //
+            ///////////////////////////////
+            // 1. Load Services
+
             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-         
+
+            // ** Logger **
+            ILoggerService logger = new MockLoggerService(); //Using Mock for now
+            ServiceProvider.Initialization(logger);
+            ServiceProvider.LoggerService.Logger.Debug("Module Loaded: Logger");
+
+            // ** DAL **
             //Load configs
             GeneralConfig dalConfig = new GeneralConfig(Path.Combine(baseDirectory,"Dal.Config.xml"));
           
-            //Init DAL
-             EntityContext entityContext = new EntityContext(dalConfig.GetParam("SqlDatabaseConnection"));
+     
+            EntityContext entityContext = new EntityContext(dalConfig.GetParam("SqlDatabaseConnection"));
+            ServiceProvider.Initialization(entityContext);
+            ServiceProvider.LoggerService.Logger.Debug("Module Loaded: DAL");
 
-            //Init Services
-            ServiceProvider.Init(entityContext);
-
-            IsoDateTimeConverter converter = new IsoDateTimeConverter
-            {
-                DateTimeStyles = DateTimeStyles.AdjustToUniversal,
-                DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK"
-            };
-
-
-
+            ///////////////////////////////
+            // 2. JSON formatter setting
             var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             formatter.SerializerSettings = new JsonSerializerSettings
             {
@@ -52,14 +56,17 @@ namespace Reshumon.BE
                 TypeNameHandling = TypeNameHandling.Objects,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-           
-            formatter.SerializerSettings.Converters.Add(converter);
 
+            ///////////////////////////////
+            // 3. ASP.NET Configurations loading
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var  version = Assembly.GetExecutingAssembly().GetName().Version;
+            ServiceProvider.LoggerService.Logger.Info($"Application Start. V{version}");
         }
     }
 }

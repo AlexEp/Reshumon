@@ -1,7 +1,7 @@
 import { UsersFavorite } from '../shared/users-favorite.model';
 import { Pipe, PipeTransform } from "@angular/core";
 import { Project } from "../shared/project.model";
-import _ = require('lodash');
+//import * as _ from 'lodash';
 import { User } from '../shared/user.model';
 
 @Pipe({

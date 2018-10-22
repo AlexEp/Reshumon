@@ -11,7 +11,7 @@ import { DailyActivity } from './../shared/daily-activity.model';
 import { Component, OnInit, PipeTransform, OnDestroy } from '@angular/core';
 import { DailyActivityService } from '../services/daily-activity.service';
 import { Observable, Subscription } from 'rxjs';
-import _ = require('lodash');
+import * as _ from 'lodash';
 import { UsersFavoriteService } from '../services/users-favorite.service';
 import { MsgType } from '../services/messages.service';
 import * as Moment from 'moment';

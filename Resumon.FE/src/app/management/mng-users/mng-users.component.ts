@@ -5,7 +5,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 import { MessagesService } from '../../services/messages.service';
 import { Observable } from 'rxjs';
-import _ = require('lodash');
+import * as _ from 'lodash';
 import { NgForm } from '@angular/forms';
 import { Role } from '../../shared/role.model';
 

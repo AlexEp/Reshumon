@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Consts.cs" />
     <Compile Include="GeneralConfig.cs" />
+    <Compile Include="interfaces\ILoggerService.cs" />
+    <Compile Include="Services\MockLogger.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\" />
-    <Folder Include="interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

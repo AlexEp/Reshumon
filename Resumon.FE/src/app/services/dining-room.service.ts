@@ -16,7 +16,7 @@ import { AppErrorHandleService } from './error-handle.service';
 
 
 import * as Moment from 'moment'; 
-import _ = require('lodash');
+import * as _ from 'lodash';
 import { DiningRoomUse } from '../shared/dining-room.model';
 
 

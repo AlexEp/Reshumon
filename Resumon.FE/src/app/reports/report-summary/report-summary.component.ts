@@ -13,7 +13,7 @@ import { CategoryService } from '../../services/category.service';
 import * as Moment from 'moment';
 import { Category } from '../../shared/category.model';
 import { DailyActivity } from '../../shared/daily-activity.model';
-import _ = require('lodash');
+import * as _ from 'lodash';
 import { Colore } from '../../shared/colore.model';
 import { UsersService } from '../../services/users.service';
 import { FilterItem } from '../../pipes/filter-item.pipe';

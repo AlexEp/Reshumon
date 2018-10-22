@@ -5,7 +5,7 @@ import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 import { Category } from '../../shared/category.model';
 
-import _ = require('lodash');
+import * as _ from 'lodash';
 import { DialogResult } from '../dialog.model';
 import { ProjectsService } from '../../services/projects.service';
 import { CategoryService } from '../../services/category.service';

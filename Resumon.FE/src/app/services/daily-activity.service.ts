@@ -16,7 +16,7 @@ import { AppErrorHandleService } from './error-handle.service';
 import { DailyActivity } from '../shared/daily-activity.model';
 
 import * as Moment from 'moment'; 
-import _ = require('lodash');
+import * as _ from 'lodash';
 
 
 

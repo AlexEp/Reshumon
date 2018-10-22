@@ -7,20 +7,20 @@
             <div class="btn-toolbar mw-100 toolbar-section" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group" role="group" aria-label="load group">
                     <button id="list" class="btn btn-warning" data-original-title="load" (click)="onReloadData()">
-                        <i class="fa fa-refresh" aria-hidden="true "></i>
-                        <span class="d-none d-sm-inline"> {{translateWorld('load') | translate}}</span>
+                        <i class="fa fa-file-text-o" aria-hidden="true "></i>
+                        <span class="d-none d-sm-inline">Show Report</span>
                     </button>
                 </div>
                 <div class="btn-group mx-auto " role="group" aria-label="filters group">
-                    <button id="list" class="btn btn btn-light" data-original-title="open project bar" (click)="visibleSidebarProject = !visibleSidebarProject">
+                    <button id="list" class="btn   btn-primary" data-original-title="open project bar" (click)="visibleSidebarProject = !visibleSidebarProject">
                         <i class="fa  fa-folder" aria-hidden="true "></i>
                         <span class="d-none d-sm-inline"> {{translateWorld('projects') | translate}}</span>
                     </button>
-                    <button id="list" class="btn btn btn-light" data-original-title="open user bar" (click)="visibleSidebarUser =!visibleSidebarUser">
+                    <button id="list" class="btn  btn-primary" data-original-title="open user bar" (click)="visibleSidebarUser =!visibleSidebarUser">
                         <i class="fa   fa-user" aria-hidden="true "></i>
                         <span class="d-none d-sm-inline"> {{translateWorld('users') | translate}}</span>
                     </button>
-                    <button id="list" class="btn btn btn-lightg" data-original-title="open time bar" (click)="visibleSidebarTime = !visibleSidebarUser">
+                    <button id="list" class="btn  btn-primary" data-original-title="open time bar" (click)="visibleSidebarTime = !visibleSidebarUser">
                         <i class="fa  fa-calendar " aria-hidden="true "></i>
                         <span class="d-none d-sm-inline"> {{translateWorld('time') | translate}}</span>
                     </button>
@@ -31,6 +31,11 @@
     <!-- ----------- Table ----------- -->
     <div class="card   mw-100">
         <div class="card-body " >
+                <div class="card-header">
+                        <h3> Summary Report</h3>
+                
+                      </div>
+                
             <p-table #dt [columns]="reportCols" [value]="reportByProject.values">
                 <ng-template pTemplate="caption">
                     <div class="ui-helper-clearfix">
@@ -118,8 +123,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-project let-columns="colsProjects">
-            <tr [pSelectableRow]="project" (click)="togglProject(project)"
-            >
+            <tr [pSelectableRow]="project" (click)="togglProject(project)">
                 <td >
                         <div class="rounded" [ngClass]="{'selected-item': project.isChecked}">
                         {{project.value.Name}}  <span style="color: rgb(146, 146, 146)">({{getCategoryById(project.value.CategoryID)?.Name}})</span></div>
@@ -131,6 +135,8 @@
         </ng-template>
 
     </p-table>
+
+    <div class="mt-4">
     <button id="list" class="btn btn-warning float-right" data-original-title="all" (click)="selectAllProject()">
             <i class="fa fa-check-square-o" aria-hidden="true "></i>
             <span class="d-none d-sm-inline"> {{translateWorld('all') | translate}}</span>
@@ -141,7 +147,7 @@
                 <i class="fa fa-square-o" aria-hidden="true "></i>
                 <span class="d-none d-sm-inline"> {{translateWorld('none') | translate}}</span>
             </button>
-
+  </div>
 </p-sidebar>
 
 <!-- ------------- [sidebar - user] -------------- -->
@@ -178,24 +184,28 @@
 
     </p-table>
 
-    <button id="list" class="btn btn-warning float-right" data-original-title="ll" (click)="selectAllUsers()">
-            <i class="fa fa-check-square-o" aria-hidden="true "></i>
-            <span class="d-none d-sm-inline"> {{translateWorld('all') | translate}}</span>
-        </button>
+    <div class="mt-4">
+            <button id="list" class="btn btn-warning float-right" data-original-title="ll" (click)="selectAllUsers()">
+                    <i class="fa fa-check-square-o" aria-hidden="true "></i>
+                    <span class="d-none d-sm-inline"> {{translateWorld('all') | translate}}</span>
+                </button>
+        
+                <button id="list" class="btn btn-warning  float-left" data-original-title="Select Note" (click)="selectNoneUsers()">
+                        <i class="fa fa-square-o" aria-hidden="true "></i>
+                        <span class="d-none d-sm-inline"> {{translateWorld('none') | translate}}</span>
+              </button>
+    </div>
 
-        <button id="list" class="btn btn-warning  float-left" data-original-title="Select Note" (click)="selectNoneUsers()">
-                <i class="fa fa-square-o" aria-hidden="true "></i>
-                <span class="d-none d-sm-inline"> {{translateWorld('none') | translate}}</span>
-            </button>
 </p-sidebar>
 
 <!-- ------------- [sidebar - time] -------------- -->
 <p-sidebar [(visible)]="visibleSidebarTime" [baseZIndex]="10000">
     <h1 style="font-weight:normal"> Time</h1>
 
-    <div class="row">
-        <div class="col-12 ">
-            <select name="select-period" id="select-period" class="custom-select" [(ngModel)]="selectPeriod" (change)="onPeriodChange(selectPeriod)">
+    <div class="row mb-3">
+            <label class="col-3 " for="date-from"> Period</label>
+            <div  class="col-9">
+            <select class="custom-select" name="select-period" id="select-period"  [(ngModel)]="selectPeriod" (change)="onPeriodChange(selectPeriod)">
                 <option value="0">Custom</option>
                 <option value="1">Last Week</option>
                 <option value="2">Last Month</option>
@@ -203,14 +213,15 @@
             </select>
         </div>
     </div>
-    <div class="col-6  ">
-        <label for="date-from"> {{translateWorld('from') | translate}}</label>
-        <p-calendar id="date-from" [(ngModel)]="selectedFromDate" [minDate]="minDateValue" [maxDate]="maxDateValue"
+    <div class="row mb-3">
+
+        <label class="col-3" for="date-from"> {{translateWorld('from') | translate}}</label>
+        <p-calendar class="col-9" id="date-from" [(ngModel)]="selectedFromDate" [minDate]="minDateValue" [maxDate]="maxDateValue"
             [inputStyle]="{'width':'100px'}" [showIcon]="true" dateFormat="dd/mm/yy" [readonlyInput]="true" (onSelect)="onDateSelect()"></p-calendar>
     </div>
-    <div class="col-6 ">
-        <label for="date-to"> {{translateWorld('to') | translate}}</label>
-        <p-calendar id="date-to" [(ngModel)]="selectedToDate" [minDate]="minDateValue" [maxDate]="maxDateValue"
+    <div class="row mb-3" >
+        <label class="col-3" for="date-to"> {{translateWorld('to') | translate}}</label>
+        <p-calendar class="col-9" id="date-to" [(ngModel)]="selectedToDate" [minDate]="minDateValue" [maxDate]="maxDateValue"
             [inputStyle]="{'width':'100px'}" [showIcon]="true" dateFormat="dd/mm/yy" [readonlyInput]="true" (onSelect)="onDateSelect()"></p-calendar>
 
 

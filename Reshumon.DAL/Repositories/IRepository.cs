@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reshumon.DAL
+namespace Reshumon.DAL.Repositories
 {
     public interface IGenericRepository<TEntity>
     {

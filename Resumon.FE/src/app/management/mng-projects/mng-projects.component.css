@@ -4,13 +4,13 @@
     margin-right: auto ;
 }
 
-th-delete {
+.th-delete {
     width: 10%;
     background-color: aquamarine;
 
 }
 
-th-IsActive {
+.th-IsActive {
     width: 10%
 }
 
