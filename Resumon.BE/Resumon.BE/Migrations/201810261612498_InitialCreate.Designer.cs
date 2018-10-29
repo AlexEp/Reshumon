@@ -7,13 +7,13 @@ namespace Resumon.BE.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class RebuildUserIdentity : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RebuildUserIdentity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810031939352_RebuildUserIdentity"; }
+            get { return "201810261612498_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

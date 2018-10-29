@@ -111,7 +111,7 @@ export class MngProjectsComponent implements OnInit {
     this.projectsService.create(this.projectToEdit).subscribe(
       replay => {
         this.projects.push(replay);
-        this.messagesService.error('The projects was successfully created','Action succeeded');
+        this.messagesService.success('The projects was successfully created','Action succeeded');
       }
     );
   }
@@ -122,7 +122,7 @@ export class MngProjectsComponent implements OnInit {
       replay => {
         var index = this.projects.map(function(e) { return e.ProjectID; }).indexOf(this.projectToEdit.ProjectID);
         this.projects.splice(index, 1); 
-        this.messagesService.error('The projects was successfully deleted','Action succeeded');
+        this.messagesService.success('The projects was successfully deleted','Action succeeded');
       }
     );
   }

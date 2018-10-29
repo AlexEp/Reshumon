@@ -12,6 +12,7 @@ using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 using Resumon.BE.Models;
+using Resumon.BE.Models.Authentication;
 
 [assembly: OwinStartup(typeof(MvcApplication.Startup))]
 

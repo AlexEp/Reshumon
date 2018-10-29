@@ -11,7 +11,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Resumon.BE.Models
+namespace Resumon.BE.Models.Authentication
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {

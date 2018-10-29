@@ -250,41 +250,29 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AccountAPIController.cs" />
-    <Compile Include="Controllers\BaseAPI.cs" />
-    <Compile Include="Controllers\DiningRoomUse.cs" />
-    <Compile Include="Migrations\201810031939352_RebuildUserIdentity.cs" />
-    <Compile Include="Migrations\201810031939352_RebuildUserIdentity.Designer.cs">
-      <DependentUpon>201810031939352_RebuildUserIdentity.cs</DependentUpon>
+    <Compile Include="Controllers\API\V1\AccountAPIController.cs" />
+    <Compile Include="Controllers\API\V1\BaseAPI.cs" />
+    <Compile Include="Controllers\API\V1\DiningRoomUse.cs" />
+    <Compile Include="Migrations\201810261612498_InitialCreate.cs" />
+    <Compile Include="Migrations\201810261612498_InitialCreate.Designer.cs">
+      <DependentUpon>201810261612498_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Extentions.cs" />
     <Compile Include="Models\ViewModels\AppUserViewModels.cs" />
     <Compile Include="Models\ViewModels\RegisterViewModel.cs" />
-    <Compile Include="Controllers\UserFavoriteController.cs" />
-    <Compile Include="Controllers\UserProjectController.cs" />
-    <Compile Include="Controllers\DailyActivityController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\CategorieController.cs" />
+    <Compile Include="Controllers\API\V1\UserFavoriteController.cs" />
+    <Compile Include="Controllers\API\V1\UserProjectController.cs" />
+    <Compile Include="Controllers\API\V1\DailyActivityController.cs" />
+    <Compile Include="Controllers\API\V1\UsersController.cs" />
+    <Compile Include="Controllers\API\V1\CategorieController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\API\V1\ProjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810021627544_InitialMigration.cs" />
-    <Compile Include="Migrations\201810021627544_InitialMigration.Designer.cs">
-      <DependentUpon>201810021627544_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810021944547_RemoveUserLevel.cs" />
-    <Compile Include="Migrations\201810021944547_RemoveUserLevel.Designer.cs">
-      <DependentUpon>201810021944547_RemoveUserLevel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810031844181_AddIsActiveAndDiningRoomToUser.cs" />
-    <Compile Include="Migrations\201810031844181_AddIsActiveAndDiningRoomToUser.Designer.cs">
-      <DependentUpon>201810031844181_AddIsActiveAndDiningRoomToUser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Authentication\AuthenticationDbContext.cs" />
-    <Compile Include="Models\ApplicationOAuthProvider.cs" />
+    <Compile Include="Models\Authentication\ApplicationOAuthProvider.cs" />
     <Compile Include="Models\ServiceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -374,17 +362,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810021627544_InitialMigration.resx">
-      <DependentUpon>201810021627544_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810021944547_RemoveUserLevel.resx">
-      <DependentUpon>201810021944547_RemoveUserLevel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810031844181_AddIsActiveAndDiningRoomToUser.resx">
-      <DependentUpon>201810031844181_AddIsActiveAndDiningRoomToUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810031939352_RebuildUserIdentity.resx">
-      <DependentUpon>201810031939352_RebuildUserIdentity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810261612498_InitialCreate.resx">
+      <DependentUpon>201810261612498_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

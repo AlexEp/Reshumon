@@ -51,7 +51,8 @@
             Available Projects
           </div>
 
-          <div class="input-group mb-2">
+          <div class="input-group" >
+            <div style="margin : 0 auto">
               <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedAvailableCategories" (onChange)="onCategoryChanged($event.value)"
                 placeholder="Select a categories" filter="true" filterBy="label,value.Name" [style]="{'width':'385px'}" defaultLabel="categories">
                 <ng-template let-category pTemplate="selectedItem">
@@ -62,7 +63,7 @@
                 </ng-template>
               </p-multiSelect>
             </div>
-
+          </div>
           <div class="input-group" >
             <div class="input-group-prepend">
               <span class="input-group-text" id="searchAvailable"> <i class="fa fa-search" aria-hidden="true"></i></span>
@@ -90,7 +91,8 @@
             Selected Projects
           </div>
 
-          <div class="input-group mb-2">
+          <div class="input-group ">
+              <div style="margin : 0 auto">
               <p-multiSelect [options]="categories |selectItemPipe:'Name'" [(ngModel)]="selectedCategories" (onChange)="onCategoryChanged($event.value)"
                 placeholder="Select a categories" filter="true" filterBy="label,value.Name" [style]="{'width':'385px'}" defaultLabel="categories">
                 <ng-template let-category pTemplate="selectedItem">
@@ -101,7 +103,7 @@
                 </ng-template>
               </p-multiSelect>
             </div>
-
+          </div>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text" id="searchSelected"> <i class="fa fa-search" aria-hidden="true"></i></span>

@@ -35,8 +35,8 @@ namespace Resumon.BE.Migrations
 
                 manager.Create(role);
             }
-
             
+
             if (!context.Roles.Any(r => r.Name == "Employee"))
             {
                 var store = new RoleStore<IdentityRole>(context);
@@ -45,7 +45,7 @@ namespace Resumon.BE.Migrations
 
                 manager.Create(role);
             }
-
+      
 
 
             if (!context.Users.Any(u => u.UserName == "Admin"))
@@ -63,7 +63,7 @@ namespace Resumon.BE.Migrations
                     IsActive = true,
                     IsUseDiningRoom = false,
                     Email = "Admin@Admin.com",
-                    Role = Common.RolesEnum.Admin
+                    //Role = Common.RolesEnum.Admin
                 };
 
                 var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
