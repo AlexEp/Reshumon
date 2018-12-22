@@ -243,7 +243,7 @@
             <div class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></div>
           </div>
           <input pInputText type="password" id="Password" name="Password" class=" form-control" [(ngModel)]="userToCreate.Password"
-            #inputPassword="ngModel" placeholder="Password" required />
+            #inputPassword="ngModel" placeholder="Password" validateEqual="passwordConfirm" reverse="true" required />
 
           <div class="input-group-prepend">
             <div *ngIf="inputPassword.invalid" class="input-group-text text-danger">
@@ -265,7 +265,7 @@
             <div class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></div>
           </div>
           <input pInputText type="password" id="passwordConfirm" name="passwordConfirm" class=" form-control"
-            [(ngModel)]="userToCreate.PasswordConfirm" #inputPasswordConfirm="ngModel" placeholder="Confirm password "
+            [(ngModel)]="userToCreate.PasswordConfirm" #inputPasswordConfirm="ngModel" validateEqual="Password"  placeholder="Confirm password "
             required />
 
           <div class="input-group-prepend">

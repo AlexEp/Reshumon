@@ -77,6 +77,8 @@ import { AuthInterceptor } from './services/auth.Interceptor';
 import { FilterProjectByCategories } from './pipes/filter-project-by-categories.pipe';
 import { FilterProjectByCategory } from './pipes/filter-project-by-category.pipe';
 import { FilterColoredProjectByCategories } from './reports/report-summary/FilterColoredProjectByCategories';
+import { EqualValidator } from './shared/equal-validator.directive';
+import { MngRoutsModule } from './modules/mng-routing.module.';
 
 
 
@@ -95,26 +97,9 @@ const routesConfigs: Routes = [
       { path: 'summery', component: ReportSummaryComponent  },
     ]
   },
-  {
-    path: 'mng', component: MngComponent, canActivate: [AdminGuardService],
-    children: [
-      { path: 'users', component: MngUsersComponent, canActivate: [AdminGuardService] },
-      { path: 'categories', component: MngCategoriesComponent, canActivate: [ AdminGuardService] },
-      { path: 'projects', component: MngProjectsComponent, canActivate: [AdminGuardService] },
-      {
-        path: 'projectsUsers', 
-        component: MngProjectUserComponent, 
-        canActivate: [ AdminGuardService],
-
-        children: [
-          { path: 'user', component: MngProjectUserByUserComponent, canActivate: [AuthGuardService] , canDeactivate: [CanDeactivateGuard]},
-          { path: 'project', component: MngProjectUserByProjectComponent, canActivate: [AuthGuardService], canDeactivate: [CanDeactivateGuard]}
-        ]
-      },
-    ]
-  },
+ 
   { path: 'page-not-found', component: PageNotFoundComponent },
-  // { path: '**', redirectTo: 'page-not-found' }
+  { path: '**', redirectTo: 'page-not-found' }
 ];
 
 @NgModule({
@@ -154,6 +139,7 @@ const routesConfigs: Routes = [
     SelectItemPipe,
     ReportSummaryComponent,
     
+    EqualValidator ,
   ],
   imports: [
     BrowserModule,
@@ -163,6 +149,7 @@ const routesConfigs: Routes = [
     HttpClientModule,
     FormsModule,
 
+    MngRoutsModule,
     RouterModule.forRoot(routesConfigs),
 
     TranslateModule.forRoot({

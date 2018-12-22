@@ -30,7 +30,11 @@ export class AuthService {
 
     this.url = appConfig.getSiteURL(); 
 
-    if(!this.userProfile && localStorage.getItem("token")){ //recreate userProfile from token
+    this.Init();
+  }
+
+  public Init() {
+    if (!this.userProfile && localStorage.getItem("token")) { //recreate userProfile from token
       this.recreateUserProfile();
     }
   }
