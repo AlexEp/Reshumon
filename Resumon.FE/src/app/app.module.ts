@@ -45,40 +45,23 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { Http } from '@angular/http';
 
 
-import { AdminGuardService } from './services/admin-guard.service';
 import { AuthModule, AUTH_PROVIDERS } from 'angular2-jwt';
 
-import { DialogEditCategoryComponent } from './management/mng-categories/dialog-edit-category/dialog-edit-category.component';
-import { MngProjectsComponent } from './management/mng-projects/mng-projects.component';
-import { MngUsersComponent } from './management/mng-users/mng-users.component';
-import { MngCategoriesComponent, FilterCategories } from './management/mng-categories/mng-categories.component';
-import { DialogEditProjectComponent } from './management/mng-projects/dialog-edit-project/dialog-edit-project.component';
-import { MngProjectUserComponent } from './management/mng-project-user/mng-project-user.component';
-
-import { MngProjectUserByProjectComponent } from './management/mng-project-user/mng-project-user-by-project/mng-project-user-by-project.component';
-import { MngProjectUserByUserComponent } from './management/mng-project-user/mng-project-user-by-user/mng-project-user-by-user.component';
 import { SelectUserCardComponent } from './shared/select-user-card/select-user-card.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MngComponent } from './management/mng/mng.component';
 import { DailyActivityComponent } from './daily-activity/daily-activity.component';
-import { FilterProjectByActivity } from "./daily-activity/filterProjectByActivity.pipe";
-import { AnimatedLoadingComponent } from './shared/animated-loading/animated-loading.component';
-import { FilterProjectByName } from './pipes/filter-project-by-name.pipe';
-import { FilterProjectFavorite } from './pipes/filter-project-favorite.pipe';
-import { FilterUsers } from './pipes/filter-users.pipe';
-import { SelectItemPipe } from './pipes/select-Item.pipe';
-import { FilterProject } from './pipes/filter-project.pipe';
-import { FilterItem } from './pipes/filter-item.pipe';
+
 
 import { ReportByProjectComponent } from './reports/report-by-project/report-by-project.component';
 import { ReportComponent } from './reports/report/report.component';
 import { ReportSummaryComponent } from './reports/report-summary/report-summary.component';
 import { AuthInterceptor } from './services/auth.Interceptor';
-import { FilterProjectByCategories } from './pipes/filter-project-by-categories.pipe';
-import { FilterProjectByCategory } from './pipes/filter-project-by-category.pipe';
-import { FilterColoredProjectByCategories } from './reports/report-summary/FilterColoredProjectByCategories';
-import { EqualValidator } from './shared/equal-validator.directive';
-import { MngRoutsModule } from './modules/mng-routing.module.';
+
+
+import { ManagementModule } from './management/management.module';
+import { SharedModule } from './shared/shared.module';
+
 
 
 
@@ -89,7 +72,6 @@ const routesConfigs: Routes = [
   { path: 'login', component: LoginComponent },
   // { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'daily-activity', component: DailyActivityComponent, canActivate: [AuthGuardService] },
-  
   {
     path: 'reports', component: ReportComponent, canActivate: [AuthGuardService],
     children: [
@@ -106,40 +88,18 @@ const routesConfigs: Routes = [
   declarations: [
     AppComponent,
     NavigationBarComponent,
-    ReportComponent,
+ 
     LoginComponent,
 
-
-    MngProjectsComponent,
-    MngUsersComponent,
-    MngCategoriesComponent,
-    DialogEditCategoryComponent,
-    DialogEditProjectComponent,
-    MngProjectUserComponent,
-    MngProjectUserByProjectComponent,
-    MngProjectUserByUserComponent,
     SelectUserCardComponent,
     PageNotFoundComponent,
     MngComponent,
     DailyActivityComponent,
-    AnimatedLoadingComponent,
+
+    ReportComponent,
     ReportByProjectComponent,
-
-
-    //pipes
-    FilterCategories,
-    FilterProjectByName,
-    FilterProjectFavorite,
-    FilterUsers,
-    FilterItem,
-    FilterProjectByCategories,
-    FilterProjectByCategory,
-    FilterColoredProjectByCategories,
-    FilterProjectByActivity,
-    SelectItemPipe,
     ReportSummaryComponent,
-    
-    EqualValidator ,
+
   ],
   imports: [
     BrowserModule,
@@ -148,8 +108,10 @@ const routesConfigs: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    
+    SharedModule,
 
-    MngRoutsModule,
+    ManagementModule,
     RouterModule.forRoot(routesConfigs),
 
     TranslateModule.forRoot({
@@ -181,7 +143,6 @@ const routesConfigs: Routes = [
     
   ],
   providers: [
-
 
     ToasMessageService,
     //App Services

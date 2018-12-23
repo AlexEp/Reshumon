@@ -38,9 +38,8 @@ const routs : Routes =  [{
     RouterModule.forChild(routs)
   ],
   providers:[
- 
   ]
-
-
 })
-export class MngRoutsModule { }
+export class ManagementRoutsModule { }
+
+
