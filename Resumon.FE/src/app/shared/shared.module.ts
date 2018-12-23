@@ -13,48 +13,109 @@ import { SelectItemPipe } from '../pipes/select-Item.pipe';
 import { EqualValidator } from './equal-validator.directive';
 import { AnimatedLoadingComponent } from './animated-loading/animated-loading.component';
 import { TranslateModule } from 'ng2-translate';
+import { CalendarModule } from 'primeng/calendar';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { DragDropModule } from 'primeng/dragdrop';
+import { TabViewModule } from 'primeng/tabview';
+import { AccordionModule } from 'primeng/accordion';
+import { SpinnerModule } from 'primeng/spinner';
+import { DropdownModule } from 'primeng/dropdown';
+import { ListboxModule } from 'primeng/listbox';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import { SidebarModule } from 'primeng/sidebar';
+import { PaginatorModule } from 'primeng/paginator';
+import { TooltipModule } from 'primeng/tooltip';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    TranslateModule
+    FormsModule, //Fix : Can't bind to 'ngModel'
+    // HttpClientModule,
+    // FormsModule,
+
+    TranslateModule,
+
+    //primeng
+    CalendarModule,
+    TableModule,
+    ToolbarModule,
+    DialogModule,
+    ToastModule,
+    DragDropModule,
+    TabViewModule,
+    AccordionModule,
+    SpinnerModule,
+    DropdownModule,
+    ListboxModule,
+    ColorPickerModule,
+    SidebarModule,
+    PaginatorModule,
+    TooltipModule,
+    OverlayPanelModule,
+    MultiSelectModule
   ],
   declarations: [
+
+    AnimatedLoadingComponent,
     
+    FilterCategories,
+    FilterProjectByName,
+    FilterProjectFavorite,
+    FilterUsers,
+    FilterItem,
+    FilterProjectByCategories,
+    FilterProjectByCategory,
+    FilterColoredProjectByCategories,
+    FilterProjectByActivity,
+    SelectItemPipe,
 
-        AnimatedLoadingComponent,
-        FilterCategories,
-        FilterProjectByName,
-        FilterProjectFavorite,
-        FilterUsers,
-        FilterItem,
-        FilterProjectByCategories,
-        FilterProjectByCategory,
-        FilterColoredProjectByCategories,
-        FilterProjectByActivity,
-        SelectItemPipe,
-
-        EqualValidator 
+    EqualValidator
   ],
   exports: [
-      TranslateModule,
+    TranslateModule,
 
-       AnimatedLoadingComponent,
+    //primeng
+    CalendarModule,
+    TableModule,
+    ToolbarModule,
+    DialogModule,
+    ToastModule,
+    DragDropModule,
+    TabViewModule,
+    AccordionModule,
+    SpinnerModule,
+    DropdownModule,
+    ListboxModule,
+    ColorPickerModule,
+    SidebarModule,
+    PaginatorModule,
+    TooltipModule,
+    OverlayPanelModule,
+    MultiSelectModule,
 
-       //pipes
-       FilterCategories,
-       FilterProjectByName,
-       FilterProjectFavorite,
-       FilterUsers,
-       FilterItem,
-       FilterProjectByCategories,
-       FilterProjectByCategory,
-       FilterColoredProjectByCategories,
-       FilterProjectByActivity,
-       SelectItemPipe,
-            
-       EqualValidator 
-  ] 
+    AnimatedLoadingComponent,
+
+    //pipes
+    FilterCategories,
+    FilterProjectByName,
+    FilterProjectFavorite,
+    FilterUsers,
+    FilterItem,
+    FilterProjectByCategories,
+    FilterProjectByCategory,
+    FilterColoredProjectByCategories,
+    FilterProjectByActivity,
+    SelectItemPipe,
+
+    EqualValidator
+  ]
 })
 export class SharedModule {
 
